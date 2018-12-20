@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <body>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside th:fragment="copy" class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li>
+                        <a th:href="@{/dashboard}">
+                            <i class="fa fa-dashboard"></i> 
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/registration}">
+                            <i class="fa fa-table"></i>
+                            <span>Registration</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-gears"></i>
+                            <span>Settings</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> User</a></li>
+                            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Fees</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+    </body>
+
+</html>

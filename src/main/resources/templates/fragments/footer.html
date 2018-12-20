@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <body>
+        <footer th:fragment="copy" class="main-footer">
+            <div class="pull-right">
+                <b>Version</b> @version@
+            </div>
+            <strong>Copyright &copy; 2018 <a href="#">Myyron Latorilla</a>.</strong> All rights reserved.
+        </footer>
+
+        <div th:fragment="js-import" th:remove="tag">            
+            <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+            <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+            <script th:src="@{/webjars/AdminLTE/dist/js/adminlte.min.js}"></script>
+        </div>
+    </body>
+
+</html>

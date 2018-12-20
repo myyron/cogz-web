@@ -1,4 +1,4 @@
-package org.cogz.web.model;
+package org.cogz.web.entity;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -18,7 +18,7 @@ public class UserAdmin implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
