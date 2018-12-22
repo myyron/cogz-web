@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <div th:replace="fragments/header :: header-head"/>
+        <link rel="stylesheet" th:href="@{/webjars/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+    </head>
+
+    <body class="hold-transition skin-black-light sidebar-mini">
+
+        <div class="modal fade" id="modal-create-user">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Create User</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select class="form-control">
+                                        <option>VIEW_ONLY</option>
+                                        <option>GAME_ADMIN</option>
+                                        <option>SYS_ADMIN</option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <!-- /.box-body --> 
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="wrapper">
+
+            <div th:replace="fragments/header :: header-menu"/>
+            <div th:replace="fragments/sidebar :: copy"/>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Settings
+                        <small>Users</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/dashboard}"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Settings</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            <div class="box">
+                                <div class="box-header">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3 class="box-title">User List</h3>
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button type="button" class="btn" data-toggle="modal" data-target="#modal-create-user">
+                                                <i class="fa fa-plus"></i> Create User
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Full Name</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>altrax</td>
+                                                <td>Myyron Latorilla</td>
+                                                <td>SYS_ADMIN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>kurz</td>
+                                                <td>Van Carlo</td>
+                                                <td>GAME_ADMIN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>raff</td>
+                                                <td>Paolo Panaligan</td>
+                                                <td>GAME_ADMIN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>viper</td>
+                                                <td>Roberto Latorilla</td>
+                                                <td>SYS_ADMIN</td>
+                                            </tr>
+                                            <tr>
+                                                <td>zeal</td>
+                                                <td>Kevin Almazora</td>
+                                                <td>SYS_ADMIN</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+
+            <div th:replace="fragments/footer :: copy"/>
+
+        </div>
+        <!-- ./wrapper -->
+
+        <div th:replace="fragments/footer :: js-import"/>
+        <script th:src="@{/webjars/datatables.net/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/webjars/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+        <script>
+            $(function () {
+                $('#example1').DataTable();
+            });
+        </script>
+
+    </body>
+</html>

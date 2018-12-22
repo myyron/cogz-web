@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <div th:replace="fragments/header :: header-head"/>
@@ -35,7 +34,16 @@
 
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Game List</h3>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3 class="box-title">Game List</h3>
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button type="button" class="btn"><i class="fa fa-plus"></i> Create Game</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
