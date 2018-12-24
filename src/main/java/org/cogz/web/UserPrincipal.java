@@ -1,28 +1,40 @@
 package org.cogz.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import org.cogz.web.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
  * @author mlatorilla
  */
-public class CogzUserDetails implements UserDetails {
+public class UserPrincipal implements UserDetails {
+
+    private User user;
+
+    public UserPrincipal(User user) {
+        this.user = user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<GrantedAuthority> result = new ArrayList<>();
+        result.add(new SimpleGrantedAuthority(user.getUserRole().getRole()));
+        return result;
     }
 
     @Override
     public String getPassword() {
-        return "adminadmin";
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return "admin";
+        return user.getUsername();
     }
 
     @Override
@@ -42,7 +54,15 @@ public class CogzUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isEnabled();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

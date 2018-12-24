@@ -1,0 +1,17 @@
+CREATE TABLE user (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    username VARCHAR(128) NOT NULL,
+    password VARCHAR(128) NOT NULL,
+    first_name VARCHAR(128) NOT NULL,
+    last_name VARCHAR(128) NOT NULL,
+    enabled BOOLEAN NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE user_role (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    user_id INTEGER NOT NULL,
+    role VARCHAR(128) NOT NULL,
+    enabled BOOLEAN NOT NULL,
+    PRIMARY KEY (id)
+);
