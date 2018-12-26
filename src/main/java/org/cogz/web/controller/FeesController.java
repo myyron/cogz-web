@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class FeesController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showUserList(HttpSession session) {
+    public String showFeeList() {
         return "settings/fees";
     }
 }

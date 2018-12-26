@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UsersController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showUserList(HttpSession session) {
+    public String showUserList() {
         return "settings/users";
     }
 }
