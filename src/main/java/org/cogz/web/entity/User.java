@@ -1,6 +1,5 @@
 package org.cogz.web.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @OneToOne
     @JoinColumn(name = "ID", nullable = false)
     private UserRole userRole;

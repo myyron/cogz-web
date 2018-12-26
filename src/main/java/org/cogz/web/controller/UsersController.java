@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author mlatorilla
  */
 @Controller
-public class DashboardController {
+@RequestMapping("/settings/users")
+public class UsersController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showDashboard(HttpSession session) {
-        return "dashboard";
+    public String showUserList(HttpSession session) {
+        return "settings/users";
     }
 }

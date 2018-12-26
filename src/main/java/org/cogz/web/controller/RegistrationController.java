@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author mlatorilla
  */
 @Controller
-public class DashboardController {
+@RequestMapping("/registration")
+public class RegistrationController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showDashboard(HttpSession session) {
-        return "dashboard";
+    public String showGameList(HttpSession session) {
+        return "registration";
     }
 }
