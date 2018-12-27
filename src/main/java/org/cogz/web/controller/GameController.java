@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author mlatorilla
  */
 @Controller
-@RequestMapping("/game")
+@RequestMapping("/registration")
 public class GameController {
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/games/", method = RequestMethod.GET)
+    public String showGameList() {
+        return "registration/games";
+    }
+
+    @RequestMapping(value = "/game/{id}", method = RequestMethod.GET)
     public String showGameDetail(@PathVariable("id") long id) {
-        return "game";
+        return "registration/game";
     }
 }

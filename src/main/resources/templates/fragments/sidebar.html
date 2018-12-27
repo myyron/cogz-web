@@ -15,11 +15,18 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{/registration/}">
+                    <li class="treeview">
+                        <a href="#">
                             <i class="fa fa-table"></i>
                             <span>Registration</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
+                        <ul class="treeview-menu">
+                            <li><a th:href="@{/registration/games/}"><i class="fa fa-circle-o"></i> Game List</a></li>
+                            <li><a th:href="@{/registration/game/5}"><i class="fa fa-circle-o"></i> Current Game</a></li>
+                        </ul>
                     </li>
                     <li class="treeview">
                         <a href="#">

@@ -19,7 +19,7 @@
                     <div class="modal-body">
                         <form role="form">
                             <div class="box-body">
-                                
+
                                 <div class="form-group">
                                     <label>Call Sign</label>
                                     <select class="form-control">
@@ -34,45 +34,46 @@
                                     <input type="text" class="form-control" id="firstName">
                                 </div>
                                 <hr>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Gun
-                                        </label>
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> Gun
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> Battery
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> BBs
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> Face Mask
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> Vest
+                                            </label>
+                                        </div>                                    
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> Battery Adapter
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Battery
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> BBs
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Face Mask
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Vest
-                                        </label>
-                                    </div>                                    
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Battery Adapter
-                                        </label>
-                                    </div>
-                                </div>
                             </div>
                             <!-- /.box-body --> 
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Add Another</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -95,7 +96,7 @@
                         <small>12/23/2018</small>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a th:href="@{/dashboard}"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li><a th:href="@{/}"><i class="fa fa-dashboard"></i> Home</a></li>
                         <li class="active">Registration</li>
                     </ol>
                 </section>
