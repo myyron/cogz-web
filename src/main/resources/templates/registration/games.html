@@ -167,7 +167,9 @@
         <script th:src="@{/webjars/bootstrap-datepicker/js/bootstrap-datepicker.min.js}"></script>
         <script>
             $(function () {
-                $('#example1').DataTable();
+                $('#example1').DataTable({
+                    "order": [0, 'desc']
+                });
                 $('#datepicker').datepicker({
                     autoclose: true
                 });
