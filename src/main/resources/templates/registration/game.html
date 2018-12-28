@@ -119,6 +119,9 @@
                                             <button type="button" class="btn" data-toggle="modal" data-target="#modal-add-player">
                                                 <i class="fa fa-plus"></i> Add Player
                                             </button>
+                                            <button type="button" class="btn" id="export">
+                                                <i class="fa fa-download"></i> Export
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -184,6 +187,9 @@
         <script>
             $(function () {
                 $('#example1').DataTable();
+                $('#export').click(function () {
+                    window.location = '/registration/export/5'
+                });
             });
         </script>
 

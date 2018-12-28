@@ -22,4 +22,9 @@ public class GameController {
     public String showGameDetail(@PathVariable("id") long id) {
         return "registration/game";
     }
+    
+    @RequestMapping(value = "/export/{id}", method = RequestMethod.GET)
+    public String export(@PathVariable("id") long id) {
+        return "registration/export";
+    }
 }
