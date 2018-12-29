@@ -162,6 +162,7 @@
         <!-- ./wrapper -->
 
         <div th:replace="fragments/footer :: js-import"/>
+        <script th:replace="fragments/sidebar :: selectedMenu(reg-gamelist)"></script>
         <script th:src="@{/webjars/datatables.net/js/jquery.dataTables.min.js}"></script>
         <script th:src="@{/webjars/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
         <script th:src="@{/webjars/bootstrap-datepicker/js/bootstrap-datepicker.min.js}"></script>

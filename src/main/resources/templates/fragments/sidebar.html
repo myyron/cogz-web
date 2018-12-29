@@ -9,13 +9,13 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li>
+                    <li id="mnu-dashboard">
                         <a th:href="@{/}">
                             <i class="fa fa-dashboard"></i> 
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="treeview">
+                    <li id="mnu-reg" class="treeview">
                         <a href="#">
                             <i class="fa fa-table"></i>
                             <span>Registration</span>
@@ -24,11 +24,11 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a th:href="@{/registration/games/}"><i class="fa fa-circle-o"></i> Game List</a></li>
-                            <li><a th:href="@{/registration/game/5}"><i class="fa fa-circle-o"></i> Current Game</a></li>
+                            <li id="mnu-reg-gamelist"><a th:href="@{/registration/games/}"><i class="fa fa-circle-o"></i> Game List</a></li>
+                            <li id="mnu-reg-currgame"><a th:href="@{/registration/game/5}"><i class="fa fa-circle-o"></i> Current Game</a></li>
                         </ul>
                     </li>
-                    <li class="treeview">
+                    <li id="mnu-sett" class="treeview">
                         <a href="#">
                             <i class="fa fa-gears"></i>
                             <span>Settings</span>
@@ -37,14 +37,29 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a th:href="@{/settings/users/}"><i class="fa fa-circle-o"></i> Users</a></li>
-                            <li><a th:href="@{/settings/fees/}"><i class="fa fa-circle-o"></i> Fees</a></li>
+                            <li id="mnu-sett-users"><a th:href="@{/settings/users/}"><i class="fa fa-circle-o"></i> Users</a></li>
+                            <li id="mnu-sett-fees"><a th:href="@{/settings/fees/}"><i class="fa fa-circle-o"></i> Fees</a></li>
                         </ul>
                     </li>
                 </ul>
             </section>
             <!-- /.sidebar -->
         </aside>
+
+        <script th:inline="javascript" th:fragment="selectedMenu(menu)">
+            $(function () {
+                // <![CDATA[
+                var menu = /*[[${menu}]]*/ null;
+                var menus = menu.split('-');
+                var currMenu = menus[0];
+                for (var i = 0; i < menus.length; ) {
+                    $('#mnu-' + currMenu).addClass("active");
+                    currMenu += '-' + menus[++i];
+                }
+                // ]]>
+            });
+        </script>
+
     </body>
 
 </html>
