@@ -1,0 +1,14 @@
+@media print {
+    body, html, #wrapper {
+        height: auto;
+    }
+}
+
+@page {
+    size:  auto;   /* auto is the initial value */
+    margin: 0mm;  /* this affects the margin in the printer settings */
+}
+
+body {
+    margin: 10mm; /* margin you want for the content */
+}
