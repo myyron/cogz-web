@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <div th:replace="fragments/header :: header-head"/>
+        <link rel="stylesheet" th:href="@{/webjars/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+    </head>
+
+    <body class="hold-transition skin-black-light sidebar-mini">
+
+        <div class="modal fade" id="modal-create-player">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Create Player</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="username">Call Sign</label>
+                                    <input type="text" class="form-control" id="username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Contact No.</label>
+                                    <input type="text" class="form-control" id="contactNum">
+                                </div>
+                                <div class="form-group">
+                                    <label>Team</label>
+                                    <select class="form-control">
+                                        <option>CoGZ</option>
+                                        <option>Octopus</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- /.box-body --> 
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Add Another</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="wrapper">
+
+            <div th:replace="fragments/header :: header-menu"/>
+            <div th:replace="fragments/sidebar :: copy"/>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Profiles
+                        <small>Players</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/}"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Profiles</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            <div class="box">
+                                <div class="box-header">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h3 class="box-title">Player List</h3>
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button type="button" class="btn" data-toggle="modal" data-target="#modal-create-player">
+                                                <i class="fa fa-plus"></i> Create Player
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Call Sign</th>
+                                                <th>Full Name</th>
+                                                <th>Contact No.</th>
+                                                <th>Team</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a th:href="@{/profiles/player/1}">altrax</a>
+                                                </td>
+                                                <td>Myyron Latorilla</td>
+                                                <td>09178685555</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a th:href="@{/profiles/player/1}">kurz</a>
+                                                </td>
+                                                <td>Van Carlo</td>
+                                                <td>09178685555</td>
+                                                <td>CoGZ</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a th:href="@{/profiles/player/1}">raff</a>
+                                                </td>
+                                                <td>Paolo Panaligan</td>
+                                                <td>09178685555</td>
+                                                <td>CoGZ</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a th:href="@{/profiles/player/1}">viper</a>
+                                                </td>
+                                                <td>Roberto Latorilla</td>
+                                                <td>09178685555</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a th:href="@{/profiles/player/1}">zeal</a>
+                                                </td>
+                                                <td>Kevin Almazora</td>
+                                                <td>09178685555</td>
+                                                <td>CoGZ</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+
+            <div th:replace="fragments/footer :: copy"/>
+
+        </div>
+        <!-- ./wrapper -->
+
+        <div th:replace="fragments/footer :: js-import"/>
+        <script th:replace="fragments/sidebar :: selectedMenu(prof-players)"></script>
+        <script th:src="@{/webjars/datatables.net/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/webjars/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+        <script>
+            $(function () {
+                $('#example1').DataTable();
+            });
+        </script>
+
+    </body>
+</html>
