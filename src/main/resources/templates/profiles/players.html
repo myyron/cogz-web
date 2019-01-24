@@ -3,7 +3,6 @@
 
     <head>
         <div th:replace="fragments/header :: header-head"/>
-        <link rel="stylesheet" th:href="@{/webjars/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     </head>
 
     <body class="hold-transition skin-black-light sidebar-mini">
@@ -58,7 +57,7 @@
             <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        
+
         <div th:replace="fragments/header :: change-pw"/>
 
         <div class="wrapper">
@@ -175,8 +174,6 @@
 
         <div th:replace="fragments/footer :: js-import"/>
         <script th:replace="fragments/sidebar :: selectedMenu(prof-players)"></script>
-        <script th:src="@{/webjars/datatables.net/js/jquery.dataTables.min.js}"></script>
-        <script th:src="@{/webjars/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
         <script>
             $(function () {
                 $('#example1').DataTable();

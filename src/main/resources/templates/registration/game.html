@@ -3,7 +3,6 @@
 
     <head>
         <div th:replace="fragments/header :: header-head"/>
-        <link rel="stylesheet" th:href="@{/webjars/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     </head>
 
     <body class="hold-transition skin-black-light sidebar-mini">
@@ -119,7 +118,7 @@
             <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-        
+
         <div th:replace="fragments/header :: change-pw"/>
 
         <div class="wrapper">
@@ -163,6 +162,12 @@
                                                     <div class="col-xs-12">
                                                         <button type="button" class="btn" data-toggle="modal" data-target="#modal-add-player">
                                                             <i class="fa fa-plus"></i> Add Player
+                                                        </button>
+                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-add-player">
+                                                            <i class="fa fa-sign-out"></i> Checkout
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger">
+                                                            <i class="fa fa-trash"></i> Remove Player
                                                         </button>
                                                     </div>
                                                 </div>
@@ -327,13 +332,19 @@
 
         <div th:replace="fragments/footer :: js-import"/>
         <script th:replace="fragments/sidebar :: selectedMenu(reg-currgame)"></script>
-        <script th:src="@{/webjars/datatables.net/js/jquery.dataTables.min.js}"></script>
-        <script th:src="@{/webjars/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
         <script>
             $(function () {
-                $('#dt-player-list').DataTable();
+                $('#dt-player-list').DataTable({
+                    select: {
+                        style: 'single'
+                    }
+                });
                 $('#dt-fee-summary').DataTable();
-                $('#dt-other-expenses').DataTable();
+                $('#dt-other-expenses').DataTable({
+                    select: {
+                        style: 'single'
+                    }
+                });
             });
         </script>
 
