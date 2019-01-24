@@ -17,7 +17,7 @@ public class ProfileController {
     public String showPlayerList() {
         return "profiles/players";
     }
-    
+
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public String showPlayerDetail(@PathVariable("id") long id) {
         return "profiles/player";

@@ -4,6 +4,7 @@
     <head>
         <div th:replace="fragments/header :: header-head"/>
         <link rel="stylesheet" th:href="@{/webjars/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/datatables.net-select-bs/css/select.bootstrap.min.css}"/>
     </head>
 
     <body class="hold-transition skin-black-light sidebar-mini">
@@ -58,28 +59,44 @@
         </div>
         <!-- /.modal -->
 
-        <div class="modal fade" id="modal-add-expense">
+        <div class="modal fade" id="modal-add-gun">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Add Expense</h4>
+                        <h4 class="modal-title">Add Gun</h4>
                     </div>
                     <div class="modal-body">
                         <form role="form">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="itemName">Item Name</label>
+                                    <label for="itemName">Name</label>
                                     <input type="text" class="form-control" id="itemName">
                                 </div>
                                 <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity">
+                                    <label for="quantity">Model</label>
+                                    <input type="text" class="form-control" id="quantity">
                                 </div>
                                 <div class="form-group">
-                                    <label for="amount">Amount/Item</label>
-                                    <input type="number" class="form-control" id="amount">
+                                    <label>Type</label>
+                                    <select class="form-control">
+                                        <option></option>
+                                        <option>AEG</option>
+                                        <option>GBBR</option>
+                                        <option>BASR</option>
+                                        <option>LMG</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Make</label>
+                                    <select class="form-control">
+                                        <option></option>
+                                        <option>EC</option>
+                                        <option>JG</option>
+                                        <option>TM</option>
+                                        <option>GHK</option>
+                                    </select>
                                 </div>
                             </div>
                             <!-- /.box-body --> 
@@ -95,6 +112,60 @@
             <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
+
+        <div class="modal fade" id="modal-edit-gun">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Edit Gun</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="itemName">Name</label>
+                                    <input type="text" class="form-control" id="itemName" value="amy">
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Model</label>
+                                    <input type="text" class="form-control" id="quantity" value="HK416D">
+                                </div>
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select class="form-control">
+                                        <option>AEG</option>
+                                        <option>GBBR</option>
+                                        <option>BASR</option>
+                                        <option>LMG</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Make</label>
+                                    <select class="form-control">
+                                        <option>EC</option>
+                                        <option>JG</option>
+                                        <option>TM</option>
+                                        <option>GHK</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- /.box-body --> 
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->        
+        
+        <div th:replace="fragments/header :: change-pw"/>
 
         <div class="wrapper">
 
@@ -182,6 +253,22 @@
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="tab_2">
                                         <div class="box">
+                                            <div class="box-header">                                   
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <button type="button" class="btn" data-toggle="modal" data-target="#modal-add-gun">
+                                                            <i class="fa fa-plus"></i> Add Gun
+                                                        </button>
+                                                        <button type="button" class="btn" data-toggle="modal" data-target="#modal-edit-gun">
+                                                            <i class="fa fa-edit"></i> Edit Gun
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger">
+                                                            <i class="fa fa-trash"></i> Delete Gun
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.box-header -->
                                             <div class="box-body">
                                                 <table id="dt-guns" class="table table-bordered table-striped">
                                                     <thead>
@@ -235,9 +322,14 @@
         <script th:replace="fragments/sidebar :: selectedMenu(prof-players)"></script>
         <script th:src="@{/webjars/datatables.net/js/jquery.dataTables.min.js}"></script>
         <script th:src="@{/webjars/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+        <script th:src="@{/webjars/datatables.net-select/js/dataTables.select.min.js}"></script>
         <script>
             $(function () {
-                $('#dt-guns').DataTable();
+                $('#dt-guns').DataTable({
+                    select: {
+                        style: 'single'
+                    }
+                });
             });
         </script>
 

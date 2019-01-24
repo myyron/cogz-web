@@ -114,5 +114,15 @@
             <artifactId>datatables.net</artifactId>
             <version>1.10.19</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>datatables.net-select</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>datatables.net-select-bs</artifactId>
+            <version>1.2.3</version>
+        </dependency>
     </dependencies>
 </project>
