@@ -42,17 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-
-        //only to enable h2 working, remove afterwards
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//        String hashedPassword = passwordEncoder().encode("adminadmin");
-//        System.out.println(hashedPassword);
     }
 
     @Bean

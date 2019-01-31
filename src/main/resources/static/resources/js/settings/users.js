@@ -1,6 +1,8 @@
 class UsersPage {
 
     constructor() {
+        this._token = $("meta[name='_csrf']").attr("content");
+        this._header = $("meta[name='_csrf_header']").attr("content");
         this._userList = $.parseJSON($('#userList').text());
         this._table = this._initUsersTable();
         this._initEvents(this);
@@ -53,7 +55,10 @@ class UsersPage {
             $.ajax({
                 method: 'POST',
                 url: 'create',
-                data: {userDto: JSON.stringify(createUserData)}
+                data: {userDto: JSON.stringify(createUserData)},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(self._header, self._token);
+                }
             })
                     .done(function () {
                         alert('success');
