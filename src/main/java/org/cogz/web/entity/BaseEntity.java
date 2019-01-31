@@ -35,7 +35,7 @@ public class BaseEntity implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    protected Integer enabled = 1;
+    private Integer enabled = 1;
 
     public Long getId() {
         return id;

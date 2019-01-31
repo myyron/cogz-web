@@ -30,7 +30,7 @@ public enum RoleType {
 
     private final Integer code;
 
-    private RoleType(Integer code) {
+    RoleType(Integer code) {
         this.code = code;
     }
 

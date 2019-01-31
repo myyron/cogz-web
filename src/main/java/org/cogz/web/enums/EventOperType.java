@@ -29,7 +29,7 @@ public enum EventOperType {
 
     private final Integer code;
 
-    private EventOperType(Integer code) {
+    EventOperType(Integer code) {
         this.code = code;
     }
 
