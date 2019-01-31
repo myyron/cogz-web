@@ -15,18 +15,14 @@
  */
 package org.cogz.web.repo;
 
-import java.util.List;
-import org.cogz.web.entity.User;
+import org.cogz.web.entity.EventLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * The user repository interface.
+ * The {@link EventLog} repository interface.
  *
  * @author Myyron Latorilla
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface EventLogRepository extends JpaRepository<EventLog, Long> {
 
-    User findByUsername(String username);
-
-    List<User> findAllByEnabled(Integer enabled);
 }

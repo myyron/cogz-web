@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repo;
+package org.cogz.web.service;
 
-import java.util.List;
 import org.cogz.web.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * The user repository interface.
+ * The security service interface.
  *
  * @author Myyron Latorilla
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface SecurityService {
 
-    User findByUsername(String username);
-
-    List<User> findAllByEnabled(Integer enabled);
+    User getAuthenticatedUser();
 }

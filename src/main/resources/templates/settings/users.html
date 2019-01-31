@@ -7,6 +7,8 @@
 
     <body class="hold-transition skin-black-light sidebar-mini">
 
+        <div id="userList" class="hidden" th:text="${userList}"></div>
+
         <div class="modal fade" id="modal-create-user">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -16,27 +18,27 @@
                         <h4 class="modal-title">Create User</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form">
+                        <form role="form" id="form-create-user">
                             <div class="box-body">
                                 <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" name="username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPw">Password</label>
+                                    <input type="password" class="form-control" name="newPw">
+                                </div>
+                                <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName">
+                                    <input type="text" class="form-control" name="firstName">
                                 </div>
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName">
-                                </div>
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" class="form-control" id="username">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password">
+                                    <input type="text" class="form-control" name="lastName">
                                 </div>
                                 <div class="form-group">
                                     <label>Role</label>
-                                    <select class="form-control">
+                                    <select class="form-control" name="roleType">
                                         <option>VIEW_ONLY</option>
                                         <option>GAME_ADMIN</option>
                                         <option>SYS_ADMIN</option>
@@ -48,7 +50,87 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-primary" id="btn-create-save"><i class="fa fa-save"></i> Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal fade" id="modal-edit-user">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Edit User</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="input-edit-username">Username</label>
+                                    <input type="text" class="form-control" id="input-edit-username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-edit-firstname">First Name</label>
+                                    <input type="text" class="form-control" id="input-edit-firstname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-edit-lastname">Last Name</label>
+                                    <input type="text" class="form-control" id="input-edit-lastname">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select id="input-edit-role" class="form-control">
+                                        <option>VIEW_ONLY</option>
+                                        <option>GAME_ADMIN</option>
+                                        <option>SYS_ADMIN</option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <!-- /.box-body --> 
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal fade" id="modal-change-pw-admin">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Change Password</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="input-change-pw-admin-username">Username</label>
+                                    <input type="text" class="form-control" id="input-change-pw-admin-username" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-change-pw-admin-new">New Password</label>
+                                    <input type="password" class="form-control" id="input-change-pw-admin-new">
+                                </div>
+                            </div>
+                            <!-- /.box-body --> 
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -93,15 +175,24 @@
                                     </div>                                    
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button type="button" class="btn" data-toggle="modal" data-target="#modal-create-user">
+                                            <button id="btn-create-user" type="button" class="btn" data-toggle="modal" data-target="#modal-create-user">
                                                 <i class="fa fa-plus"></i> Create User
+                                            </button>
+                                            <button id="btn-edit-user" type="button" class="btn">
+                                                <i class="fa fa-edit"></i> Edit User
+                                            </button>
+                                            <button id="btn-change-pw-admin" type="button" class="btn btn-warning">
+                                                <i class="fa fa-key"></i> Change Password
+                                            </button>
+                                            <button id="btn-delete-user" type="button" class="btn btn-danger">
+                                                <i class="fa fa-trash"></i> Delete User
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="dt-users" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Username</th>
@@ -109,33 +200,6 @@
                                                 <th>Role</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>altrax</td>
-                                                <td>Myyron Latorilla</td>
-                                                <td>SYS_ADMIN</td>
-                                            </tr>
-                                            <tr>
-                                                <td>kurz</td>
-                                                <td>Van Carlo</td>
-                                                <td>GAME_ADMIN</td>
-                                            </tr>
-                                            <tr>
-                                                <td>raff</td>
-                                                <td>Paolo Panaligan</td>
-                                                <td>GAME_ADMIN</td>
-                                            </tr>
-                                            <tr>
-                                                <td>viper</td>
-                                                <td>Roberto Latorilla</td>
-                                                <td>SYS_ADMIN</td>
-                                            </tr>
-                                            <tr>
-                                                <td>zeal</td>
-                                                <td>Kevin Almazora</td>
-                                                <td>SYS_ADMIN</td>
-                                            </tr>
-                                        </tbody>
                                     </table>
                                 </div>
                                 <!-- /.box-body -->
@@ -157,13 +221,10 @@
 
         <div th:replace="fragments/footer :: js-import"/>
         <script th:replace="fragments/sidebar :: selectedMenu(sett-users)"></script>
-        <script>
+        <script th:src="@{/resources/js/settings/users.js}"></script>
+        <script th:inline="javascript">
             $(function () {
-                $('#example1').DataTable({
-                    select: {
-                        style: 'single'
-                    }
-                });
+                new UsersPage();
             });
         </script>
 

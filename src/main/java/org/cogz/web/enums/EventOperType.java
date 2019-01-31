@@ -13,20 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repo;
+package org.cogz.web.enums;
 
-import java.util.List;
-import org.cogz.web.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Objects;
 
 /**
- * The user repository interface.
+ * The event operation type constants.
  *
  * @author Myyron Latorilla
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public enum EventOperType {
 
-    User findByUsername(String username);
+    INSERT(0),
+    UPDATE(1);
 
-    List<User> findAllByEnabled(Integer enabled);
+    private final Integer code;
+
+    private EventOperType(Integer code) {
+        this.code = code;
+    }
+
+    public static EventOperType getEnum(Integer value) {
+        for (EventOperType v : values()) {
+            if (Objects.equals(v.getCode(), value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public Integer getCode() {
+        return code;
+    }
 }

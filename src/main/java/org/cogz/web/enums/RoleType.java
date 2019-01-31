@@ -13,20 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repo;
+package org.cogz.web.enums;
 
-import java.util.List;
-import org.cogz.web.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Objects;
 
 /**
- * The user repository interface.
+ * The role type constants.
  *
  * @author Myyron Latorilla
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public enum RoleType {
 
-    User findByUsername(String username);
+    VIEW_ONLY(0),
+    GAME_ADMIN(1),
+    SYS_ADMIN(2);
 
-    List<User> findAllByEnabled(Integer enabled);
+    private final Integer code;
+
+    private RoleType(Integer code) {
+        this.code = code;
+    }
+
+    public static RoleType getEnum(Integer value) {
+        for (RoleType v : values()) {
+            if (Objects.equals(v.getCode(), value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public Integer getCode() {
+        return code;
+    }
 }

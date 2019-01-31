@@ -13,39 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.entity;
+package org.cogz.web.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import org.cogz.web.converter.RoleTypeConverter;
 import org.cogz.web.enums.RoleType;
 
 /**
- * The user entity class.
+ * The user DTO class.
  *
  * @author Myyron Latorilla
  */
-@Entity
-@Table(name = "APP_USER")
-public class User extends BaseEntity {
+public class UserDto {
 
-    @Column(nullable = false, unique = true)
     private String username;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String firstName;
-
-    @Column(nullable = false)
     private String lastName;
-
-    @Column(nullable = false)
-    @Convert(converter = RoleTypeConverter.class)
+    private String oldPw;
+    private String newPw;
     private RoleType roleType;
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    public String getOldPw() {
+        return oldPw;
+    }
+
+    public void setOldPw(String oldPw) {
+        this.oldPw = oldPw;
+    }
+
+    public String getNewPw() {
+        return newPw;
+    }
+
+    public void setNewPw(String newPw) {
+        this.newPw = newPw;
+    }
 
     public String getUsername() {
         return username;
@@ -53,14 +57,6 @@ public class User extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
