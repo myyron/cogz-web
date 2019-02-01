@@ -17,7 +17,7 @@ spring:
         url: jdbc:derby://localhost:1527/cogzdb
         username: sa
         password: sa
-        initialization-mode: NEVER #flag for using *.sql (ALWAYS,NEVER,EMBEDDED)
+        initialization-mode: never #flag for using *.sql (always,never,embedded)
     jpa:
         hibernate:
             ddl-auto: none #prevent generation of tables from entities            

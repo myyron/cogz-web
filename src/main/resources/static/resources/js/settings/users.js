@@ -1,9 +1,7 @@
-class UsersPage {
+class UsersPage extends BasePage {
 
     constructor() {
-        this._token = $("meta[name='_csrf']").attr("content");
-        this._header = $("meta[name='_csrf_header']").attr("content");
-        this._userList = $.parseJSON($('#userList').text());
+        super();
         this._table = this._initUsersTable();
         this._initEvents(this);
     }
@@ -57,11 +55,12 @@ class UsersPage {
                 url: 'create',
                 data: {userDto: JSON.stringify(createUserData)},
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader(self._header, self._token);
+                    xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
                 }
             })
                     .done(function () {
-                        alert('success');
+                        $('#modal-create-user').modal('hide');
+                        $('#dt-users').DataTable().ajax.reload();
                     })
                     .fail(function (jqXHR) {
                         Dialog.alertError(jqXHR.responseText);
@@ -71,7 +70,10 @@ class UsersPage {
 
     _initUsersTable() {
         return $('#dt-users').DataTable({
-            data: this._userList,
+            ajax: {
+                url: 'list',
+                dataSrc: ''
+            },
             columns: [
                 {data: 'username'},
                 {data: 'fullName'},

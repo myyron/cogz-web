@@ -22,7 +22,6 @@ import org.cogz.web.dto.UserDto;
 import org.cogz.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,9 +40,14 @@ public class UsersController {
     private UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showUserList(Model model) throws JsonProcessingException {
-        model.addAttribute("userList", new ObjectMapper().writeValueAsString(userService.getAllUsers(true)));
+    public String showUsersPage() {
         return "settings/users";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public String getUserList() throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(userService.getAllUsers(true));
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)

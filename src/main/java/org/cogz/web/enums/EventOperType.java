@@ -24,8 +24,9 @@ import java.util.Objects;
  */
 public enum EventOperType {
 
-    INSERT(0),
-    UPDATE(1);
+    ADD(0),
+    EDIT(1),
+    DELETE(2);
 
     private final Integer code;
 

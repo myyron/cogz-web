@@ -51,7 +51,7 @@ public abstract class BaseService<T1 extends JpaRepository, T2 extends BaseEntit
         EventLog eventLog = new EventLog();
         eventLog.setRefTable(this.entity.getClass().getAnnotation(Table.class).name());
         eventLog.setRefId(result);
-        eventLog.setEventOper(EventOperType.INSERT);
+        eventLog.setEventOper(EventOperType.ADD);
         eventLog.setEventUser(securityService.getAuthenticatedUser().getId());
         eventLogRepository.save(eventLog);
         return result;
