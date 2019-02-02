@@ -44,14 +44,26 @@ public abstract class BaseService<T1 extends JpaRepository, T2 extends BaseEntit
     private SecurityService securityService;
 
     @Transactional
-    protected Long insert(BaseEntity entity) {
+    protected Long add(BaseEntity entity) {
         Long result = null;
-        this.entity = (T2) repository.save(entity);
+        entity = (T2) repository.save(entity);
         result = entity.getId();
         EventLog eventLog = new EventLog();
-        eventLog.setRefTable(this.entity.getClass().getAnnotation(Table.class).name());
+        eventLog.setRefTable(entity.getClass().getAnnotation(Table.class).name());
         eventLog.setRefId(result);
         eventLog.setEventOper(EventOperType.ADD);
+        eventLog.setEventUser(securityService.getAuthenticatedUser().getId());
+        eventLogRepository.save(eventLog);
+        return result;
+    }
+
+    @Transactional
+    protected Long edit(BaseEntity entity) {
+        Long result = entity.getId();
+        EventLog eventLog = new EventLog();
+        eventLog.setRefTable(entity.getClass().getAnnotation(Table.class).name());
+        eventLog.setRefId(result);
+        eventLog.setEventOper(EventOperType.EDIT);
         eventLog.setEventUser(securityService.getAuthenticatedUser().getId());
         eventLogRepository.save(eventLog);
         return result;

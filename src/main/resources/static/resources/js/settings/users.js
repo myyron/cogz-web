@@ -8,8 +8,8 @@ class UsersPage extends BasePage {
 
     _initEvents(self) {
         $('#btn-create-user').click(function () {
-            $('[name=username]').val('');
-            $('[name=newPw]').val('');
+            $('#input-create-username').val('');
+            $('#input-create-newPw').val('');
         });
 
         $('#btn-edit-user').click(function () {
@@ -21,7 +21,7 @@ class UsersPage extends BasePage {
                 $('#input-edit-firstname').val(selectedData.firstName);
                 $('#input-edit-lastname').val(selectedData.lastName);
                 $('#input-edit-role').val(selectedData.roleType);
-                $('#modal-edit-user').modal('show');
+                $('#modal-edit').modal('show');
             }
         });
 
@@ -45,31 +45,16 @@ class UsersPage extends BasePage {
         });
 
         $('#btn-create-save').click(function () {
-            let createUserData = $('#form-create-user').serializeArray()
-                    .reduce(function (a, x) {
-                        a[x.name] = x.value;
-                        return a;
-                    }, {});
-            $.ajax({
-                method: 'POST',
-                url: 'create',
-                data: {userDto: JSON.stringify(createUserData)},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
-                }
-            })
-                    .done(function () {
-                        $('#modal-create-user').modal('hide');
-                        $('#dt-users').DataTable().ajax.reload();
-                    })
-                    .fail(function (jqXHR) {
-                        Dialog.alertError(jqXHR.responseText);
-                    });
+            self._ajaxPost('create', self);
+        });
+
+        $('#btn-edit-save').click(function () {
+            self._ajaxPost('edit', self);
         });
     }
 
     _initUsersTable() {
-        return $('#dt-users').DataTable({
+        return $('#dt').DataTable({
             ajax: {
                 url: 'list',
                 dataSrc: ''

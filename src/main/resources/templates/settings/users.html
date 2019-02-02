@@ -7,7 +7,7 @@
 
     <body class="hold-transition skin-black-light sidebar-mini">
 
-        <div class="modal fade" id="modal-create-user">
+        <div class="modal fade" id="modal-create">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -16,15 +16,15 @@
                         <h4 class="modal-title">Create User</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form" id="form-create-user">
+                        <form role="form" id="form-create">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="username">Username</label>
-                                    <input type="text" class="form-control" name="username">
+                                    <input type="text" class="form-control" id="input-create-username" name="username">
                                 </div>
                                 <div class="form-group">
                                     <label for="newPw">Password</label>
-                                    <input type="password" class="form-control" name="newPw">
+                                    <input type="password" class="form-control" id="input-create-newPw" name="newPw">
                                 </div>
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
@@ -57,7 +57,7 @@
         </div>
         <!-- /.modal -->
 
-        <div class="modal fade" id="modal-edit-user">
+        <div class="modal fade" id="modal-edit">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -66,23 +66,23 @@
                         <h4 class="modal-title">Edit User</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form">
+                        <form role="form" id="form-edit">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input-edit-username">Username</label>
-                                    <input type="text" class="form-control" id="input-edit-username">
+                                    <input type="text" class="form-control" id="input-edit-username" name="username" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-edit-firstname">First Name</label>
-                                    <input type="text" class="form-control" id="input-edit-firstname">
+                                    <input type="text" class="form-control" id="input-edit-firstname" name="firstName">
                                 </div>
                                 <div class="form-group">
                                     <label for="input-edit-lastname">Last Name</label>
-                                    <input type="text" class="form-control" id="input-edit-lastname">
+                                    <input type="text" class="form-control" id="input-edit-lastname" name="lastName">
                                 </div>
                                 <div class="form-group">
                                     <label>Role</label>
-                                    <select id="input-edit-role" class="form-control">
+                                    <select id="input-edit-role" class="form-control" name="roleType">
                                         <option>VIEW_ONLY</option>
                                         <option>GAME_ADMIN</option>
                                         <option>SYS_ADMIN</option>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                        <button type="button" class="btn btn-primary" id="btn-edit-save"><i class="fa fa-save"></i> Close</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -116,7 +116,7 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input-change-pw-admin-username">Username</label>
-                                    <input type="text" class="form-control" id="input-change-pw-admin-username" disabled>
+                                    <input type="text" class="form-control" id="input-change-pw-admin-username" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-change-pw-admin-new">New Password</label>
@@ -173,7 +173,7 @@
                                     </div>                                    
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button id="btn-create-user" type="button" class="btn" data-toggle="modal" data-target="#modal-create-user">
+                                            <button id="btn-create-user" type="button" class="btn" data-toggle="modal" data-target="#modal-create">
                                                 <i class="fa fa-plus"></i> Create User
                                             </button>
                                             <button id="btn-edit-user" type="button" class="btn">
@@ -190,7 +190,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="dt-users" class="table table-bordered table-striped">
+                                    <table id="dt" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Username</th>

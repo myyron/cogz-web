@@ -4,13 +4,13 @@
 
     <head th:fragment="header-head" th:remove="tag">        
         <title>CoGZ @version@</title>
-        
+
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
         <meta th:if="${_csrf} != null" th:name="_csrf" th:content="${_csrf.token}"/>
         <meta th:if="${_csrf} != null" th:name="_csrf_header" th:content="${_csrf.headerName}"/>
-        
+
         <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{/webjars/fontawesome/css/font-awesome.min.css}"/>
         <link rel="stylesheet" th:href="@{/webjars/AdminLTE/dist/css/AdminLTE.min.css}"/>

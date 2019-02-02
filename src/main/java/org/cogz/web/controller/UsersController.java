@@ -55,4 +55,10 @@ public class UsersController {
     public Long createUser(@RequestParam String userDto) throws IOException {
         return userService.createUser(new ObjectMapper().readValue(userDto, UserDto.class));
     }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public Long editUser(@RequestParam String userDto) throws IOException {
+        return userService.editUser(new ObjectMapper().readValue(userDto, UserDto.class));
+    }
 }

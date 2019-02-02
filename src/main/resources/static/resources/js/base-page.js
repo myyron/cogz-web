@@ -12,4 +12,29 @@ class BasePage {
         });
     }
 
+    _getFormData(formId) {
+        return $(formId).serializeArray()
+                .reduce(function (a, x) {
+                    a[x.name] = x.value;
+                    return a;
+                }, {});
+    }
+
+    _ajaxPost(operation, self) {
+        $.ajax({
+            method: 'POST',
+            url: operation,
+            data: {userDto: JSON.stringify(this._getFormData('#form-' + operation))},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
+            }
+        })
+                .done(function () {
+                    $('#modal-' + operation).modal('hide');
+                    $('#dt').DataTable().ajax.reload();
+                })
+                .fail(function (jqXHR) {
+                    Dialog.alertError(jqXHR.responseText);
+                });
+    }
 }

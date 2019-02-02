@@ -28,4 +28,6 @@ public interface UserService {
     List<UserDto> getAllUsers(boolean enabled);
 
     Long createUser(UserDto userDto);
+
+    Long editUser(UserDto userDto);
 }
