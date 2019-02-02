@@ -25,7 +25,7 @@ class UsersPage extends BasePage {
             }
         });
 
-        $('#btn-resetpw').click(function () {
+        $('#btn-resetpw-user').click(function () {
             let selectedData = self._table.row('.selected').data();
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
@@ -40,7 +40,9 @@ class UsersPage extends BasePage {
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
             } else {
-                Dialog.alertDelete();
+                Dialog.alertDelete(function () {
+                    self._ajaxPost('delete', self, {username: selectedData.username});
+                });
             }
         });
 

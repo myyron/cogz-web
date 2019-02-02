@@ -71,4 +71,11 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
         user.setPassword(passwordEncoder.encode(userDto.getNewPw()));
         return edit(user);
     }
+
+    @Override
+    public Long deleteUser(String username) {
+        User user = userRepository.findByUsername(username);
+        user.setEnabled(0);
+        return delete(user);
+    }
 }

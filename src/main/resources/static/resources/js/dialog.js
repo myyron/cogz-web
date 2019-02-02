@@ -7,13 +7,13 @@ class Dialog {
         });
     }
 
-    static alertDelete() {
+    static alertDelete(callback) {
         bootbox.confirm({
             message: '<i class="fa fa-exclamation-triangle text-warning"></i> Confirm delete operation.',
             size: 'small',
             callback: function (result) {
                 if (result) {
-                    alert(result);
+                    callback();
                 }
             }
         });

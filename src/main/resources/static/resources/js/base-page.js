@@ -20,11 +20,19 @@ class BasePage {
                 }, {});
     }
 
-    _ajaxPost(operation, self) {
+    _ajaxPost(operation, self, oData) {
+
+        let data = {};
+        if (typeof oData === 'undefined') {
+            data = {userDto: JSON.stringify(this._getFormData('#form-' + operation))};
+        } else {
+            data = oData;
+        }
+
         $.ajax({
             method: 'POST',
             url: operation,
-            data: {userDto: JSON.stringify(this._getFormData('#form-' + operation))},
+            data: data,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
             }
