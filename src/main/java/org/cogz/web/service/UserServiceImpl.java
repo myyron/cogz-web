@@ -64,4 +64,11 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
         BeanUtils.copyProperties(userDto, user);
         return edit(user);
     }
+
+    @Override
+    public Long resetPassword(UserDto userDto) {
+        User user = userRepository.findByUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getNewPw()));
+        return edit(user);
+    }
 }

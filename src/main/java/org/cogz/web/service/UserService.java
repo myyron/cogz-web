@@ -30,4 +30,6 @@ public interface UserService {
     Long createUser(UserDto userDto);
 
     Long editUser(UserDto userDto);
+
+    Long resetPassword(UserDto userDto);
 }

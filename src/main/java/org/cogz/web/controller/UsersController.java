@@ -61,4 +61,10 @@ public class UsersController {
     public Long editUser(@RequestParam String userDto) throws IOException {
         return userService.editUser(new ObjectMapper().readValue(userDto, UserDto.class));
     }
+
+    @RequestMapping(value = "/resetpw", method = RequestMethod.POST)
+    @ResponseBody
+    public Long resetPassword(@RequestParam String userDto) throws IOException {
+        return userService.resetPassword(new ObjectMapper().readValue(userDto, UserDto.class));
+    }
 }

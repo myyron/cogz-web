@@ -25,13 +25,13 @@ class UsersPage extends BasePage {
             }
         });
 
-        $('#btn-change-pw-admin').click(function () {
+        $('#btn-resetpw').click(function () {
             let selectedData = self._table.row('.selected').data();
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
             } else {
-                $('#input-change-pw-admin-username').val(selectedData.username);
-                $('#modal-change-pw-admin').modal('show');
+                $('#input-resetpw-username').val(selectedData.username);
+                $('#modal-resetpw').modal('show');
             }
         });
 
@@ -50,6 +50,10 @@ class UsersPage extends BasePage {
 
         $('#btn-edit-save').click(function () {
             self._ajaxPost('edit', self);
+        });
+
+        $('#btn-resetpw-save').click(function () {
+            self._ajaxPost('resetpw', self);
         });
     }
 
