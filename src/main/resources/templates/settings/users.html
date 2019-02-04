@@ -37,9 +37,10 @@
                                 <div class="form-group">
                                     <label for="input-create-roleType">Role</label>
                                     <select class="form-control" id="input-create-roleType" name="roleType">
-                                        <option>VIEW_ONLY</option>
-                                        <option>GAME_ADMIN</option>
-                                        <option>SYS_ADMIN</option>
+                                        <option th:each="roleType : ${T(org.cogz.web.enums.RoleType).values()}"
+                                                th:value="${roleType}"
+                                                th:text="${roleType}">
+                                        </option>
                                     </select>
                                 </div> 
                             </div>
@@ -83,9 +84,10 @@
                                 <div class="form-group">
                                     <label for="input-edit-roleType">Role</label>
                                     <select class="form-control" id="input-edit-roleType" name="roleType">
-                                        <option>VIEW_ONLY</option>
-                                        <option>GAME_ADMIN</option>
-                                        <option>SYS_ADMIN</option>
+                                        <option th:each="roleType : ${T(org.cogz.web.enums.RoleType).values()}"
+                                                th:value="${roleType}"
+                                                th:text="${roleType}">
+                                        </option>
                                     </select>
                                 </div> 
                             </div>
