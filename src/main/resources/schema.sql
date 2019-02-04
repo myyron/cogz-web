@@ -6,7 +6,8 @@ CREATE TABLE app_user (
     last_name VARCHAR(32) NOT NULL,
     role_type SMALLINT NOT NULL,
     enabled SMALLINT DEFAULT 1,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (username)
 );
 
 CREATE TABLE event_log (
