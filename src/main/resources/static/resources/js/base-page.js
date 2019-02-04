@@ -24,7 +24,7 @@ class BasePage {
 
         let data = {};
         if (typeof oData === 'undefined') {
-            data = {userDto: JSON.stringify(this._getFormData('#form-' + operation))};
+            data = {userDto: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
         } else {
             data = oData;
         }
@@ -38,8 +38,8 @@ class BasePage {
             }
         })
                 .done(function () {
-                    $('#modal-' + operation).modal('hide');
-                    $('#dt').DataTable().ajax.reload();
+                    $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    $('#dt-' + self._pageName).DataTable().ajax.reload();
                 })
                 .fail(function (jqXHR) {
                     Dialog.alertError(jqXHR.responseText);

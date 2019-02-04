@@ -7,7 +7,7 @@
 
     <body class="hold-transition skin-black-light sidebar-mini">
 
-        <div class="modal fade" id="modal-create">
+        <div class="modal fade" id="modal-create-user">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -16,27 +16,27 @@
                         <h4 class="modal-title">Create User</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form" id="form-create">
+                        <form role="form" id="form-create-user">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="username">Username</label>
+                                    <label for="input-create-username">Username</label>
                                     <input type="text" class="form-control" id="input-create-username" name="username">
                                 </div>
                                 <div class="form-group">
-                                    <label for="newPw">Password</label>
+                                    <label for="input-create-newPw">Password</label>
                                     <input type="password" class="form-control" id="input-create-newPw" name="newPw">
                                 </div>
                                 <div class="form-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" name="firstName">
+                                    <label for="input-create-firstName">First Name</label>
+                                    <input type="text" class="form-control" id="input-create-firstName" name="firstName">
                                 </div>
                                 <div class="form-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" name="lastName">
+                                    <label for="input-create-lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="input-create-lastName" name="lastName">
                                 </div>
                                 <div class="form-group">
-                                    <label>Role</label>
-                                    <select class="form-control" name="roleType">
+                                    <label for="input-create-roleType">Role</label>
+                                    <select class="form-control" id="input-create-roleType" name="roleType">
                                         <option>VIEW_ONLY</option>
                                         <option>GAME_ADMIN</option>
                                         <option>SYS_ADMIN</option>
@@ -57,7 +57,7 @@
         </div>
         <!-- /.modal -->
 
-        <div class="modal fade" id="modal-edit">
+        <div class="modal fade" id="modal-edit-user">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -66,7 +66,7 @@
                         <h4 class="modal-title">Edit User</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form" id="form-edit">
+                        <form role="form" id="form-edit-user">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input-edit-username">Username</label>
@@ -81,8 +81,8 @@
                                     <input type="text" class="form-control" id="input-edit-lastname" name="lastName">
                                 </div>
                                 <div class="form-group">
-                                    <label>Role</label>
-                                    <select id="input-edit-role" class="form-control" name="roleType">
+                                    <label for="input-edit-roleType">Role</label>
+                                    <select class="form-control" id="input-edit-roleType" name="roleType">
                                         <option>VIEW_ONLY</option>
                                         <option>GAME_ADMIN</option>
                                         <option>SYS_ADMIN</option>
@@ -103,7 +103,7 @@
         </div>
         <!-- /.modal -->
 
-        <div class="modal fade" id="modal-resetpw">
+        <div class="modal fade" id="modal-resetpw-user">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -112,7 +112,7 @@
                         <h4 class="modal-title">Change Password</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form" id="form-resetpw">
+                        <form role="form" id="form-resetpw-user">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input-resetpw-username">Username</label>
@@ -173,7 +173,7 @@
                                     </div>                                    
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button id="btn-create-user" type="button" class="btn" data-toggle="modal" data-target="#modal-create">
+                                            <button id="btn-create-user" type="button" class="btn" data-toggle="modal" data-target="#modal-create-user">
                                                 <i class="fa fa-plus"></i> Create User
                                             </button>
                                             <button id="btn-edit-user" type="button" class="btn">
@@ -190,7 +190,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="dt" class="table table-bordered table-striped">
+                                    <table id="dt-user" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Username</th>
@@ -219,10 +219,10 @@
 
         <div th:replace="fragments/footer :: js-import"/>
         <script th:replace="fragments/sidebar :: selectedMenu(sett-users)"></script>
-        <script th:src="@{/resources/js/settings/users.js}"></script>
+        <script th:src="@{/resources/js/list-page.js}"></script>
         <script th:inline="javascript">
             $(function () {
-                new UsersPage();
+                new ListPage('user');
             });
         </script>
 

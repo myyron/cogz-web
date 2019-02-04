@@ -1,18 +1,19 @@
-class UsersPage extends BasePage {
+class ListPage extends BasePage {
 
-    constructor() {
+    constructor(pageName) {
         super();
+        this._pageName = pageName;
         this._table = this._initUsersTable();
         this._initEvents(this);
     }
 
     _initEvents(self) {
-        $('#btn-create-user').click(function () {
+        $('#btn-create-' + this._pageName).click(function () {
             $('#input-create-username').val('');
             $('#input-create-newPw').val('');
         });
 
-        $('#btn-edit-user').click(function () {
+        $('#btn-edit-' + this._pageName).click(function () {
             let selectedData = self._table.row('.selected').data();
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
@@ -21,21 +22,21 @@ class UsersPage extends BasePage {
                 $('#input-edit-firstname').val(selectedData.firstName);
                 $('#input-edit-lastname').val(selectedData.lastName);
                 $('#input-edit-role').val(selectedData.roleType);
-                $('#modal-edit').modal('show');
+                $('#modal-edit-user').modal('show');
             }
         });
 
-        $('#btn-resetpw-user').click(function () {
+        $('#btn-resetpw-' + this._pageName).click(function () {
             let selectedData = self._table.row('.selected').data();
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
             } else {
                 $('#input-resetpw-username').val(selectedData.username);
-                $('#modal-resetpw').modal('show');
+                $('#modal-resetpw-user').modal('show');
             }
         });
 
-        $('#btn-delete-user').click(function () {
+        $('#btn-delete-' + this._pageName).click(function () {
             let selectedData = self._table.row('.selected').data();
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
@@ -60,7 +61,7 @@ class UsersPage extends BasePage {
     }
 
     _initUsersTable() {
-        return $('#dt').DataTable({
+        return $('#dt-' + this._pageName).DataTable({
             ajax: {
                 url: 'list',
                 dataSrc: ''
