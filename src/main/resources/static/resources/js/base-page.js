@@ -10,6 +10,10 @@ class BasePage {
         $('.modal').on('hidden.bs.modal', function () {
             $(this).find('form')[0].reset();
         });
+
+        $('input[type="checkbox"]').change(function () {
+            this.value = (Number(this.checked));
+        });
     }
 
     _getFormData(formId) {
@@ -24,7 +28,7 @@ class BasePage {
 
         let data = {};
         if (typeof oData === 'undefined') {
-            data = {userDto: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
+            data = {[this._pageName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
         } else {
             data = oData;
         }

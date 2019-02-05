@@ -47,7 +47,7 @@ public class UsersController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public String getUserList() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(userService.getAllUsers(true));
+        return new ObjectMapper().writeValueAsString(userService.getAllUsers());
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -70,7 +70,7 @@ public class UsersController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Long deleteUser(@RequestParam String username) throws IOException {
+    public Long deleteUser(@RequestParam String username) {
         return userService.deleteUser(username);
     }
 }

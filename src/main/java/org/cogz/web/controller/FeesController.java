@@ -15,9 +15,17 @@
  */
 package org.cogz.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import org.cogz.web.dto.FeeDto;
+import org.cogz.web.service.FeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * The fees controller.
@@ -28,8 +36,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/settings/fees")
 public class FeesController {
 
+    @Autowired
+    private FeeService feeService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showFeeList() {
+    public String showFeesPage() {
         return "settings/fees";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public String getFeeList() throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(feeService.getAllFees());
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @ResponseBody
+    public Long createFee(@RequestParam String feeDto) throws IOException {
+        return feeService.createFee(new ObjectMapper().readValue(feeDto, FeeDto.class));
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Long deleteFee(@RequestParam String itemName) {
+        return feeService.deleteFee(itemName);
     }
 }

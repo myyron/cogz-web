@@ -40,7 +40,7 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDto> getAllUsers(boolean enabled) {
+    public List<UserDto> getAllUsers() {
         List<UserDto> result = new ArrayList<>();
         for (User user : userRepository.findAllByEnabled(1)) {
             UserDto userDto = new UserDto();

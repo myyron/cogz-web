@@ -222,9 +222,10 @@
         <div th:replace="fragments/footer :: js-import"/>
         <script th:replace="fragments/sidebar :: selectedMenu(sett-users)"></script>
         <script th:src="@{/resources/js/list-page.js}"></script>
+        <script th:src="@{/resources/js/settings/users-page.js}"></script>
         <script th:inline="javascript">
             $(function () {
-                new ListPage('user');
+                new UsersPage();
             });
         </script>
 

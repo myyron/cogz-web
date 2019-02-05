@@ -13,25 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.enums;
 
-import java.util.List;
-import org.cogz.web.dto.UserDto;
+import java.util.Objects;
 
 /**
- * The user service interface.
+ * The fee type constants.
  *
  * @author Myyron Latorilla
  */
-public interface UserService {
+public enum FeeType {
 
-    List<UserDto> getAllUsers();
+    STANDARD(0),
+    RENTAL(1),
+    SALABLE(2);
 
-    Long createUser(UserDto userDto);
+    private final Integer code;
 
-    Long editUser(UserDto userDto);
+    FeeType(Integer code) {
+        this.code = code;
+    }
 
-    Long resetPassword(UserDto userDto);
+    public static FeeType getEnum(Integer value) {
+        for (FeeType v : values()) {
+            if (Objects.equals(v.getCode(), value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
 
-    Long deleteUser(String username);
+    public Integer getCode() {
+        return code;
+    }
 }

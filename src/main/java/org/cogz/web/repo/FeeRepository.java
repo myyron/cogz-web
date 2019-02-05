@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.repo;
 
 import java.util.List;
-import org.cogz.web.dto.UserDto;
+import org.cogz.web.entity.Fee;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * The user service interface.
+ * The fee repository interface.
  *
  * @author Myyron Latorilla
  */
-public interface UserService {
+public interface FeeRepository extends JpaRepository<Fee, Long> {
 
-    List<UserDto> getAllUsers();
+    Fee findByItemNameAndEnabled(String itemName, Integer enabled);
 
-    Long createUser(UserDto userDto);
-
-    Long editUser(UserDto userDto);
-
-    Long resetPassword(UserDto userDto);
-
-    Long deleteUser(String username);
+    List<Fee> findAllByEnabled(Integer enabled);
 }

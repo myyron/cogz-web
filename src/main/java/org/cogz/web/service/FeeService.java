@@ -16,22 +16,18 @@
 package org.cogz.web.service;
 
 import java.util.List;
-import org.cogz.web.dto.UserDto;
+import org.cogz.web.dto.FeeDto;
 
 /**
- * The user service interface.
+ * The fee service interface.
  *
  * @author Myyron Latorilla
  */
-public interface UserService {
+public interface FeeService {
 
-    List<UserDto> getAllUsers();
+    List<FeeDto> getAllFees();
 
-    Long createUser(UserDto userDto);
+    Long createFee(FeeDto feeDto);
 
-    Long editUser(UserDto userDto);
-
-    Long resetPassword(UserDto userDto);
-
-    Long deleteUser(String username);
+    Long deleteFee(String itemName);
 }
