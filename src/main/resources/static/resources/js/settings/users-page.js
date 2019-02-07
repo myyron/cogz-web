@@ -4,7 +4,11 @@ class UsersPage extends ListPage {
         let pageName = 'user';
         let columns = [
             {data: 'username'},
-            {data: 'fullName'},
+            {data: null,
+                render: function (data) {
+                    return data.firstName + ' ' + data.lastName;
+                }
+            },
             {data: 'roleType'}
         ];
         super(pageName, columns);

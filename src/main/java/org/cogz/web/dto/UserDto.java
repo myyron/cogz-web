@@ -31,10 +31,6 @@ public class UserDto {
     private String newPw;
     private RoleType roleType;
 
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
     public String getOldPw() {
         return oldPw;
     }
