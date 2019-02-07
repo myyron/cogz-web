@@ -1,20 +1,19 @@
-class FeesPage extends ListPage {
+class PlayersPage extends ListPage {
 
     constructor() {
-        let pageName = 'fee';
+        let pageName = 'player';
         let columns = [
-            {data: 'itemName'},
-            {data: 'feeType'},
-            {data: 'amount'},
-            {data: 'refundable',
+            {data: null,
                 render: function (data) {
-                    let result = false;
-                    if (data) {
-                        result = true;
-                    }
-                    return result;
+                    return '<a href="/profiles/player/' + data.id + '">' + data.callSign + '</a>';
                 }
-            }
+            },
+            {data: null,
+                render: function (data) {
+                    return data.firstName + ' ' + data.lastName;
+                }
+            },
+            {data: 'contactNum'}
         ];
         super(pageName, columns);
         this._pageName = pageName;
@@ -35,6 +34,10 @@ class FeesPage extends ListPage {
 
         $('#btn-create-save').click(function () {
             self._ajaxPost('create', self);
+        });
+
+        $('#btn-create-save-add').click(function () {
+            self._ajaxPost('create', self, true);
         });
     }
 

@@ -30,3 +30,13 @@ CREATE TABLE fee (
     enabled SMALLINT NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE player (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    call_sign VARCHAR(32) NOT NULL,
+    first_name VARCHAR(32) NOT NULL,
+    last_name VARCHAR(32) NOT NULL,
+    contact_num VARCHAR(32) NOT NULL,
+    enabled SMALLINT NOT NULL,
+    PRIMARY KEY (id)
+);

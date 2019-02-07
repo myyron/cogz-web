@@ -24,11 +24,15 @@ class BasePage {
                 }, {});
     }
 
-    _ajaxPost(operation, self, oData) {
+    _ajaxPost(operation, self, retainModal, oData) {
 
         let data = {};
         if (typeof oData === 'undefined') {
-            data = {[this._pageName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
+            if ($('#form-' + operation + '-' + this._pageName).validator('validate').has('.has-error').length) {
+                return;
+            } else {
+                data = {[this._pageName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
+            }
         } else {
             data = oData;
         }
@@ -42,7 +46,11 @@ class BasePage {
             }
         })
                 .done(function () {
-                    $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    if (retainModal) {
+                        $('#form-' + operation + '-' + self._pageName)[0].reset();
+                    } else {
+                        $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    }
                     $('#dt-' + self._pageName).DataTable().ajax.reload();
                 })
                 .fail(function (jqXHR) {

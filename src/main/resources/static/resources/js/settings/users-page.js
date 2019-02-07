@@ -51,7 +51,7 @@ class UsersPage extends ListPage {
                 Dialog.alertTableSelect();
             } else {
                 Dialog.alertDelete(function () {
-                    self._ajaxPost('delete', self, {username: selectedData.username});
+                    self._ajaxPost('delete', self, false, {username: selectedData.username});
                 });
             }
         });
