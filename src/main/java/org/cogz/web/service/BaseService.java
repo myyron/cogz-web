@@ -22,7 +22,6 @@ import org.cogz.web.enums.EventOperType;
 import org.cogz.web.repo.EventLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The base service.
@@ -35,7 +34,6 @@ public abstract class BaseService<T1 extends JpaRepository, T2 extends BaseEntit
 
     @Autowired
     private T1 repository;
-    private T2 entity;
 
     @Autowired
     private EventLogRepository eventLogRepository;
@@ -43,7 +41,6 @@ public abstract class BaseService<T1 extends JpaRepository, T2 extends BaseEntit
     @Autowired
     private SecurityService securityService;
 
-    @Transactional
     protected Long add(BaseEntity entity) {
         Long result = null;
         entity = (T2) repository.save(entity);
@@ -57,7 +54,6 @@ public abstract class BaseService<T1 extends JpaRepository, T2 extends BaseEntit
         return result;
     }
 
-    @Transactional
     protected Long edit(BaseEntity entity) {
         Long result = entity.getId();
         EventLog eventLog = new EventLog();
@@ -69,7 +65,6 @@ public abstract class BaseService<T1 extends JpaRepository, T2 extends BaseEntit
         return result;
     }
 
-    @Transactional
     protected Long delete(BaseEntity entity) {
         Long result = entity.getId();
         EventLog eventLog = new EventLog();

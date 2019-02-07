@@ -24,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The {@link UserService} implementation.
@@ -51,6 +52,7 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
     }
 
     @Override
+    @Transactional
     public Long createUser(UserDto userDto) {
         User user = new User();
         BeanUtils.copyProperties(userDto, user);
@@ -59,6 +61,7 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
     }
 
     @Override
+    @Transactional
     public Long editUser(UserDto userDto) {
         User user = userRepository.findByUsername(userDto.getUsername());
         BeanUtils.copyProperties(userDto, user);
@@ -66,6 +69,7 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
     }
 
     @Override
+    @Transactional
     public Long resetPassword(UserDto userDto) {
         User user = userRepository.findByUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getNewPw()));
@@ -73,6 +77,7 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
     }
 
     @Override
+    @Transactional
     public Long deleteUser(String username) {
         User user = userRepository.findByUsername(username);
         user.setEnabled(0);
