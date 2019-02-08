@@ -20,22 +20,22 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input-create-callSign">Call Sign</label>
-                                    <input type="text" class="form-control" id="input-create-callSign" name="callSign" required/>
+                                    <input type="text" class="form-control" id="input-create-callSign" name="callSign" pattern="\S(.*\S)?" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-create-firstName">First Name</label>
-                                    <input type="text" class="form-control" id="input-create-firstName" name="firstName" required/>
+                                    <input type="text" class="form-control" id="input-create-firstName" name="firstName" pattern="\S(.*\S)?" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-create-lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="input-create-lastName" name="lastName" required/>
+                                    <input type="text" class="form-control" id="input-create-lastName" name="lastName" pattern="\S(.*\S)?" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-create-contactNum">Contact No.</label>
-                                    <input type="text" class="form-control" id="input-create-contactNum" name="contactNum" required/>
+                                    <input type="text" class="form-control" id="input-create-contactNum" name="contactNum" pattern="[0-9]+" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
