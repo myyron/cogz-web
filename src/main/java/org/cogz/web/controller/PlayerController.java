@@ -20,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.cogz.web.dto.PlayerDto;
 import org.cogz.web.service.PlayerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +39,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/profiles")
 public class PlayerController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private PlayerService playerService;
 
@@ -48,18 +52,22 @@ public class PlayerController {
     @RequestMapping(value = "/players/list", method = RequestMethod.GET)
     @ResponseBody
     public String getPlayerList() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(playerService.getAllPlayers());
+        String result = new ObjectMapper().writeValueAsString(playerService.getAllPlayers());
+        logger.debug("player list: {}", result);
+        return result;
     }
 
     @RequestMapping(value = "/players/create", method = RequestMethod.POST)
     @ResponseBody
     public Long createPlayer(@RequestParam String playerDto) throws IOException {
+        logger.debug("create player: {}", playerDto);
         return playerService.createPlayer(new ObjectMapper().readValue(playerDto, PlayerDto.class));
     }
 
     @RequestMapping(value = "/players/delete", method = RequestMethod.POST)
     @ResponseBody
     public Long deletePlayer(@RequestParam long id) {
+        logger.debug("delete player: {}", id);
         return playerService.deletePlayer(id);
     }
 
@@ -71,6 +79,7 @@ public class PlayerController {
     @RequestMapping(value = "/player/edit", method = RequestMethod.POST)
     @ResponseBody
     public Long editPlayer(@RequestParam String playerDto) throws IOException {
+        logger.debug("edit player: {}", playerDto);
         return playerService.editPlayer(new ObjectMapper().readValue(playerDto, PlayerDto.class));
     }
 }

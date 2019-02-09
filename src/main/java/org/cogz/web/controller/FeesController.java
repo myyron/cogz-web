@@ -20,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.cogz.web.dto.FeeDto;
 import org.cogz.web.service.FeeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/settings/fees")
 public class FeesController {
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private FeeService feeService;
@@ -47,18 +51,22 @@ public class FeesController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public String getFeeList() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(feeService.getAllFees());
+        String result = new ObjectMapper().writeValueAsString(feeService.getAllFees());
+        logger.debug("fee list: {}", result);
+        return result;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Long createFee(@RequestParam String feeDto) throws IOException {
+        logger.debug("create fee: {}", feeDto);
         return feeService.createFee(new ObjectMapper().readValue(feeDto, FeeDto.class));
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public Long deleteFee(@RequestParam String itemName) {
+        logger.debug("delete fee: {}", itemName);
         return feeService.deleteFee(itemName);
     }
 }

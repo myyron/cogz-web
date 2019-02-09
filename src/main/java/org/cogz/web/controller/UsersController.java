@@ -20,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/settings/users")
 public class UsersController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private UserService userService;
 
@@ -47,30 +51,36 @@ public class UsersController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public String getUserList() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(userService.getAllUsers());
+        String result = new ObjectMapper().writeValueAsString(userService.getAllUsers());
+        logger.debug("user list: {}", result);
+        return result;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Long createUser(@RequestParam String userDto) throws IOException {
+        logger.debug("create user: {}", userDto);
         return userService.createUser(new ObjectMapper().readValue(userDto, UserDto.class));
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
     public Long editUser(@RequestParam String userDto) throws IOException {
+        logger.debug("edit user: {}", userDto);
         return userService.editUser(new ObjectMapper().readValue(userDto, UserDto.class));
     }
 
     @RequestMapping(value = "/resetpw", method = RequestMethod.POST)
     @ResponseBody
     public Long resetPassword(@RequestParam String userDto) throws IOException {
+        logger.debug("reset password: {}", userDto);
         return userService.resetPassword(new ObjectMapper().readValue(userDto, UserDto.class));
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public Long deleteUser(@RequestParam String username) {
+        logger.debug("delete user: {}", username);
         return userService.deleteUser(username);
     }
 }
