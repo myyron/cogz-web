@@ -15,6 +15,8 @@
  */
 package org.cogz.web.dto;
 
+import java.util.List;
+
 /**
  * The player DTO class.
  *
@@ -27,6 +29,7 @@ public class PlayerDto {
     private String firstName;
     private String lastName;
     private String contactNum;
+    private List<GunDto> guns;
 
     public long getId() {
         return id;
@@ -66,5 +69,13 @@ public class PlayerDto {
 
     public void setContactNum(String contactNum) {
         this.contactNum = contactNum;
+    }
+
+    public List<GunDto> getGuns() {
+        return guns;
+    }
+
+    public void setGuns(List<GunDto> guns) {
+        this.guns = guns;
     }
 }

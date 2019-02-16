@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/settings/fees")
 public class FeesController {
-    
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

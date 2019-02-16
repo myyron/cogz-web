@@ -15,8 +15,12 @@
  */
 package org.cogz.web.entity;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,6 +43,10 @@ public class Player extends BaseEntity {
 
     @Column(nullable = false)
     private String contactNum;
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "PLAYER_ID", nullable = false)
+    private List<Gun> guns;
 
     public String getCallSign() {
         return callSign;
@@ -70,5 +78,13 @@ public class Player extends BaseEntity {
 
     public void setContactNum(String contactNum) {
         this.contactNum = contactNum;
+    }
+
+    public List<Gun> getGuns() {
+        return guns;
+    }
+
+    public void setGuns(List<Gun> guns) {
+        this.guns = guns;
     }
 }

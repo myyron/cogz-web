@@ -13,25 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.enums;
 
-import java.util.List;
-import org.cogz.web.dto.PlayerDto;
+import java.util.Objects;
 
 /**
- * The player service interface.
+ * The gun type constants.
  *
  * @author Myyron Latorilla
  */
-public interface PlayerService {
+public enum GunType {
 
-    List<PlayerDto> getAllPlayers();
+    AEG(0),
+    GBBR(1),
+    BASR(2),
+    LMG(3);
 
-    PlayerDto getPlayer(long id);
+    private final Integer code;
 
-    Long createPlayer(PlayerDto playerDto);
+    GunType(Integer code) {
+        this.code = code;
+    }
 
-    Long editPlayer(PlayerDto playerDto);
+    public static GunType getEnum(Integer value) {
+        for (GunType v : values()) {
+            if (Objects.equals(v.getCode(), value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
 
-    Long deletePlayer(long id);
+    public Integer getCode() {
+        return code;
+    }
 }

@@ -13,25 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.dto;
 
-import java.util.List;
-import org.cogz.web.dto.PlayerDto;
+import org.cogz.web.enums.GunType;
 
 /**
- * The player service interface.
+ * The gun DTO class.
  *
  * @author Myyron Latorilla
  */
-public interface PlayerService {
+public class GunDto {
 
-    List<PlayerDto> getAllPlayers();
+    private String name;
+    private String model;
+    private GunType gunType;
 
-    PlayerDto getPlayer(long id);
+    public String getName() {
+        return name;
+    }
 
-    Long createPlayer(PlayerDto playerDto);
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    Long editPlayer(PlayerDto playerDto);
+    public String getModel() {
+        return model;
+    }
 
-    Long deletePlayer(long id);
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public GunType getGunType() {
+        return gunType;
+    }
+
+    public void setGunType(GunType gunType) {
+        this.gunType = gunType;
+    }
 }

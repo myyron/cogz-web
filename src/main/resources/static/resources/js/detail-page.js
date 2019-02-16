@@ -13,28 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * @fileOverview The base list page class.
+ * @fileOverview The base detail page class.
  * @author Myyron Latorilla
  */
-class ListPage extends BasePage {
+class DetailPage extends BasePage {
 
-    constructor(pageName, columns) {
+    constructor(pageName, tableDetail) {
         super(pageName);
-        this._columns = columns;
+        this._tableDetail = tableDetail;
         this._table = this._initTable();
     }
 
     _initTable() {
-        return $('#dt-' + this._pageName).DataTable({
-            ajax: {
-                url: 'list',
-                dataSrc: ''
-            },
-            columns: this._columns,
-            select: {
-                style: 'single'
-            }
-        });
+        let result = [];
+        for (let i = 0; i < this._tableDetail.length; i++) {
+            result[i] = $('#dt-' + this._tableDetail[i].name).DataTable({
+                data: this._tableDetail[i].data,
+                columns: this._tableDetail[i].columns,
+                select: {
+                    style: 'single'
+                }
+            });
+        }
+        return result;
     }
 
 }

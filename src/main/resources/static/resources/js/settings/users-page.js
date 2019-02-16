@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018 Myyron Latorilla
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * @fileOverview The users list page class.
+ * @author Myyron Latorilla
+ */
 class UsersPage extends ListPage {
 
     constructor() {
@@ -12,14 +30,13 @@ class UsersPage extends ListPage {
             {data: 'roleType'}
         ];
         super(pageName, columns);
-        this._pageName = pageName;
         this._initEvents(this);
     }
 
     _initEvents(self) {
         $('#btn-create-' + this._pageName).click(function () {
             $('#input-create-username').val('');
-            $('#input-create-newPw').val('');
+            $('#input-create-new-pw').val('');
         });
 
         $('#btn-edit-' + this._pageName).click(function () {
@@ -28,10 +45,10 @@ class UsersPage extends ListPage {
                 Dialog.alertTableSelect();
             } else {
                 $('#input-edit-username').val(selectedData.username);
-                $('#input-edit-firstname').val(selectedData.firstName);
-                $('#input-edit-lastname').val(selectedData.lastName);
-                $('#input-edit-roleType').val(selectedData.roleType);
-                $('#modal-edit-user').modal('show');
+                $('#input-edit-first-name').val(selectedData.firstName);
+                $('#input-edit-last-name').val(selectedData.lastName);
+                $('#input-edit-role-type').val(selectedData.roleType);
+                $('#modal-edit-' + self._pageName).modal('show');
             }
         });
 
@@ -41,7 +58,7 @@ class UsersPage extends ListPage {
                 Dialog.alertTableSelect();
             } else {
                 $('#input-resetpw-username').val(selectedData.username);
-                $('#modal-resetpw-user').modal('show');
+                $('#modal-resetpw-' + self._pageName).modal('show');
             }
         });
 
@@ -56,15 +73,15 @@ class UsersPage extends ListPage {
             }
         });
 
-        $('#btn-create-save').click(function () {
+        $('#btn-create-' + this._pageName + '-save').click(function () {
             self._ajaxPost('create', self);
         });
 
-        $('#btn-edit-save').click(function () {
+        $('#btn-edit-' + this._pageName + '-save').click(function () {
             self._ajaxPost('edit', self);
         });
 
-        $('#btn-resetpw-save').click(function () {
+        $('#btn-resetpw-' + this._pageName + '-save').click(function () {
             self._ajaxPost('resetpw', self);
         });
     }

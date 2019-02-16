@@ -40,3 +40,14 @@ CREATE TABLE player (
     enabled SMALLINT NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE gun (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    player_id BIGINT NOT NULL,
+    name VARCHAR(32) NOT NULL,
+    model VARCHAR(32) NOT NULL,
+    gun_type SMALLINT NOT NULL,
+    enabled SMALLINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (player_id) REFERENCES player (id)
+);

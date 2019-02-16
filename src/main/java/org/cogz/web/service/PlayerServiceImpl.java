@@ -48,6 +48,14 @@ public class PlayerServiceImpl extends BaseService<PlayerRepository, Player> imp
     }
 
     @Override
+    public PlayerDto getPlayer(long id) {
+        PlayerDto result = new PlayerDto();
+        Player player = playerRepository.findById(id).orElse(null);
+        BeanUtils.copyProperties(player, result);
+        return result;
+    }
+
+    @Override
     @Transactional
     public Long createPlayer(PlayerDto playerDto) {
         Player player = new Player();

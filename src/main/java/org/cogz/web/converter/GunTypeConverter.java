@@ -12,29 +12,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * @fileOverview The base list page class.
+ */
+package org.cogz.web.converter;
+
+import javax.persistence.AttributeConverter;
+import org.cogz.web.enums.FeeType;
+import org.cogz.web.enums.GunType;
+
+/**
+ * The {@link FeeType} attribute converter implementation.
+ *
  * @author Myyron Latorilla
  */
-class ListPage extends BasePage {
+public class GunTypeConverter implements AttributeConverter<GunType, Integer> {
 
-    constructor(pageName, columns) {
-        super(pageName);
-        this._columns = columns;
-        this._table = this._initTable();
+    @Override
+    public Integer convertToDatabaseColumn(GunType attribute) {
+        return attribute != null ? attribute.getCode() : null;
     }
 
-    _initTable() {
-        return $('#dt-' + this._pageName).DataTable({
-            ajax: {
-                url: 'list',
-                dataSrc: ''
-            },
-            columns: this._columns,
-            select: {
-                style: 'single'
-            }
-        });
+    @Override
+    public GunType convertToEntityAttribute(Integer dbData) {
+        return GunType.getEnum(dbData);
     }
 
 }

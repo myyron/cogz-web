@@ -7,7 +7,9 @@
 
     <body class="hold-transition skin-black-light sidebar-mini">
 
-        <div class="modal fade" id="modal-edit-detail">
+        <div id="player-dto" class="hidden" th:text="${playerDtoJson}"></div>
+
+        <div class="modal fade" id="modal-edit-player">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -16,31 +18,27 @@
                         <h4 class="modal-title">Edit Detail</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form">
+                        <form role="form" id="form-edit-player">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="username">Call Sign</label>
-                                    <input type="text" class="form-control" id="username" value="altrax">
+                                    <label for="input-edit-call-sign">Call Sign</label>
+                                    <input type="text" class="form-control" id="input-edit-call-sign" name="callSign" pattern="\S(.*\S)?" required/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" value="Myyron">
+                                    <label for="input-edit-first-name">First Name</label>
+                                    <input type="text" class="form-control" id="input-edit-first-name" name="firstName" pattern="\S(.*\S)?" required/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" value="Latorilla">
+                                    <label for="input-edit-last-name">Last Name</label>
+                                    <input type="text" class="form-control" id="input-edit-last-name" name="lastName" pattern="\S(.*\S)?" required/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="lastName">Contact No.</label>
-                                    <input type="text" class="form-control" id="contactNum" value="09178685555">
-                                </div>
-                                <div class="form-group">
-                                    <label>Team</label>
-                                    <select class="form-control">
-                                        <option></option>
-                                        <option>CoGZ</option>
-                                        <option>Octopus</option>
-                                    </select>
+                                    <label for="input-edit-contact-num">Contact No.</label>
+                                    <input type="text" class="form-control" id="input-edit-contact-num" name="contact-num" pattern="[0-9]+" required/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <!-- /.box-body --> 
@@ -48,7 +46,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                        <button type="button" class="btn btn-primary" id="btn-edit-player-save"><i class="fa fa-save"></i> Close</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -66,34 +64,23 @@
                         <h4 class="modal-title">Add Gun</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form">
+                        <form role="form" id="form-add-gun">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="itemName">Name</label>
-                                    <input type="text" class="form-control" id="itemName">
+                                    <label for="input-add-name">Name</label>
+                                    <input type="text" class="form-control" id="input-add-name" name="name" pattern="\S(.*\S)?" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="quantity">Model</label>
-                                    <input type="text" class="form-control" id="quantity">
+                                    <label for="input-add-model">Model</label>
+                                    <input type="text" class="form-control" id="input-add-model" name="model" pattern="\S(.*\S)?" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label>Type</label>
-                                    <select class="form-control">
-                                        <option></option>
-                                        <option>AEG</option>
-                                        <option>GBBR</option>
-                                        <option>BASR</option>
-                                        <option>LMG</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Make</label>
-                                    <select class="form-control">
-                                        <option></option>
-                                        <option>EC</option>
-                                        <option>JG</option>
-                                        <option>TM</option>
-                                        <option>GHK</option>
+                                    <label for="input-add-gun-type">Type</label>
+                                    <select class="form-control" id="input-add-gun-type" name="gunType">
+                                        <option th:each="gunType : ${T(org.cogz.web.enums.GunType).values()}"
+                                                th:value="${gunType}"
+                                                th:text="${gunType}">
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -102,7 +89,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                        <button type="button" class="btn btn-primary" id="btn-add-gun-save"><i class="fa fa-save"></i> Close</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -120,32 +107,23 @@
                         <h4 class="modal-title">Edit Gun</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form">
+                        <form role="form" id="form-edit-gun">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="itemName">Name</label>
-                                    <input type="text" class="form-control" id="itemName" value="amy">
+                                    <label for="input-edit-name">Name</label>
+                                    <input type="text" class="form-control" id="input-edit-name" name="name" pattern="\S(.*\S)?" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="quantity">Model</label>
-                                    <input type="text" class="form-control" id="quantity" value="HK416D">
+                                    <label for="input-edit-model">Model</label>
+                                    <input type="text" class="form-control" id="input-edit-model" name="model" pattern="\S(.*\S)?" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label>Type</label>
-                                    <select class="form-control">
-                                        <option>AEG</option>
-                                        <option>GBBR</option>
-                                        <option>BASR</option>
-                                        <option>LMG</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Make</label>
-                                    <select class="form-control">
-                                        <option>EC</option>
-                                        <option>JG</option>
-                                        <option>TM</option>
-                                        <option>GHK</option>
+                                    <label for="input-edit-gun-type">Type</label>
+                                    <select class="form-control" id="input-edit-gun-type" name="gunType">
+                                        <option th:each="gunType : ${T(org.cogz.web.enums.GunType).values()}"
+                                                th:value="${gunType}"
+                                                th:text="${gunType}">
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -154,7 +132,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                        <button type="button" class="btn btn-primary" id="btn-edit-gun-save"><i class="fa fa-save"></i> Close</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -176,7 +154,7 @@
                 <section class="content-header">
                     <h1>
                         Profiles
-                        <small>altrax</small>
+                        <small th:text="${playerDto.callSign}"></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a th:href="@{/}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -193,19 +171,19 @@
                             <!-- Custom Tabs -->
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tab_1" data-toggle="tab">Player Detail</a></li>
-                                    <li><a href="#tab_2" data-toggle="tab">Guns</a></li>
+                                    <li class="active"><a href="#tab-player" data-toggle="tab">Player Detail</a></li>
+                                    <li><a href="#tab-gun" data-toggle="tab">Guns</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="tab_1">
+                                    <div class="tab-pane active" id="tab-player">
                                         <div class="box">
                                             <div class="box-header">                                   
                                                 <div class="row">
                                                     <div class="col-xs-12">
-                                                        <button type="button" class="btn" data-toggle="modal" data-target="#modal-edit-detail">
+                                                        <button id="btn-edit-player" type="button" class="btn">
                                                             <i class="fa fa-edit"></i> Edit Detail
                                                         </button>
-                                                        <button type="button" class="btn btn-danger">
+                                                        <button id="btn-delete-player" type="button" class="btn btn-danger">
                                                             <i class="fa fa-trash"></i> Delete Player
                                                         </button>
                                                     </div>
@@ -215,31 +193,27 @@
                                             <div class="box-body">
                                                 <form class="form-horizontal">
                                                     <div class="form-group">
-                                                        <label for="inputEmail3" class="col-sm-2 control-label">Call Sign</label>
-
+                                                        <label for="call-sign" class="col-sm-2 control-label">Call Sign</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="inputEmail3" value="altrax" disabled>
+                                                            <input type="text" class="form-control" id="call-sign" th:value="${playerDto.callSign}" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputPassword3" class="col-sm-2 control-label">First Name</label>
-
+                                                        <label for="first-name" class="col-sm-2 control-label">First Name</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="inputPassword3" value="Myyron" disabled>
+                                                            <input type="text" class="form-control" id="first-name" th:value="${playerDto.firstName}" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputPassword3" class="col-sm-2 control-label">Last Name</label>
-
+                                                        <label for="last-name" class="col-sm-2 control-label">Last Name</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="inputPassword3" value="Latorilla" disabled>
+                                                            <input type="text" class="form-control" id="last-name" th:value="${playerDto.lastName}" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputPassword3" class="col-sm-2 control-label">Contact No.</label>
-
+                                                        <label for="contact-num" class="col-sm-2 control-label">Contact No.</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="inputPassword3" value="09178685555" disabled>
+                                                            <input type="text" class="form-control" id="contact-num" th:value="${playerDto.contactNum}" disabled>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -249,7 +223,7 @@
                                         <!-- /.box -->
                                     </div>
                                     <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="tab_2">
+                                    <div class="tab-pane" id="tab-gun">
                                         <div class="box">
                                             <div class="box-header">                                   
                                                 <div class="row">
@@ -268,29 +242,14 @@
                                             </div>
                                             <!-- /.box-header -->
                                             <div class="box-body">
-                                                <table id="dt-guns" class="table table-bordered table-striped">
+                                                <table id="dt-gun" class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
                                                             <th>Name</th>
                                                             <th>Model</th>
                                                             <th>Type</th>
-                                                            <th>Make</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>amy</td>
-                                                            <td>HK416D</td>
-                                                            <td>AEG</td>
-                                                            <td>EC</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>rishi</td>
-                                                            <td>M4A1</td>
-                                                            <td>GBBR</td>
-                                                            <td>WE</td>
-                                                        </tr>
-                                                    </tbody>
                                                 </table>
                                             </div>
                                             <!-- /.box-body -->
@@ -318,13 +277,11 @@
 
         <div th:replace="fragments/footer :: js-import"/>
         <script th:replace="fragments/sidebar :: selectedMenu(prof-players)"></script>
-        <script>
+        <script th:src="@{/resources/js/detail-page.js}"></script>
+        <script th:src="@{/resources/js/profiles/player-page.js}"></script>
+        <script th:inline="javascript">
             $(function () {
-                $('#dt-guns').DataTable({
-                    select: {
-                        style: 'single'
-                    }
-                });
+                new PlayerPage();
             });
         </script>
 
