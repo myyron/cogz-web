@@ -23,7 +23,7 @@ class PlayersPage extends ListPage {
         let columns = [
             {data: null,
                 render: function (data) {
-                    return '<a href="/profiles/player/' + data.id + '">' + data.callSign + '</a>';
+                    return '<a href="/profiles/player/' + data.id + '"><i class="fa fa-edit"></i> ' + data.callSign + '</a>';
                 }
             },
             {data: null,
@@ -44,7 +44,7 @@ class PlayersPage extends ListPage {
                 Dialog.alertTableSelect();
             } else {
                 Dialog.alertDelete(function () {
-                    self._ajaxPost('delete', self, false, {itemName: selectedData.itemName});
+                    self._ajaxPost('delete', self, false, {id: selectedData.id});
                 });
             }
         });

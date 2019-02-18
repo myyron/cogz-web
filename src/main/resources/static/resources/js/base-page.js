@@ -43,7 +43,7 @@ class BasePage {
                 }, {});
     }
 
-    _ajaxPost(operation, self, retainModal, oData) {
+    _ajaxPost(operation, self, retainModal, oData, callback) {
 
         let data = {};
         if (typeof oData === 'undefined') {
@@ -71,6 +71,9 @@ class BasePage {
                         $('#modal-' + operation + '-' + self._pageName).modal('hide');
                     }
                     $('#dt-' + self._pageName).DataTable().ajax.reload();
+                    if (typeof callback !== 'undefined') {
+                        callback();
+                    }
                 })
                 .fail(function (jqXHR) {
                     Dialog.alertError(jqXHR.responseText);

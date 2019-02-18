@@ -32,13 +32,15 @@ class PlayerPage extends DetailPage {
                 ]
             }
         ];
-        super(pageName, tableDetail);
+        super(pageName, tableDetail, playerDto.callSign);
         this._playerDto = playerDto;
         this._initEvents(this);
+        this._loadDetail();
     }
 
     _initEvents(self) {
         $('#btn-edit-' + this._pageName).click(function () {
+            $('#input-edit-id').val(self._playerDto.id);
             $('#input-edit-call-sign').val(self._playerDto.callSign);
             $('#input-edit-first-name').val(self._playerDto.firstName);
             $('#input-edit-last-name').val(self._playerDto.lastName);
@@ -46,15 +48,22 @@ class PlayerPage extends DetailPage {
             $('#modal-edit-' + self._pageName).modal('show');
         });
 
-        $('#btn-delete-' + this._pageName).click(function () {
-            Dialog.alertDelete(function () {
-                self._ajaxPost('detail/delete', self, false, {id: selectedData.itemName});
+        $('#btn-edit-' + this._pageName + '-save').click(function () {
+            self._ajaxPost('edit', self, false, undefined, function () {
+                window.location.href = "/profiles/player/" + self._playerDto.id; //replace this with ajax returning edited player dto
             });
         });
 
         $('#btn-create-gun-save').click(function () {
             self._ajaxPost('detail/gun/create', self);
         });
+    }
+
+    _loadDetail() {
+        $('#call-sign').val(this._playerDto.callSign);
+        $('#first-name').val(this._playerDto.firstName);
+        $('#last-name').val(this._playerDto.lastName);
+        $('#contact-num').val(this._playerDto.contactNum);
     }
 
 }

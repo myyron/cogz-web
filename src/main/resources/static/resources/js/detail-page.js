@@ -18,17 +18,22 @@
  */
 class DetailPage extends BasePage {
 
-    constructor(pageName, tableDetail) {
+    constructor(pageName, tableDetail, header) {
         super(pageName);
         this._tableDetail = tableDetail;
         this._table = this._initTable();
+        $('#header').text(header);
     }
 
     _initTable() {
         let result = [];
         for (let i = 0; i < this._tableDetail.length; i++) {
+            let data = null;
+            if (this._tableDetail[i].data.length) {
+                data = this._tableDetail[i].data;
+            }
             result[i] = $('#dt-' + this._tableDetail[i].name).DataTable({
-                data: this._tableDetail[i].data,
+                data: data,
                 columns: this._tableDetail[i].columns,
                 select: {
                     style: 'single'

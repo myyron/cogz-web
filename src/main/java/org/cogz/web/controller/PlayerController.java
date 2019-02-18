@@ -74,11 +74,9 @@ public class PlayerController {
 
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public String showPlayerDetailPage(Model model, @PathVariable("id") long id) throws JsonProcessingException {
-        PlayerDto playerDto = playerService.getPlayer(id);
-        String playerDtoJson = new ObjectMapper().writeValueAsString(playerDto);
-        logger.debug("player detail: {}", playerDtoJson);
+        String playerDto = new ObjectMapper().writeValueAsString(playerService.getPlayer(id));
+        logger.debug("player detail: {}", playerDto);
         model.addAttribute("playerDto", playerDto);
-        model.addAttribute("playerDtoJson", playerDtoJson);
         return "profiles/player";
     }
 

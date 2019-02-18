@@ -7,7 +7,7 @@
 
     <body class="hold-transition skin-black-light sidebar-mini">
 
-        <div id="player-dto" class="hidden" th:text="${playerDtoJson}"></div>
+        <div id="player-dto" class="hidden" th:text="${playerDto}"></div>
 
         <div class="modal fade" id="modal-edit-player">
             <div class="modal-dialog modal-sm">
@@ -19,6 +19,7 @@
                     </div>
                     <div class="modal-body">
                         <form role="form" id="form-edit-player">
+                            <input type="hidden" id="input-edit-id" name="id"/>
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="input-edit-call-sign">Call Sign</label>
@@ -37,7 +38,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="input-edit-contact-num">Contact No.</label>
-                                    <input type="text" class="form-control" id="input-edit-contact-num" name="contact-num" pattern="[0-9]+" required/>
+                                    <input type="text" class="form-control" id="input-edit-contact-num" name="contactNum" pattern="[0-9]+" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -154,7 +155,7 @@
                 <section class="content-header">
                     <h1>
                         Profiles
-                        <small th:text="${playerDto.callSign}"></small>
+                        <small id="header"></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a th:href="@{/}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -183,9 +184,6 @@
                                                         <button id="btn-edit-player" type="button" class="btn">
                                                             <i class="fa fa-edit"></i> Edit Detail
                                                         </button>
-                                                        <button id="btn-delete-player" type="button" class="btn btn-danger">
-                                                            <i class="fa fa-trash"></i> Delete Player
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -194,26 +192,26 @@
                                                 <form class="form-horizontal">
                                                     <div class="form-group">
                                                         <label for="call-sign" class="col-sm-2 control-label">Call Sign</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="call-sign" th:value="${playerDto.callSign}" disabled>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="call-sign" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="first-name" class="col-sm-2 control-label">First Name</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="first-name" th:value="${playerDto.firstName}" disabled>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="first-name" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="last-name" class="col-sm-2 control-label">Last Name</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="last-name" th:value="${playerDto.lastName}" disabled>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="last-name" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="contact-num" class="col-sm-2 control-label">Contact No.</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="contact-num" th:value="${playerDto.contactNum}" disabled>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="contact-num" disabled>
                                                         </div>
                                                     </div>
                                                 </form>
