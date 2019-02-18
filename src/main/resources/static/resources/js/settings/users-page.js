@@ -68,21 +68,21 @@ class UsersPage extends ListPage {
                 Dialog.alertTableSelect();
             } else {
                 Dialog.alertDelete(function () {
-                    self._ajaxPost('delete', self, false, {username: selectedData.username});
+                    self._ajaxListUpdate('delete', self, false, {username: selectedData.username});
                 });
             }
         });
 
         $('#btn-create-' + this._pageName + '-save').click(function () {
-            self._ajaxPost('create', self);
+            self._ajaxListUpdate('create', self);
         });
 
         $('#btn-edit-' + this._pageName + '-save').click(function () {
-            self._ajaxPost('edit', self);
+            self._ajaxListUpdate('edit', self);
         });
 
         $('#btn-resetpw-' + this._pageName + '-save').click(function () {
-            self._ajaxPost('resetpw', self);
+            self._ajaxListUpdate('resetpw', self);
         });
     }
 

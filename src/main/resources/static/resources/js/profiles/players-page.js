@@ -44,17 +44,17 @@ class PlayersPage extends ListPage {
                 Dialog.alertTableSelect();
             } else {
                 Dialog.alertDelete(function () {
-                    self._ajaxPost('delete', self, false, {id: selectedData.id});
+                    self._ajaxListUpdate('delete', self, false, {id: selectedData.id});
                 });
             }
         });
 
         $('#btn-create-' + this._pageName + '-save').click(function () {
-            self._ajaxPost('create', self);
+            self._ajaxListUpdate('create', self);
         });
 
         $('#btn-create-' + this._pageName + '-save-add').click(function () {
-            self._ajaxPost('create', self, true);
+            self._ajaxListUpdate('create', self, true);
         });
     }
 

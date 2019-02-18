@@ -43,19 +43,22 @@ class BasePage {
                 }, {});
     }
 
-    _ajaxPost(operation, self, retainModal, oData, callback) {
-
-        let data = {};
+    _getAjaxData(operation, oData) {
+        let result = {};
         if (typeof oData === 'undefined') {
             if ($('#form-' + operation + '-' + this._pageName).validator('validate').has('.has-error').length) {
                 return;
             } else {
-                data = {[this._pageName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
+                result = {[this._pageName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
             }
         } else {
-            data = oData;
+            result = oData;
         }
+        return result;
+    }
 
+    _ajaxListUpdate(operation, self, retainModal, oData, callback) {
+        let data = this._getAjaxData(operation, oData);
         $.ajax({
             method: 'POST',
             url: operation,
@@ -73,6 +76,27 @@ class BasePage {
                     $('#dt-' + self._pageName).DataTable().ajax.reload();
                     if (typeof callback !== 'undefined') {
                         callback();
+                    }
+                })
+                .fail(function (jqXHR) {
+                    Dialog.alertError(jqXHR.responseText);
+                });
+    }
+
+    _ajaxDetailUpdate(operation, self, oData, callback) {
+        let data = this._getAjaxData(operation, oData);
+        $.ajax({
+            method: 'POST',
+            url: operation,
+            data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
+            }
+        })
+                .done(function (resultData) {
+                    $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    if (typeof callback !== 'undefined') {
+                        callback(resultData);
                     }
                 })
                 .fail(function (jqXHR) {

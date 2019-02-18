@@ -82,8 +82,9 @@ public class PlayerController {
 
     @RequestMapping(value = "/player/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Long editPlayer(@RequestParam String playerDto) throws IOException {
+    public String editPlayer(@RequestParam String playerDto) throws IOException {
         logger.debug("edit player: {}", playerDto);
-        return playerService.editPlayer(new ObjectMapper().readValue(playerDto, PlayerDto.class));
+        playerService.editPlayer(new ObjectMapper().readValue(playerDto, PlayerDto.class));
+        return playerDto;
     }
 }

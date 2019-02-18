@@ -49,13 +49,14 @@ class PlayerPage extends DetailPage {
         });
 
         $('#btn-edit-' + this._pageName + '-save').click(function () {
-            self._ajaxPost('edit', self, false, undefined, function () {
-                window.location.href = "/profiles/player/" + self._playerDto.id; //replace this with ajax returning edited player dto
+            self._ajaxDetailUpdate('edit', self, undefined, function (resultData) {
+                self._playerDto = $.parseJSON(resultData);
+                self._loadDetail();
             });
         });
 
         $('#btn-create-gun-save').click(function () {
-            self._ajaxPost('detail/gun/create', self);
+            self._ajaxListUpdate('detail/gun/create', self);
         });
     }
 

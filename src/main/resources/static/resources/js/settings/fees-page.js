@@ -45,13 +45,13 @@ class FeesPage extends ListPage {
                 Dialog.alertTableSelect();
             } else {
                 Dialog.alertDelete(function () {
-                    self._ajaxPost('delete', self, false, {itemName: selectedData.itemName});
+                    self._ajaxListUpdate('delete', self, false, {itemName: selectedData.itemName});
                 });
             }
         });
 
         $('#btn-create-' + this._pageName + '-save').click(function () {
-            self._ajaxPost('create', self);
+            self._ajaxListUpdate('create', self);
         });
     }
 
