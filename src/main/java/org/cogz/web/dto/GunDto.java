@@ -24,16 +24,25 @@ import org.cogz.web.enums.GunType;
  */
 public class GunDto {
 
-    private long playerId;
+    private Long id;
+    private Long playerId;
     private String name;
     private String model;
     private GunType gunType;
 
-    public long getPlayerId() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPlayerId() {
         return playerId;
     }
 
-    public void setPlayerId(long playerId) {
+    public void setPlayerId(Long playerId) {
         this.playerId = playerId;
     }
 

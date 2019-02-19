@@ -96,4 +96,12 @@ public class PlayerController {
         playerService.addGun(new ObjectMapper().readValue(gunDto, GunDto.class));
         return gunDto;
     }
+
+    @RequestMapping(value = "/player/edit-gun", method = RequestMethod.POST)
+    @ResponseBody
+    public String editGun(@RequestParam String gunDto) throws IOException {
+        logger.debug("edit gun: {}", gunDto);
+        playerService.editGun(new ObjectMapper().readValue(gunDto, GunDto.class));
+        return gunDto;
+    }
 }

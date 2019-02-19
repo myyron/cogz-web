@@ -64,7 +64,7 @@ class DetailPage extends BasePage {
                 });
     }
 
-    _ajaxDetailListUpdate(operation, self, subListName, tableIndex, oData, callback) {
+    _ajaxDetailListUpdate(operation, self, subListName, oData, callback) {
         let data = this._getAjaxData(operation, subListName, oData);
         $.ajax({
             method: 'POST',

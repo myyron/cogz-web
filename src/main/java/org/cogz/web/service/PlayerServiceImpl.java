@@ -90,4 +90,17 @@ public class PlayerServiceImpl extends BaseService<PlayerRepository, Player> imp
         player.getGuns().add(gun);
         return edit(player);
     }
+
+    @Override
+    @Transactional
+    public Long editGun(GunDto gunDto) {
+        Player player = playerRepository.findById(gunDto.getPlayerId()).orElse(null);
+        for (Gun gun : player.getGuns()) {
+            if (gun.getId().equals(gunDto.getId())) {
+                BeanUtils.copyProperties(gunDto, gun);
+                break;
+            }
+        }
+        return edit(player);
+    }
 }

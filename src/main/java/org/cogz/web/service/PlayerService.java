@@ -37,4 +37,6 @@ public interface PlayerService {
     Long deletePlayer(long id);
 
     Long addGun(GunDto gunDto);
+
+    Long editGun(GunDto gunDto);
 }

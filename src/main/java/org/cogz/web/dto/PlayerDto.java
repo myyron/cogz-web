@@ -24,18 +24,18 @@ import java.util.List;
  */
 public class PlayerDto {
 
-    private long id;
+    private Long id;
     private String callSign;
     private String firstName;
     private String lastName;
     private String contactNum;
     private List<GunDto> guns;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

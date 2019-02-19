@@ -34,6 +34,7 @@ class PlayerPage extends DetailPage {
         ];
         super(pageName, tableDetail, playerDto.callSign);
         this._playerDto = playerDto;
+        this._gunTableIndex = 0;
         this._initEvents(this);
         this._loadDetail();
     }
@@ -56,10 +57,50 @@ class PlayerPage extends DetailPage {
         });
 
         $('#btn-add-gun-' + this._pageName + '-save').click(function () {
-            let gunTableIndex = 0;
             $('#input-add-gun-player-id').val(self._playerDto.id);
-            self._ajaxDetailListUpdate('add-gun', self, 'gun', gunTableIndex, undefined, function (resultData) {
-                self._table[gunTableIndex].row.add($.parseJSON(resultData)).draw();
+            self._ajaxDetailListUpdate('add-gun', self, 'gun', undefined, function (resultData) {
+                self._table[self._gunTableIndex].row.add($.parseJSON(resultData)).draw();
+            });
+        });
+
+        $('#btn-edit-gun-' + this._pageName).click(function () {
+            let selectedData = self._table[self._gunTableIndex].row('.selected').data();
+            if (typeof selectedData === 'undefined') {
+                Dialog.alertTableSelect();
+            } else {
+                $('#input-edit-gun-player-id').val(self._playerDto.id);
+                $('#input-edit-gun-id').val(selectedData.id);
+                $('#input-edit-gun-name').val(selectedData.name);
+                $('#input-edit-gun-model').val(selectedData.model);
+                $('#input-edit-gun-type').val(selectedData.gunType);
+                $('#modal-edit-gun-' + self._pageName).modal('show');
+            }
+        });
+
+        $('#btn-delete-gun-' + this._pageName).click(function () {
+            let selectedData = self._table[self._gunTableIndex].row('.selected').data();
+            if (typeof selectedData === 'undefined') {
+                Dialog.alertTableSelect();
+            } else {
+                Dialog.alertDelete(function () {
+                    self._ajaxListUpdate('delete-gun', self, false, {id: selectedData.id});
+                });
+            }
+        });
+
+        $('#btn-edit-gun-' + this._pageName + '-save').click(function () {
+            self._ajaxDetailListUpdate('edit-gun', self, 'gun', undefined, function (resultData) {
+                let resultJSON = $.parseJSON(resultData);
+                let dataIndex = -1;
+                self._table[self._gunTableIndex].row(function (idx, data, node) {
+                    if (data.id == resultJSON.id) {
+                        dataIndex = idx;
+                    }
+                    return false;
+                });
+                self._table[self._gunTableIndex].row(dataIndex).data(resultJSON).draw();
+
+//                self._table[self._gunTableIndex].row(resultJSON.id).data(resultJSON).draw();
             });
         });
     }
