@@ -91,8 +91,9 @@ public class PlayerController {
 
     @RequestMapping(value = "/player/add-gun", method = RequestMethod.POST)
     @ResponseBody
-    public Long addGun(@RequestParam String gunDto) throws IOException {
+    public String addGun(@RequestParam String gunDto) throws IOException {
         logger.debug("add gun: {}", gunDto);
-        return playerService.addGun(new ObjectMapper().readValue(gunDto, GunDto.class));
+        playerService.addGun(new ObjectMapper().readValue(gunDto, GunDto.class));
+        return gunDto;
     }
 }

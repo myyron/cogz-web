@@ -37,4 +37,29 @@ class ListPage extends BasePage {
         });
     }
 
+    _ajaxListUpdate(operation, self, retainModal, oData, callback) {
+        let data = this._getAjaxData(operation, this._pageName, oData);
+        $.ajax({
+            method: 'POST',
+            url: operation,
+            data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
+            }
+        })
+                .done(function () {
+                    if (retainModal) {
+                        $('#form-' + operation + '-' + self._pageName)[0].reset();
+                    } else {
+                        $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    }
+                    self._table.ajax.reload();
+                    if (typeof callback !== 'undefined') {
+                        callback();
+                    }
+                })
+                .fail(function (jqXHR) {
+                    Dialog.alertError(jqXHR.responseText);
+                });
+    }
 }

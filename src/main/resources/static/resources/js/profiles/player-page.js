@@ -56,8 +56,11 @@ class PlayerPage extends DetailPage {
         });
 
         $('#btn-add-gun-' + this._pageName + '-save').click(function () {
+            let gunTableIndex = 0;
             $('#input-add-gun-player-id').val(self._playerDto.id);
-            self._ajaxDetailListUpdate('add-gun', self, 'gun');
+            self._ajaxDetailListUpdate('add-gun', self, 'gun', gunTableIndex, undefined, function (resultData) {
+                self._table[gunTableIndex].row.add($.parseJSON(resultData)).draw();
+            });
         });
     }
 

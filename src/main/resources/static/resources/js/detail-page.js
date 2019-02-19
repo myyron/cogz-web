@@ -43,4 +43,45 @@ class DetailPage extends BasePage {
         return result;
     }
 
+    _ajaxDetailUpdate(operation, self, oData, callback) {
+        let data = this._getAjaxData(operation, this._pageName, oData);
+        $.ajax({
+            method: 'POST',
+            url: operation,
+            data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
+            }
+        })
+                .done(function (resultData) {
+                    $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    if (typeof callback !== 'undefined') {
+                        callback(resultData);
+                    }
+                })
+                .fail(function (jqXHR) {
+                    Dialog.alertError(jqXHR.responseText);
+                });
+    }
+
+    _ajaxDetailListUpdate(operation, self, subListName, tableIndex, oData, callback) {
+        let data = this._getAjaxData(operation, subListName, oData);
+        $.ajax({
+            method: 'POST',
+            url: operation,
+            data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
+            }
+        })
+                .done(function (resultData) {
+                    $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    if (typeof callback !== 'undefined') {
+                        callback(resultData);
+                    }
+                })
+                .fail(function (jqXHR) {
+                    Dialog.alertError(jqXHR.responseText);
+                });
+    }
 }
