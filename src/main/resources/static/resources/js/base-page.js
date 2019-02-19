@@ -43,13 +43,13 @@ class BasePage {
                 }, {});
     }
 
-    _getAjaxData(operation, oData) {
+    _getAjaxData(operation, dtoName, oData) {
         let result = {};
         if (typeof oData === 'undefined') {
             if ($('#form-' + operation + '-' + this._pageName).validator('validate').has('.has-error').length) {
                 return;
             } else {
-                result = {[this._pageName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
+                result = {[dtoName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
             }
         } else {
             result = oData;
@@ -58,7 +58,7 @@ class BasePage {
     }
 
     _ajaxListUpdate(operation, self, retainModal, oData, callback) {
-        let data = this._getAjaxData(operation, oData);
+        let data = this._getAjaxData(operation, this._pageName, oData);
         $.ajax({
             method: 'POST',
             url: operation,
@@ -84,7 +84,7 @@ class BasePage {
     }
 
     _ajaxDetailUpdate(operation, self, oData, callback) {
-        let data = this._getAjaxData(operation, oData);
+        let data = this._getAjaxData(operation, this._pageName, oData);
         $.ajax({
             method: 'POST',
             url: operation,
@@ -97,6 +97,28 @@ class BasePage {
                     $('#modal-' + operation + '-' + self._pageName).modal('hide');
                     if (typeof callback !== 'undefined') {
                         callback(resultData);
+                    }
+                })
+                .fail(function (jqXHR) {
+                    Dialog.alertError(jqXHR.responseText);
+                });
+    }
+
+    _ajaxDetailListUpdate(operation, self, subListName, oData, callback) {
+        let data = this._getAjaxData(operation, subListName, oData);
+        $.ajax({
+            method: 'POST',
+            url: operation,
+            data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(self._csrfHeader, self._csrfToken);
+            }
+        })
+                .done(function () {
+                    $('#modal-' + operation + '-' + self._pageName).modal('hide');
+                    $('#dt-' + subListName).DataTable().ajax.reload();
+                    if (typeof callback !== 'undefined') {
+                        callback();
                     }
                 })
                 .fail(function (jqXHR) {

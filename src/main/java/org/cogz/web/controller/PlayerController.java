@@ -18,6 +18,7 @@ package org.cogz.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import org.cogz.web.dto.GunDto;
 import org.cogz.web.dto.PlayerDto;
 import org.cogz.web.service.PlayerService;
 import org.slf4j.Logger;
@@ -86,5 +87,12 @@ public class PlayerController {
         logger.debug("edit player: {}", playerDto);
         playerService.editPlayer(new ObjectMapper().readValue(playerDto, PlayerDto.class));
         return playerDto;
+    }
+
+    @RequestMapping(value = "/player/add-gun", method = RequestMethod.POST)
+    @ResponseBody
+    public Long addGun(@RequestParam String gunDto) throws IOException {
+        logger.debug("add gun: {}", gunDto);
+        return playerService.addGun(new ObjectMapper().readValue(gunDto, GunDto.class));
     }
 }

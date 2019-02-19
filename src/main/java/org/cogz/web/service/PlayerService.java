@@ -16,6 +16,7 @@
 package org.cogz.web.service;
 
 import java.util.List;
+import org.cogz.web.dto.GunDto;
 import org.cogz.web.dto.PlayerDto;
 
 /**
@@ -34,4 +35,6 @@ public interface PlayerService {
     Long editPlayer(PlayerDto playerDto);
 
     Long deletePlayer(long id);
+
+    Long addGun(GunDto gunDto);
 }

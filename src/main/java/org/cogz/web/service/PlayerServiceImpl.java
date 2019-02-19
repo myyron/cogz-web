@@ -17,7 +17,9 @@ package org.cogz.web.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.cogz.web.dto.GunDto;
 import org.cogz.web.dto.PlayerDto;
+import org.cogz.web.entity.Gun;
 import org.cogz.web.entity.Player;
 import org.cogz.web.repo.PlayerRepository;
 import org.springframework.beans.BeanUtils;
@@ -77,5 +79,15 @@ public class PlayerServiceImpl extends BaseService<PlayerRepository, Player> imp
         Player player = playerRepository.findById(id).orElse(null);
         player.setEnabled(0);
         return delete(player);
+    }
+
+    @Override
+    @Transactional
+    public Long addGun(GunDto gunDto) {
+        Player player = playerRepository.findById(gunDto.getPlayerId()).orElse(null);
+        Gun gun = new Gun();
+        BeanUtils.copyProperties(gunDto, gun);
+        player.getGuns().add(gun);
+        return edit(player);
     }
 }

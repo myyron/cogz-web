@@ -26,9 +26,9 @@ class PlayerPage extends DetailPage {
                 name: 'gun',
                 data: playerDto.guns,
                 columns: [
-                    {data: 'alias'},
+                    {data: 'name'},
                     {data: 'model'},
-                    {data: 'type'}
+                    {data: 'gunType'}
                 ]
             }
         ];
@@ -55,8 +55,9 @@ class PlayerPage extends DetailPage {
             });
         });
 
-        $('#btn-create-gun-save').click(function () {
-            self._ajaxListUpdate('detail/gun/create', self);
+        $('#btn-add-gun-' + this._pageName + '-save').click(function () {
+            $('#input-add-gun-player-id').val(self._playerDto.id);
+            self._ajaxDetailListUpdate('add-gun', self, 'gun');
         });
     }
 
