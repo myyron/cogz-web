@@ -41,7 +41,7 @@ public class PlayerServiceImpl extends BaseService<PlayerRepository, Player> imp
     @Override
     public List<PlayerDto> getAllPlayers() {
         List<PlayerDto> result = new ArrayList<>();
-        for (Player player : playerRepository.findAllByEnabled(1)) {
+        for (Player player : playerRepository.findAllByEnabled()) {
             PlayerDto playerDto = new PlayerDto();
             BeanUtils.copyProperties(player, playerDto);
             result.add(playerDto);
@@ -98,6 +98,19 @@ public class PlayerServiceImpl extends BaseService<PlayerRepository, Player> imp
         for (Gun gun : player.getGuns()) {
             if (gun.getId().equals(gunDto.getId())) {
                 BeanUtils.copyProperties(gunDto, gun);
+                break;
+            }
+        }
+        return edit(player);
+    }
+
+    @Override
+    @Transactional
+    public Long deleteGun(long playerId, long gunId) {
+        Player player = playerRepository.findById(playerId).orElse(null);
+        for (Gun gun : player.getGuns()) {
+            if (gun.getId() == gunId) {
+                gun.setEnabled(0);
                 break;
             }
         }

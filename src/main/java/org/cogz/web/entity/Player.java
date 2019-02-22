@@ -19,9 +19,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.Transient;
 
 /**
  * The player entity class.
@@ -44,8 +47,9 @@ public class Player extends BaseEntity {
     @Column(nullable = false)
     private String contactNum;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "PLAYER_ID", nullable = false)
+    @Where(clause = "enabled = 1")
     private List<Gun> guns;
 
     public String getCallSign() {
@@ -80,6 +84,7 @@ public class Player extends BaseEntity {
         this.contactNum = contactNum;
     }
 
+    @Transient
     public List<Gun> getGuns() {
         return guns;
     }

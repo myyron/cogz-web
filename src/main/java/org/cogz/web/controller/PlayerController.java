@@ -104,4 +104,11 @@ public class PlayerController {
         playerService.editGun(new ObjectMapper().readValue(gunDto, GunDto.class));
         return gunDto;
     }
+
+    @RequestMapping(value = "/player/delete-gun", method = RequestMethod.POST)
+    @ResponseBody
+    public Long deleteGun(@RequestParam long playerId, @RequestParam long gunId) {
+        logger.debug("delete gun: {},{}", playerId, gunId);
+        return playerService.deleteGun(playerId, gunId);
+    }
 }

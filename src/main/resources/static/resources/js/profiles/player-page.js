@@ -83,7 +83,17 @@ class PlayerPage extends DetailPage {
                 Dialog.alertTableSelect();
             } else {
                 Dialog.alertDelete(function () {
-                    self._ajaxListUpdate('delete-gun', self, false, {id: selectedData.id});
+                    self._ajaxDetailListUpdate('delete-gun', self, 'gun'
+                            , {playerId: self._playerDto.id, gunId: selectedData.id}, function () {
+                        let dataIndex = -1;
+                        self._table[self._gunTableIndex].row(function (idx, data) {
+                            if (data.id === selectedData.id) {
+                                dataIndex = idx;
+                            }
+                            return false;
+                        });
+                        self._table[self._gunTableIndex].row(dataIndex).remove().draw();
+                    });
                 });
             }
         });
@@ -92,15 +102,13 @@ class PlayerPage extends DetailPage {
             self._ajaxDetailListUpdate('edit-gun', self, 'gun', undefined, function (resultData) {
                 let resultJSON = $.parseJSON(resultData);
                 let dataIndex = -1;
-                self._table[self._gunTableIndex].row(function (idx, data, node) {
+                self._table[self._gunTableIndex].row(function (idx, data) {
                     if (data.id == resultJSON.id) {
                         dataIndex = idx;
                     }
                     return false;
                 });
                 self._table[self._gunTableIndex].row(dataIndex).data(resultJSON).draw();
-
-//                self._table[self._gunTableIndex].row(resultJSON.id).data(resultJSON).draw();
             });
         });
     }

@@ -18,6 +18,7 @@ package org.cogz.web.repo;
 import java.util.List;
 import org.cogz.web.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * The player repository interface.
@@ -26,5 +27,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    List<Player> findAllByEnabled(Integer enabled);
+    @Query("select p from Player p left join fetch p.guns where p.enabled = 1")
+    List<Player> findAllByEnabled();
 }
