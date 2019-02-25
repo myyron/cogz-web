@@ -24,7 +24,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Where;
-import org.springframework.data.annotation.Transient;
 
 /**
  * The player entity class.
@@ -84,7 +83,6 @@ public class Player extends BaseEntity {
         this.contactNum = contactNum;
     }
 
-    @Transient
     public List<Gun> getGuns() {
         return guns;
     }

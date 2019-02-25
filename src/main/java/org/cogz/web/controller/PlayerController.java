@@ -93,8 +93,8 @@ public class PlayerController {
     @ResponseBody
     public String addGun(@RequestParam String gun) throws IOException {
         logger.debug("add gun: {}", gun);
-        playerService.addGun(new ObjectMapper().readValue(gun, Gun.class));
-        return gun;
+        Gun persistedGun = playerService.addGun(new ObjectMapper().readValue(gun, Gun.class));
+        return new ObjectMapper().writeValueAsString(persistedGun);
     }
 
     @RequestMapping(value = "/player/edit-gun", method = RequestMethod.POST)
