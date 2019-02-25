@@ -18,8 +18,8 @@ package org.cogz.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import org.cogz.web.dto.GunDto;
-import org.cogz.web.dto.PlayerDto;
+import org.cogz.web.entity.Gun;
+import org.cogz.web.entity.Player;
 import org.cogz.web.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,9 +61,9 @@ public class PlayerController {
 
     @RequestMapping(value = "/players/create", method = RequestMethod.POST)
     @ResponseBody
-    public Long createPlayer(@RequestParam String playerDto) throws IOException {
-        logger.debug("create player: {}", playerDto);
-        return playerService.createPlayer(new ObjectMapper().readValue(playerDto, PlayerDto.class));
+    public Long createPlayer(@RequestParam String player) throws IOException {
+        logger.debug("create player: {}", player);
+        return playerService.createPlayer(new ObjectMapper().readValue(player, Player.class));
     }
 
     @RequestMapping(value = "/players/delete", method = RequestMethod.POST)
@@ -75,34 +75,34 @@ public class PlayerController {
 
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public String showPlayerDetailPage(Model model, @PathVariable("id") long id) throws JsonProcessingException {
-        String playerDto = new ObjectMapper().writeValueAsString(playerService.getPlayer(id));
-        logger.debug("player detail: {}", playerDto);
-        model.addAttribute("playerDto", playerDto);
+        String player = new ObjectMapper().writeValueAsString(playerService.getPlayer(id));
+        logger.debug("player detail: {}", player);
+        model.addAttribute("player", player);
         return "profiles/player";
     }
 
     @RequestMapping(value = "/player/edit", method = RequestMethod.POST)
     @ResponseBody
-    public String editPlayer(@RequestParam String playerDto) throws IOException {
-        logger.debug("edit player: {}", playerDto);
-        playerService.editPlayer(new ObjectMapper().readValue(playerDto, PlayerDto.class));
-        return playerDto;
+    public String editPlayer(@RequestParam String player) throws IOException {
+        logger.debug("edit player: {}", player);
+        playerService.editPlayer(new ObjectMapper().readValue(player, Player.class));
+        return player;
     }
 
     @RequestMapping(value = "/player/add-gun", method = RequestMethod.POST)
     @ResponseBody
-    public String addGun(@RequestParam String gunDto) throws IOException {
-        logger.debug("add gun: {}", gunDto);
-        playerService.addGun(new ObjectMapper().readValue(gunDto, GunDto.class));
-        return gunDto;
+    public String addGun(@RequestParam String gun) throws IOException {
+        logger.debug("add gun: {}", gun);
+        playerService.addGun(new ObjectMapper().readValue(gun, Gun.class));
+        return gun;
     }
 
     @RequestMapping(value = "/player/edit-gun", method = RequestMethod.POST)
     @ResponseBody
-    public String editGun(@RequestParam String gunDto) throws IOException {
-        logger.debug("edit gun: {}", gunDto);
-        playerService.editGun(new ObjectMapper().readValue(gunDto, GunDto.class));
-        return gunDto;
+    public String editGun(@RequestParam String gun) throws IOException {
+        logger.debug("edit gun: {}", gun);
+        playerService.editGun(new ObjectMapper().readValue(gun, Gun.class));
+        return gun;
     }
 
     @RequestMapping(value = "/player/delete-gun", method = RequestMethod.POST)

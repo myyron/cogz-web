@@ -27,6 +27,6 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    @Query("select p from Player p left join fetch p.guns where p.enabled = 1")
+    @Query("select distinct p from Player p left join fetch p.guns where p.enabled = 1")
     List<Player> findAllByEnabled();
 }

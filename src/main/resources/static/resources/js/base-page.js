@@ -43,13 +43,13 @@ class BasePage {
                 }, {});
     }
 
-    _getAjaxData(operation, dtoName, oData) {
+    _getAjaxData(operation, requestParam, oData) {
         let result = {};
         if (typeof oData === 'undefined') {
             if ($('#form-' + operation + '-' + this._pageName).validator('validate').has('.has-error').length) {
                 return;
             } else {
-                result = {[dtoName + 'Dto']: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
+                result = {[requestParam]: JSON.stringify(this._getFormData('#form-' + operation + '-' + this._pageName))};
             }
         } else {
             result = oData;

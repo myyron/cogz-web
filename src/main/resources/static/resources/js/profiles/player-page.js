@@ -20,11 +20,11 @@ class PlayerPage extends DetailPage {
 
     constructor() {
         let pageName = 'player';
-        let playerDto = $.parseJSON($('#player-dto').text());
+        let player = $.parseJSON($('#player').text());
         let tableDetail = [
             {
                 name: 'gun',
-                data: playerDto.guns,
+                data: player.guns,
                 columns: [
                     {data: 'name'},
                     {data: 'model'},
@@ -32,8 +32,8 @@ class PlayerPage extends DetailPage {
                 ]
             }
         ];
-        super(pageName, tableDetail, playerDto.callSign);
-        this._playerDto = playerDto;
+        super(pageName, tableDetail, player.callSign);
+        this._player = player;
         this._gunTableIndex = 0;
         this._initEvents(this);
         this._loadDetail();
@@ -41,23 +41,23 @@ class PlayerPage extends DetailPage {
 
     _initEvents(self) {
         $('#btn-edit-' + this._pageName).click(function () {
-            $('#input-edit-id').val(self._playerDto.id);
-            $('#input-edit-call-sign').val(self._playerDto.callSign);
-            $('#input-edit-first-name').val(self._playerDto.firstName);
-            $('#input-edit-last-name').val(self._playerDto.lastName);
-            $('#input-edit-contact-num').val(self._playerDto.contactNum);
+            $('#input-edit-id').val(self._player.id);
+            $('#input-edit-call-sign').val(self._player.callSign);
+            $('#input-edit-first-name').val(self._player.firstName);
+            $('#input-edit-last-name').val(self._player.lastName);
+            $('#input-edit-contact-num').val(self._player.contactNum);
             $('#modal-edit-' + self._pageName).modal('show');
         });
 
         $('#btn-edit-' + this._pageName + '-save').click(function () {
             self._ajaxDetailUpdate('edit', self, undefined, function (resultData) {
-                self._playerDto = $.parseJSON(resultData);
+                self._player = $.parseJSON(resultData);
                 self._loadDetail();
             });
         });
 
         $('#btn-add-gun-' + this._pageName + '-save').click(function () {
-            $('#input-add-gun-player-id').val(self._playerDto.id);
+            $('#input-add-gun-player-id').val(self._player.id);
             self._ajaxDetailListUpdate('add-gun', self, 'gun', undefined, function (resultData) {
                 self._table[self._gunTableIndex].row.add($.parseJSON(resultData)).draw();
             });
@@ -68,7 +68,7 @@ class PlayerPage extends DetailPage {
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
             } else {
-                $('#input-edit-gun-player-id').val(self._playerDto.id);
+                $('#input-edit-gun-player-id').val(self._player.id);
                 $('#input-edit-gun-id').val(selectedData.id);
                 $('#input-edit-gun-name').val(selectedData.name);
                 $('#input-edit-gun-model').val(selectedData.model);
@@ -84,7 +84,7 @@ class PlayerPage extends DetailPage {
             } else {
                 Dialog.alertDelete(function () {
                     self._ajaxDetailListUpdate('delete-gun', self, 'gun'
-                            , {playerId: self._playerDto.id, gunId: selectedData.id}, function () {
+                            , {playerId: self._player.id, gunId: selectedData.id}, function () {
                         let dataIndex = -1;
                         self._table[self._gunTableIndex].row(function (idx, data) {
                             if (data.id === selectedData.id) {
@@ -114,10 +114,9 @@ class PlayerPage extends DetailPage {
     }
 
     _loadDetail() {
-        $('#call-sign').val(this._playerDto.callSign);
-        $('#first-name').val(this._playerDto.firstName);
-        $('#last-name').val(this._playerDto.lastName);
-        $('#contact-num').val(this._playerDto.contactNum);
+        $('#call-sign').val(this._player.callSign);
+        $('#first-name').val(this._player.firstName);
+        $('#last-name').val(this._player.lastName);
+        $('#contact-num').val(this._player.contactNum);
     }
-
 }

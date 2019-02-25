@@ -15,10 +15,7 @@
  */
 package org.cogz.web.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import org.cogz.web.dto.GunDto;
-import org.cogz.web.dto.PlayerDto;
 import org.cogz.web.entity.Gun;
 import org.cogz.web.entity.Player;
 import org.cogz.web.repo.PlayerRepository;
@@ -39,37 +36,26 @@ public class PlayerServiceImpl extends BaseService<PlayerRepository, Player> imp
     private PlayerRepository playerRepository;
 
     @Override
-    public List<PlayerDto> getAllPlayers() {
-        List<PlayerDto> result = new ArrayList<>();
-        for (Player player : playerRepository.findAllByEnabled()) {
-            PlayerDto playerDto = new PlayerDto();
-            BeanUtils.copyProperties(player, playerDto);
-            result.add(playerDto);
-        }
-        return result;
+    public List<Player> getAllPlayers() {
+        return playerRepository.findAllByEnabled();
     }
 
     @Override
-    public PlayerDto getPlayer(long id) {
-        PlayerDto result = new PlayerDto();
-        Player player = playerRepository.findById(id).orElse(null);
-        BeanUtils.copyProperties(player, result);
-        return result;
+    public Player getPlayer(long id) {
+        return playerRepository.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
-    public Long createPlayer(PlayerDto playerDto) {
-        Player player = new Player();
-        BeanUtils.copyProperties(playerDto, player);
+    public Long createPlayer(Player player) {
         return add(player);
     }
 
     @Override
     @Transactional
-    public Long editPlayer(PlayerDto playerDto) {
-        Player player = playerRepository.findById(playerDto.getId()).orElse(null);
-        BeanUtils.copyProperties(playerDto, player);
+    public Long editPlayer(Player updatedPlayer) {
+        Player player = playerRepository.findById(updatedPlayer.getId()).orElse(null);
+        BeanUtils.copyProperties(updatedPlayer, player);
         return edit(player);
     }
 
@@ -83,21 +69,19 @@ public class PlayerServiceImpl extends BaseService<PlayerRepository, Player> imp
 
     @Override
     @Transactional
-    public Long addGun(GunDto gunDto) {
-        Player player = playerRepository.findById(gunDto.getPlayerId()).orElse(null);
-        Gun gun = new Gun();
-        BeanUtils.copyProperties(gunDto, gun);
+    public Long addGun(Gun gun) {
+        Player player = playerRepository.findById(gun.getPlayerId()).orElse(null);
         player.getGuns().add(gun);
         return edit(player);
     }
 
     @Override
     @Transactional
-    public Long editGun(GunDto gunDto) {
-        Player player = playerRepository.findById(gunDto.getPlayerId()).orElse(null);
-        for (Gun gun : player.getGuns()) {
-            if (gun.getId().equals(gunDto.getId())) {
-                BeanUtils.copyProperties(gunDto, gun);
+    public Long editGun(Gun gun) {
+        Player player = playerRepository.findById(gun.getPlayerId()).orElse(null);
+        for (Gun g : player.getGuns()) {
+            if (g.getId().equals(g.getId())) {
+                BeanUtils.copyProperties(gun, g);
                 break;
             }
         }

@@ -18,7 +18,7 @@ package org.cogz.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import org.cogz.web.dto.FeeDto;
+import org.cogz.web.entity.Fee;
 import org.cogz.web.service.FeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,9 +58,9 @@ public class FeesController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Long createFee(@RequestParam String feeDto) throws IOException {
-        logger.debug("create fee: {}", feeDto);
-        return feeService.createFee(new ObjectMapper().readValue(feeDto, FeeDto.class));
+    public Long createFee(@RequestParam String fee) throws IOException {
+        logger.debug("create fee: {}", fee);
+        return feeService.createFee(new ObjectMapper().readValue(fee, Fee.class));
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

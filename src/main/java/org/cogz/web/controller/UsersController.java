@@ -58,23 +58,23 @@ public class UsersController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Long createUser(@RequestParam String userDto) throws IOException {
-        logger.debug("create user: {}", userDto);
-        return userService.createUser(new ObjectMapper().readValue(userDto, UserDto.class));
+    public Long createUser(@RequestParam String user) throws IOException {
+        logger.debug("create user: {}", user);
+        return userService.createUser(new ObjectMapper().readValue(user, UserDto.class));
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Long editUser(@RequestParam String userDto) throws IOException {
-        logger.debug("edit user: {}", userDto);
-        return userService.editUser(new ObjectMapper().readValue(userDto, UserDto.class));
+    public Long editUser(@RequestParam String user) throws IOException {
+        logger.debug("edit user: {}", user);
+        return userService.editUser(new ObjectMapper().readValue(user, UserDto.class));
     }
 
     @RequestMapping(value = "/resetpw", method = RequestMethod.POST)
     @ResponseBody
-    public Long resetPassword(@RequestParam String userDto) throws IOException {
-        logger.debug("reset password: {}", userDto);
-        return userService.resetPassword(new ObjectMapper().readValue(userDto, UserDto.class));
+    public Long resetPassword(@RequestParam String user) throws IOException {
+        logger.debug("reset password: {}", user);
+        return userService.resetPassword(new ObjectMapper().readValue(user, UserDto.class));
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

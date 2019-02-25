@@ -16,8 +16,8 @@
 package org.cogz.web.service;
 
 import java.util.List;
-import org.cogz.web.dto.GunDto;
-import org.cogz.web.dto.PlayerDto;
+import org.cogz.web.entity.Gun;
+import org.cogz.web.entity.Player;
 
 /**
  * The player service interface.
@@ -26,19 +26,19 @@ import org.cogz.web.dto.PlayerDto;
  */
 public interface PlayerService {
 
-    List<PlayerDto> getAllPlayers();
+    List<Player> getAllPlayers();
 
-    PlayerDto getPlayer(long id);
+    Player getPlayer(long id);
 
-    Long createPlayer(PlayerDto playerDto);
+    Long createPlayer(Player player);
 
-    Long editPlayer(PlayerDto playerDto);
+    Long editPlayer(Player player);
 
     Long deletePlayer(long id);
 
-    Long addGun(GunDto gunDto);
+    Long addGun(Gun gun);
 
-    Long editGun(GunDto gunDto);
+    Long editGun(Gun gun);
 
     Long deleteGun(long playerId, long gunId);
 }

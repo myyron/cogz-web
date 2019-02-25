@@ -16,7 +16,7 @@
 package org.cogz.web.service;
 
 import java.util.List;
-import org.cogz.web.dto.FeeDto;
+import org.cogz.web.entity.Fee;
 
 /**
  * The fee service interface.
@@ -25,9 +25,9 @@ import org.cogz.web.dto.FeeDto;
  */
 public interface FeeService {
 
-    List<FeeDto> getAllFees();
+    List<Fee> getAllFees();
 
-    Long createFee(FeeDto feeDto);
+    Long createFee(Fee fee);
 
     Long deleteFee(String itemName);
 }

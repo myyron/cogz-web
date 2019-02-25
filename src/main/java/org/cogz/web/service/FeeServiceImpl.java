@@ -15,12 +15,9 @@
  */
 package org.cogz.web.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import org.cogz.web.dto.FeeDto;
 import org.cogz.web.entity.Fee;
 import org.cogz.web.repo.FeeRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,21 +34,13 @@ public class FeeServiceImpl implements FeeService {
     private FeeRepository feeRepository;
 
     @Override
-    public List<FeeDto> getAllFees() {
-        List<FeeDto> result = new ArrayList<>();
-        for (Fee fee : feeRepository.findAllByEnabled(1)) {
-            FeeDto feeDto = new FeeDto();
-            BeanUtils.copyProperties(fee, feeDto);
-            result.add(feeDto);
-        }
-        return result;
+    public List<Fee> getAllFees() {
+        return feeRepository.findAllByEnabled(1);
     }
 
     @Override
     @Transactional
-    public Long createFee(FeeDto feeDto) {
-        Fee fee = new Fee();
-        BeanUtils.copyProperties(feeDto, fee);
+    public Long createFee(Fee fee) {
         return feeRepository.save(fee).getId();
     }
 

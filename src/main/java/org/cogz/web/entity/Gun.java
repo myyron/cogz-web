@@ -19,6 +19,7 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.cogz.web.converter.GunTypeConverter;
 import org.cogz.web.enums.GunType;
 
@@ -31,6 +32,9 @@ import org.cogz.web.enums.GunType;
 @Table(name = "GUN")
 public class Gun extends BaseEntity {
 
+    @Transient
+    private Long playerId;
+
     @Column(nullable = false)
     private String name;
 
@@ -40,6 +44,14 @@ public class Gun extends BaseEntity {
     @Column(nullable = false)
     @Convert(converter = GunTypeConverter.class)
     private GunType gunType;
+
+    public Long getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(Long playerId) {
+        this.playerId = playerId;
+    }
 
     public String getName() {
         return name;
