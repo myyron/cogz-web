@@ -15,10 +15,20 @@
  */
 package org.cogz.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import org.cogz.web.entity.Game;
+import org.cogz.web.service.GameService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * The game controller.
@@ -29,9 +39,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/registration")
 public class GameController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private GameService gameService;
+
     @RequestMapping(value = "/games/", method = RequestMethod.GET)
-    public String showGameList() {
+    public String showGamesPage() {
         return "registration/games";
+    }
+
+    @RequestMapping(value = "/games/list", method = RequestMethod.GET)
+    @ResponseBody
+    public String getGameList() throws JsonProcessingException {
+        String result = new ObjectMapper().writeValueAsString(gameService.getAllGames());
+        logger.debug("game list: {}", result);
+        return result;
+    }
+
+    @RequestMapping(value = "/games/create", method = RequestMethod.POST)
+    @ResponseBody
+    public Long createGame(@RequestParam String game) throws IOException {
+        logger.debug("create game: {}", game);
+        return gameService.createGame(new ObjectMapper().readValue(game, Game.class));
+    }
+
+    @RequestMapping(value = "/games/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Long deleteGame(@RequestParam long id) {
+        logger.debug("delete game: {}", id);
+        return gameService.deleteGame(id);
     }
 
     @RequestMapping(value = "/game/{id}", method = RequestMethod.GET)

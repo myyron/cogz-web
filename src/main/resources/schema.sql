@@ -51,3 +51,11 @@ CREATE TABLE gun (
     PRIMARY KEY (id),
     FOREIGN KEY (player_id) REFERENCES player (id)
 );
+
+CREATE TABLE game (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    event_desc VARCHAR(128),
+    date date NOT NULL,
+    enabled SMALLINT NOT NULL,
+    PRIMARY KEY (id)
+);
