@@ -39,6 +39,17 @@ class GamesPage extends ListPage {
             format: 'yyyy-mm-dd',
             autoclose: true
         });
+        
+        $('#btn-delete-' + this._pageName).click(function () {
+            let selectedData = self._table.row('.selected').data();
+            if (typeof selectedData === 'undefined') {
+                Dialog.alertTableSelect();
+            } else {
+                Dialog.alertDelete(function () {
+                    self._ajaxListUpdate('delete', self, false, {id: selectedData.id});
+                });
+            }
+        });
 
         $('#btn-create-' + this._pageName + '-save').click(function () {
             self._ajaxListUpdate('create', self);
