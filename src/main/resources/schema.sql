@@ -59,3 +59,47 @@ CREATE TABLE game (
     enabled SMALLINT NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE game_player (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    game_id BIGINT NOT NULL,
+    player_id BIGINT NOT NULL,
+    time_in TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    in_by BIGINT NOT NULL,
+    time_out TIMESTAMP,
+    out_by BIGINT,
+    enabled SMALLINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_id) REFERENCES game (id),
+    FOREIGN KEY (player_id) REFERENCES player (id)
+);
+
+CREATE TABLE game_fee (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    game_player_id BIGINT NOT NULL,
+    fee_id BIGINT NOT NULL,
+    enabled SMALLINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_player_id) REFERENCES game_player (id),
+    FOREIGN KEY (fee_id) REFERENCES fee (id)
+);
+
+CREATE TABLE game_fps (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    game_player_id BIGINT NOT NULL,
+    gun_id BIGINT NOT NULL,
+    fps INTEGER,
+    enabled SMALLINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_player_id) REFERENCES game_player (id),
+    FOREIGN KEY (gun_id) REFERENCES gun (id)
+);
+
+CREATE TABLE game_expense (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    game_id BIGINT NOT NULL,
+    amount FLOAT NOT NULL,
+    enabled SMALLINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_id) REFERENCES game (id)
+);

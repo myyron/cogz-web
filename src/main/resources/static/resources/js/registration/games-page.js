@@ -23,18 +23,23 @@ class GamesPage extends ListPage {
         let columns = [
             {data: null,
                 render: function (data) {
-                    return '<a href="/registration/game/' + data.id + '"><i class="fa fa-edit"></i> ' + data.dateTime + '</a>';
+                    return '<a href="/registration/game/' + data.id + '"><i class="fa fa-edit"></i> ' + data.date + '</a>';
                 }
             },
             {data: 'eventDesc'},
             {data: 'totalPlayers'},
-            {data: 'status'}
+            {data: 'gameStatus'}
         ];
         super(pageName, columns);
         this._initEvents(this);
     }
 
     _initEvents(self) {
+        $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+
         $('#btn-create-' + this._pageName + '-save').click(function () {
             self._ajaxListUpdate('create', self);
         });

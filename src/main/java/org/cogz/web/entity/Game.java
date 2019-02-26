@@ -15,12 +15,15 @@
  */
 package org.cogz.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import org.cogz.web.enums.GameStatus;
 
 /**
  * The game entity class.
@@ -33,9 +36,37 @@ public class Game extends BaseEntity {
 
     private String eventDesc;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Manila")
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Transient
+    private int totalPlayers;
+
+    @Transient
+    private GameStatus gameStatus;
+
+    public int getTotalPlayers() {
+        return totalPlayers;
+    }
+
+    public void setTotalPlayers(int totalPlayers) {
+        this.totalPlayers = totalPlayers;
+    }
+
+    public GameStatus getGameStatus() {
+        if (totalPlayers == 0) {
+            gameStatus = GameStatus.NEW;
+        } else {
+            gameStatus = GameStatus.IN_PROGRESS;
+        }
+        return gameStatus;
+    }
+
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+    }
 
     public String getEventDesc() {
         return eventDesc;
