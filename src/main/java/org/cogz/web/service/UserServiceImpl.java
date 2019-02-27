@@ -78,8 +78,8 @@ public class UserServiceImpl extends BaseService<UserRepository, User> implement
 
     @Override
     @Transactional
-    public Long deleteUser(String username) {
-        User user = userRepository.findByUsername(username);
+    public Long deleteUser(long id) {
+        User user = userRepository.findById(id).orElse(null);
         user.setEnabled(0);
         return delete(user);
     }

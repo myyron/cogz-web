@@ -29,5 +29,5 @@ public interface FeeService {
 
     Long createFee(Fee fee);
 
-    Long deleteFee(String itemName);
+    Long deleteFee(long id);
 }

@@ -44,6 +44,7 @@ class UsersPage extends ListPage {
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
             } else {
+                $('#input-edit-id').val(selectedData.id);
                 $('#input-edit-username').val(selectedData.username);
                 $('#input-edit-first-name').val(selectedData.firstName);
                 $('#input-edit-last-name').val(selectedData.lastName);
@@ -60,21 +61,6 @@ class UsersPage extends ListPage {
                 $('#input-resetpw-username').val(selectedData.username);
                 $('#modal-resetpw-' + self._pageName).modal('show');
             }
-        });
-
-        $('#btn-delete-' + this._pageName).click(function () {
-            let selectedData = self._table.row('.selected').data();
-            if (typeof selectedData === 'undefined') {
-                Dialog.alertTableSelect();
-            } else {
-                Dialog.alertDelete(function () {
-                    self._ajaxListUpdate('delete', self, false, {username: selectedData.username});
-                });
-            }
-        });
-
-        $('#btn-create-' + this._pageName + '-save').click(function () {
-            self._ajaxListUpdate('create', self);
         });
 
         $('#btn-edit-' + this._pageName + '-save').click(function () {

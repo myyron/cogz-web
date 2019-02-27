@@ -35,24 +35,5 @@ class FeesPage extends ListPage {
             }
         ];
         super(pageName, columns);
-        this._initEvents(this);
     }
-
-    _initEvents(self) {
-        $('#btn-delete-' + this._pageName).click(function () {
-            let selectedData = self._table.row('.selected').data();
-            if (typeof selectedData === 'undefined') {
-                Dialog.alertTableSelect();
-            } else {
-                Dialog.alertDelete(function () {
-                    self._ajaxListUpdate('delete', self, false, {itemName: selectedData.itemName});
-                });
-            }
-        });
-
-        $('#btn-create-' + this._pageName + '-save').click(function () {
-            self._ajaxListUpdate('create', self);
-        });
-    }
-
 }

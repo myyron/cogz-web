@@ -65,8 +65,8 @@ public class FeesController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Long deleteFee(@RequestParam String itemName) {
-        logger.debug("delete fee: {}", itemName);
-        return feeService.deleteFee(itemName);
+    public Long deleteFee(@RequestParam long id) {
+        logger.debug("delete fee: {}", id);
+        return feeService.deleteFee(id);
     }
 }

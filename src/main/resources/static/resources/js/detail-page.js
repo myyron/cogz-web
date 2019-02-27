@@ -45,6 +45,11 @@ class DetailPage extends BasePage {
 
     _ajaxDetailUpdate(operation, self, oData, callback) {
         let data = this._getAjaxData(operation, this._pageName, oData);
+
+        if ($.isEmptyObject(data)) {
+            return;
+        }
+
         $.ajax({
             method: 'POST',
             url: operation,
@@ -66,6 +71,11 @@ class DetailPage extends BasePage {
 
     _ajaxDetailListUpdate(operation, self, subListName, oData, callback) {
         let data = this._getAjaxData(operation, subListName, oData);
+
+        if ($.isEmptyObject(data)) {
+            return;
+        }
+
         $.ajax({
             method: 'POST',
             url: operation,

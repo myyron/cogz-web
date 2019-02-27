@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Myyron Latorilla
  */
 @Service
-public class FeeServiceImpl implements FeeService {
+public class FeeServiceImpl extends BaseService<FeeRepository, Fee> implements FeeService {
 
     @Autowired
     private FeeRepository feeRepository;
@@ -41,14 +41,14 @@ public class FeeServiceImpl implements FeeService {
     @Override
     @Transactional
     public Long createFee(Fee fee) {
-        return feeRepository.save(fee).getId();
+        return add(fee);
     }
 
     @Override
     @Transactional
-    public Long deleteFee(String itemName) {
-        Fee fee = feeRepository.findByItemNameAndEnabled(itemName, 1);
+    public Long deleteFee(long id) {
+        Fee fee = feeRepository.findById(id).orElse(null);
         fee.setEnabled(0);
-        return fee.getId();
+        return delete(fee);
     }
 }

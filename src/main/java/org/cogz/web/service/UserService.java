@@ -33,5 +33,5 @@ public interface UserService {
 
     Long resetPassword(UserDto userDto);
 
-    Long deleteUser(String username);
+    Long deleteUser(long id);
 }

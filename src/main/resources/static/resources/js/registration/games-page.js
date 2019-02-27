@@ -31,28 +31,13 @@ class GamesPage extends ListPage {
             {data: 'gameStatus'}
         ];
         super(pageName, columns);
-        this._initEvents(this);
+        this._initEvents();
     }
 
-    _initEvents(self) {
+    _initEvents() {
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true
-        });
-        
-        $('#btn-delete-' + this._pageName).click(function () {
-            let selectedData = self._table.row('.selected').data();
-            if (typeof selectedData === 'undefined') {
-                Dialog.alertTableSelect();
-            } else {
-                Dialog.alertDelete(function () {
-                    self._ajaxListUpdate('delete', self, false, {id: selectedData.id});
-                });
-            }
-        });
-
-        $('#btn-create-' + this._pageName + '-save').click(function () {
-            self._ajaxListUpdate('create', self);
         });
     }
 }

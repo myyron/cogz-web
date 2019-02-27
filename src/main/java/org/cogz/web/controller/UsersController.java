@@ -79,8 +79,8 @@ public class UsersController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Long deleteUser(@RequestParam String username) {
-        logger.debug("delete user: {}", username);
-        return userService.deleteUser(username);
+    public Long deleteUser(@RequestParam long id) {
+        logger.debug("delete user: {}", id);
+        return userService.deleteUser(id);
     }
 }

@@ -22,6 +22,7 @@ class ListPage extends BasePage {
         super(pageName);
         this._columns = columns;
         this._table = this._initTable();
+        this._initListEvents(this);
     }
 
     _initTable() {
@@ -37,8 +38,30 @@ class ListPage extends BasePage {
         });
     }
 
+    _initListEvents(self) {
+        $('#btn-delete-' + this._pageName).click(function () {
+            let selectedData = self._table.row('.selected').data();
+            if (typeof selectedData === 'undefined') {
+                Dialog.alertTableSelect();
+            } else {
+                Dialog.alertDelete(function () {
+                    self._ajaxListUpdate('delete', self, false, {id: selectedData.id});
+                });
+            }
+        });
+
+        $('#btn-create-' + this._pageName + '-save').click(function () {
+            self._ajaxListUpdate('create', self);
+        });
+    }
+
     _ajaxListUpdate(operation, self, retainModal, oData, callback) {
         let data = this._getAjaxData(operation, this._pageName, oData);
+
+        if ($.isEmptyObject(data)) {
+            return;
+        }
+
         $.ajax({
             method: 'POST',
             url: operation,

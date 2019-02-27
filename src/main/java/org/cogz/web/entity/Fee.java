@@ -18,6 +18,7 @@ package org.cogz.web.entity;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.cogz.web.converter.FeeTypeConverter;
 import org.cogz.web.enums.FeeType;
 
@@ -27,6 +28,7 @@ import org.cogz.web.enums.FeeType;
  * @author Myyron Latorilla
  */
 @Entity
+@Table(name = "FEE")
 public class Fee extends BaseEntity {
 
     @Column(nullable = false)
