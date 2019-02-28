@@ -3,9 +3,53 @@
 
     <head>
         <div th:replace="fragments/header :: header-head"/>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap-datepicker/css/bootstrap-datepicker.min.css}"/>
     </head>
 
     <body class="hold-transition skin-black-light sidebar-mini">
+
+        <div id="game" class="hidden" th:text="${game}"></div>
+
+        <div class="modal fade" id="modal-edit-game">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Edit Detail</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" id="form-edit-game">
+                            <input type="hidden" id="input-edit-id" name="id"/>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label>Game Date</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="datepicker" name="date" required/>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-edit-event-desc">Event Description</label>
+                                    <input type="text" class="form-control" id="input-edit-event-desc" name="eventDesc"/>
+                                </div>                                
+                            </div>
+                            <!-- /.box-body --> 
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-edit-game-save"><i class="fa fa-save"></i> Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
         <div class="modal fade" id="modal-add-player">
             <div class="modal-dialog modal-sm">
@@ -132,7 +176,7 @@
                 <section class="content-header">
                     <h1>
                         Registration
-                        <small>12/23/2018</small>
+                        <small id="header"></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a th:href="@{/}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -149,13 +193,59 @@
                             <!-- Custom Tabs -->
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tab_1" data-toggle="tab">Player List</a></li>
-                                    <li><a href="#tab_2" data-toggle="tab">Fee Summary</a></li>
-                                    <li><a href="#tab_3" data-toggle="tab">Other Expenses</a></li>
+                                    <li class="active"><a href="#tab-game" data-toggle="tab">Game Detail</a></li>
+                                    <li><a href="#tab-player" data-toggle="tab">Player List</a></li>
+                                    <li><a href="#tab-fee" data-toggle="tab">Fee Summary</a></li>
+                                    <li><a href="#tab-expense" data-toggle="tab">Other Expenses</a></li>
                                     <li class="pull-right"><a th:href="@{/registration/report/5}" target="_blank" class="text-muted"><i class="fa fa-print"></i> Print Report</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="tab_1">
+                                    <div class="tab-pane active" id="tab-game">
+                                        <div class="box">
+                                            <div class="box-header">                                   
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <button id="btn-edit-game" type="button" class="btn">
+                                                            <i class="fa fa-edit"></i> Edit Game
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <form class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label for="date" class="col-sm-2 control-label">Game Date</label>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="date" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="event-desc" class="col-sm-2 control-label">Event Description</label>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="event-desc" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="total-players" class="col-sm-2 control-label"># of Players</label>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="total-players" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="game-status" class="col-sm-2 control-label">Status</label>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" id="game-status" disabled>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="tab-player">
                                         <div class="box">
                                             <div class="box-header">                                   
                                                 <div class="row">
@@ -222,7 +312,7 @@
                                         <!-- /.box -->
                                     </div>
                                     <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="tab_2">
+                                    <div class="tab-pane" id="tab-fee">
                                         <div class="box">
                                             <div class="box-body">
                                                 <table id="dt-fee-summary" class="table table-bordered table-striped">
@@ -272,7 +362,7 @@
                                         <!-- /.box -->
                                     </div>
                                     <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="tab_3">
+                                    <div class="tab-pane" id="tab-expense">
                                         <div class="box">
                                             <div class="box-header">                                   
                                                 <div class="row">
@@ -332,19 +422,12 @@
 
         <div th:replace="fragments/footer :: js-import"/>
         <script th:replace="fragments/sidebar :: selectedMenu(reg-currgame)"></script>
-        <script>
+        <script th:src="@{/webjars/bootstrap-datepicker/js/bootstrap-datepicker.min.js}"></script>
+        <script th:src="@{/resources/js/detail-page.js}"></script>
+        <script th:src="@{/resources/js/registration/game-page.js}"></script>
+        <script th:inline="javascript">
             $(function () {
-                $('#dt-player-list').DataTable({
-                    select: {
-                        style: 'single'
-                    }
-                });
-                $('#dt-fee-summary').DataTable();
-                $('#dt-other-expenses').DataTable({
-                    select: {
-                        style: 'single'
-                    }
-                });
+                new GamePage();
             });
         </script>
 

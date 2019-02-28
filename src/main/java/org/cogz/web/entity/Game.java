@@ -17,13 +17,20 @@ package org.cogz.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import org.cogz.web.enums.GameStatus;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Where;
 
 /**
  * The game entity class.
@@ -46,6 +53,18 @@ public class Game extends BaseEntity {
 
     @Transient
     private GameStatus gameStatus;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "GAME_ID", nullable = false)
+    @Where(clause = "enabled = 1")
+    private List<GameExpense> gameExpenseList;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "GAME_ID", nullable = false)
+    @Where(clause = "enabled = 1")
+    private List<GamePlayer> gamePlayerList;
 
     public int getTotalPlayers() {
         return totalPlayers;
@@ -82,5 +101,21 @@ public class Game extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public List<GameExpense> getGameExpenseList() {
+        return gameExpenseList;
+    }
+
+    public void setGameExpenseList(List<GameExpense> gameExpenseList) {
+        this.gameExpenseList = gameExpenseList;
+    }
+
+    public List<GamePlayer> getGamePlayerList() {
+        return gamePlayerList;
+    }
+
+    public void setGamePlayerList(List<GamePlayer> gamePlayerList) {
+        this.gamePlayerList = gamePlayerList;
     }
 }

@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,8 +73,19 @@ public class GameController {
     }
 
     @RequestMapping(value = "/game/{id}", method = RequestMethod.GET)
-    public String showGameDetail(@PathVariable("id") long id) {
+    public String showGameDetailPage(Model model, @PathVariable("id") long id) throws JsonProcessingException {
+        String game = new ObjectMapper().writeValueAsString(gameService.getGame(id));
+        logger.debug("game detail: {}", game);
+        model.addAttribute("player", game);
         return "registration/game";
+    }
+
+    @RequestMapping(value = "/game/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public String editGame(@RequestParam String game) throws IOException {
+        logger.debug("edit game: {}", game);
+        gameService.editGame(new ObjectMapper().readValue(game, Game.class));
+        return game;
     }
 
     @RequestMapping(value = "/report/{id}", method = RequestMethod.GET)
