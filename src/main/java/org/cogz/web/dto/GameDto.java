@@ -13,82 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.entity;
+package org.cogz.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import org.cogz.web.entity.GameExpense;
 import org.cogz.web.enums.GameStatus;
-import org.hibernate.annotations.Where;
 
 /**
- * The game entity class.
+ * The game DTO class.
  *
  * @author Myyron Latorilla
  */
-@Entity
-@Table(name = "GAME")
-public class Game extends BaseEntity {
-
-    private String eventDesc;
+public class GameDto {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Manila")
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Transient
+    private Long id;
+    private String eventDesc;
     private int totalPlayers;
-
-    @Transient
     private GameStatus gameStatus;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "GAME_ID", nullable = false)
-    @Where(clause = "enabled = 1")
+    private List<RegisteredPlayerDto> playerList = new ArrayList<>();
     private Set<GameExpense> gameExpenseList;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "GAME_ID", nullable = false)
-    @Where(clause = "enabled = 1")
-    private Set<GamePlayer> gamePlayerList;
-
-    public int getTotalPlayers() {
-        return totalPlayers;
+    public Long getId() {
+        return id;
     }
 
-    public void setTotalPlayers(int totalPlayers) {
-        this.totalPlayers = totalPlayers;
-    }
-
-    public GameStatus getGameStatus() {
-        if (totalPlayers == 0) {
-            gameStatus = GameStatus.NEW;
-        } else {
-            gameStatus = GameStatus.IN_PROGRESS;
-        }
-        return gameStatus;
-    }
-
-    public void setGameStatus(GameStatus gameStatus) {
-        this.gameStatus = gameStatus;
-    }
-
-    public String getEventDesc() {
-        return eventDesc;
-    }
-
-    public void setEventDesc(String eventDesc) {
-        this.eventDesc = eventDesc;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDate() {
@@ -99,19 +56,43 @@ public class Game extends BaseEntity {
         this.date = date;
     }
 
+    public String getEventDesc() {
+        return eventDesc;
+    }
+
+    public void setEventDesc(String eventDesc) {
+        this.eventDesc = eventDesc;
+    }
+
+    public int getTotalPlayers() {
+        return totalPlayers;
+    }
+
+    public void setTotalPlayers(int totalPlayers) {
+        this.totalPlayers = totalPlayers;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+    }
+
+    public List<RegisteredPlayerDto> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(List<RegisteredPlayerDto> playerList) {
+        this.playerList = playerList;
+    }
+
     public Set<GameExpense> getGameExpenseList() {
         return gameExpenseList;
     }
 
     public void setGameExpenseList(Set<GameExpense> gameExpenseList) {
         this.gameExpenseList = gameExpenseList;
-    }
-
-    public Set<GamePlayer> getGamePlayerList() {
-        return gamePlayerList;
-    }
-
-    public void setGamePlayerList(Set<GamePlayer> gamePlayerList) {
-        this.gamePlayerList = gamePlayerList;
     }
 }

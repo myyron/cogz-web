@@ -20,21 +20,24 @@ class GamePage extends DetailPage {
 
     constructor() {
         let pageName = 'game';
-        let player = $.parseJSON($('#game').text());
+        let game = $.parseJSON($('#game').text());
         let tableDetail = [
             {
-                name: 'gun',
-                data: player.guns,
+                name: 'player',
+                data: game.playerList,
                 columns: [
-                    {data: 'name'},
-                    {data: 'model'},
-                    {data: 'gunType'}
+                    {data: 'player.callSign'},
+                    {data: null},
+                    {data: 'player.totalFee'},
+                    {data: 'player.checkOut'}
                 ]
             }
         ];
-        super(pageName, tableDetail, player.callSign);
-        this._player = player;
-        this._gunTableIndex = 0;
+        super(pageName, tableDetail, game.date);
+        this._game = game;
+        this._playerTableIndex = 0;
+        this._feeTableIndex = 1;
+        this._expenseTableIndex = 2;
         this._initEvents(this);
         this._loadDetail();
     }
@@ -114,9 +117,9 @@ class GamePage extends DetailPage {
     }
 
     _loadDetail() {
-        $('#call-sign').val(this._player.callSign);
-        $('#first-name').val(this._player.firstName);
-        $('#last-name').val(this._player.lastName);
-        $('#contact-num').val(this._player.contactNum);
+        $('#date').val(this._game.date);
+        $('#event-desc').val(this._game.eventDesc);
+        $('#total-players').val(this._game.totalPlayers);
+        $('#game-status').val(this._game.gameStatus);
     }
 }

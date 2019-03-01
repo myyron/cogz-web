@@ -33,10 +33,6 @@ public class GameFps extends BaseEntity {
     @Column(name = "FPS")
     private Integer fps;
 
-    @JoinColumn(name = "GAME_PLAYER_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private GamePlayer gamePlayer;
-
     @JoinColumn(name = "GUN_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Gun gun;
@@ -47,14 +43,6 @@ public class GameFps extends BaseEntity {
 
     public void setFps(Integer fps) {
         this.fps = fps;
-    }
-
-    public GamePlayer getGamePlayer() {
-        return gamePlayer;
-    }
-
-    public void setGamePlayer(GamePlayer gamePlayer) {
-        this.gamePlayer = gamePlayer;
     }
 
     public Gun getGun() {

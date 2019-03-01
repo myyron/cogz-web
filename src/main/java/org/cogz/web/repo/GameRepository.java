@@ -18,6 +18,7 @@ package org.cogz.web.repo;
 import java.util.List;
 import org.cogz.web.entity.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * The game repository interface.
@@ -26,5 +27,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface GameRepository extends JpaRepository<Game, Long> {
 
-    List<Game> findAllByEnabled(Integer enabled);
+    @Query("select distinct g from Game g left join fetch g.gamePlayerList left join fetch g.gameExpenseList where g.enabled = 1")
+    List<Game> findAllByEnabled();
+
+    @Query("select g from Game g left join fetch g.gamePlayerList left join fetch g.gameExpenseList where g.id = ?1 and g.enabled = 1")
+    Game findById(long id);
 }

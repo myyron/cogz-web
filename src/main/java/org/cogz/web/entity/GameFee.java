@@ -26,15 +26,12 @@ import javax.persistence.Table;
  * @author Myyron Latorilla
  */
 @Entity
-@Table(name = "GAME")
+@Table(name = "GAME_FEE")
 public class GameFee extends BaseEntity {
 
     @JoinColumn(name = "FEE_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Fee fee;
-    @JoinColumn(name = "GAME_PLAYER_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private GamePlayer gamePlayer;
 
     public Fee getFee() {
         return fee;
@@ -42,13 +39,5 @@ public class GameFee extends BaseEntity {
 
     public void setFee(Fee fee) {
         this.fee = fee;
-    }
-
-    public GamePlayer getGamePlayer() {
-        return gamePlayer;
-    }
-
-    public void setGamePlayer(GamePlayer gamePlayer) {
-        this.gamePlayer = gamePlayer;
     }
 }

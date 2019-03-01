@@ -16,7 +16,7 @@
 package org.cogz.web.entity;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.Where;
 
 /**
  * The game player entity class.
@@ -48,11 +49,15 @@ public class GamePlayer extends BaseEntity {
     @ManyToOne(optional = false)
     private Player player;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gamePlayer")
-    private List<GameFps> gameFpsList;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "GAME_PLAYER_ID", nullable = false)
+    @Where(clause = "enabled = 1")
+    private Set<GameFps> gameFpsList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gamePlayer")
-    private List<GameFee> gameFeeList;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "GAME_PLAYER_ID", nullable = false)
+    @Where(clause = "enabled = 1")
+    private Set<GameFee> gameFeeList;
 
     public Long getInBy() {
         return inBy;
@@ -86,19 +91,19 @@ public class GamePlayer extends BaseEntity {
         this.player = player;
     }
 
-    public List<GameFps> getGameFpsList() {
+    public Set<GameFps> getGameFpsList() {
         return gameFpsList;
     }
 
-    public void setGameFpsList(List<GameFps> gameFpsList) {
+    public void setGameFpsList(Set<GameFps> gameFpsList) {
         this.gameFpsList = gameFpsList;
     }
 
-    public List<GameFee> getGameFeeList() {
+    public Set<GameFee> getGameFeeList() {
         return gameFeeList;
     }
 
-    public void setGameFeeList(List<GameFee> gameFeeList) {
+    public void setGameFeeList(Set<GameFee> gameFeeList) {
         this.gameFeeList = gameFeeList;
     }
 }

@@ -16,7 +16,10 @@
 package org.cogz.web.service;
 
 import java.util.List;
+import org.cogz.web.dto.GameDto;
+import org.cogz.web.dto.RegisteredPlayerDto;
 import org.cogz.web.entity.Game;
+import org.cogz.web.entity.GamePlayer;
 import org.cogz.web.repo.GameRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +39,23 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
 
     @Override
     public List<Game> getAllGames() {
-        return gameRepository.findAllByEnabled(1);
+        return gameRepository.findAllByEnabled();
     }
 
     @Override
-    public Game getGame(long id) {
-        return gameRepository.findById(id).orElse(null);
+    public GameDto getGame(long id) {
+        GameDto result = new GameDto();
+        Game game = gameRepository.findById(id);
+        BeanUtils.copyProperties(game, result);
+        for (GamePlayer gamePlayer : game.getGamePlayerList()) {
+            RegisteredPlayerDto registeredPlayerDto = new RegisteredPlayerDto();
+            registeredPlayerDto.setCallSign(gamePlayer.getPlayer().getCallSign());
+            if (gamePlayer.getTimeOut() != null) {
+                registeredPlayerDto.setCheckOut(true);
+            }
+            result.getPlayerList().add(registeredPlayerDto);
+        }
+        return result;
     }
 
     @Override
@@ -61,7 +75,7 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
     @Override
     @Transactional
     public Long deleteGame(long id) {
-        Game game = gameRepository.findById(id).orElse(null);
+        Game game = gameRepository.findById(id);
         game.setEnabled(0);
         return delete(game);
     }

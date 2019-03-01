@@ -13,26 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
-
-import java.util.List;
-import org.cogz.web.dto.GameDto;
-import org.cogz.web.entity.Game;
+package org.cogz.web.dto;
 
 /**
- * The game service interface.
+ * The registered gun DTO class.
  *
  * @author Myyron Latorilla
  */
-public interface GameService {
+public class RegisteredGunDto {
 
-    List<Game> getAllGames();
+    private Long gunId;
+    private int fps;
 
-    GameDto getGame(long id);
+    public Long getGunId() {
+        return gunId;
+    }
 
-    Long createGame(Game game);
+    public void setGunId(Long gunId) {
+        this.gunId = gunId;
+    }
 
-    Long editGame(Game game);
+    public int getFps() {
+        return fps;
+    }
 
-    Long deleteGame(long id);
+    public void setFps(int fps) {
+        this.fps = fps;
+    }
 }

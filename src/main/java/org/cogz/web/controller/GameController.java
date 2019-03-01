@@ -76,7 +76,7 @@ public class GameController {
     public String showGameDetailPage(Model model, @PathVariable("id") long id) throws JsonProcessingException {
         String game = new ObjectMapper().writeValueAsString(gameService.getGame(id));
         logger.debug("game detail: {}", game);
-        model.addAttribute("player", game);
+        model.addAttribute("game", game);
         return "registration/game";
     }
 
