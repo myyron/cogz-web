@@ -15,27 +15,16 @@
  */
 package org.cogz.web.service;
 
-import java.util.List;
-import org.cogz.web.dto.GameDto;
-import org.cogz.web.entity.Game;
 import org.cogz.web.entity.GameExpense;
 
 /**
- * The game service interface.
+ * The game expense service interface.
  *
  * @author Myyron Latorilla
  */
-public interface GameService {
+public interface GameExpenseService {
 
-    List<Game> getAllGames();
+    Long editExpense(GameExpense expense);
 
-    GameDto getGame(long id);
-
-    Long createGame(Game game);
-
-    Long editGame(Game game);
-
-    Long deleteGame(long id);
-
-    Long addExpense(GameExpense gameExpense);
+    Long deleteExpense(long gameExpenseId);
 }

@@ -19,6 +19,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.cogz.web.entity.Game;
+import org.cogz.web.entity.GameExpense;
+import org.cogz.web.service.GameExpenseService;
 import org.cogz.web.service.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,9 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private GameExpenseService gameExpenseService;
 
     @RequestMapping(value = "/games/", method = RequestMethod.GET)
     public String showGamesPage() {
@@ -86,6 +91,27 @@ public class GameController {
         logger.debug("edit game: {}", game);
         gameService.editGame(new ObjectMapper().readValue(game, Game.class));
         return game;
+    }
+
+    @RequestMapping(value = "/game/add-expense", method = RequestMethod.POST)
+    @ResponseBody
+    public Long addExpense(@RequestParam String gameExpense) throws IOException {
+        logger.debug("add expense: {}", gameExpense);
+        return gameService.addExpense(new ObjectMapper().readValue(gameExpense, GameExpense.class));
+    }
+
+    @RequestMapping(value = "/game/edit-expense", method = RequestMethod.POST)
+    @ResponseBody
+    public Long editExpense(@RequestParam String gameExpense) throws IOException {
+        logger.debug("edit expense: {}", gameExpense);
+        return gameExpenseService.editExpense(new ObjectMapper().readValue(gameExpense, GameExpense.class));
+    }
+
+    @RequestMapping(value = "/game/delete-expense", method = RequestMethod.POST)
+    @ResponseBody
+    public Long deleteExpense(@RequestParam long gameExpenseId) {
+        logger.debug("delete expense: {}", gameExpenseId);
+        return gameExpenseService.deleteExpense(gameExpenseId);
     }
 
     @RequestMapping(value = "/report/{id}", method = RequestMethod.GET)

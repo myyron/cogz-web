@@ -99,7 +99,7 @@ CREATE TABLE game_expense (
     id BIGINT GENERATED ALWAYS AS IDENTITY,
     game_id BIGINT NOT NULL,
     item_name VARCHAR(32) NOT NULL,
-    amount FLOAT NOT NULL,
+    total_cost FLOAT NOT NULL,
     enabled SMALLINT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (game_id) REFERENCES game (id)

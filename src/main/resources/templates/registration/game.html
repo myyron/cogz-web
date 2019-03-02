@@ -125,7 +125,7 @@
         </div>
         <!-- /.modal -->
 
-        <div class="modal fade" id="modal-add-expense">
+        <div class="modal fade" id="modal-add-expense-game">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -134,19 +134,18 @@
                         <h4 class="modal-title">Add Expense</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form">
+                        <form role="form" id="form-add-expense-game">
+                            <input type="hidden" id="input-add-expense-game-id" name="gameId"/>
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="itemName">Item Name</label>
-                                    <input type="text" class="form-control" id="itemName">
+                                    <label for="input-add-expense-item-name">Item Name</label>
+                                    <input type="text" class="form-control" id="input-add-expense-item-name" name="itemName" pattern="\S(.*\S)?" required/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity">
-                                </div>
-                                <div class="form-group">
-                                    <label for="amount">Amount/Item</label>
-                                    <input type="number" class="form-control" id="amount">
+                                    <label for="input-add-expense-total-cost">Total Cost</label>
+                                    <input type="number" class="form-control" id="input-add-expense-total-cost" name="totalCost" required/>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <!-- /.box-body --> 
@@ -154,7 +153,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Close</button>
+                        <button type="button" class="btn btn-primary" id="btn-add-expense-game-save"><i class="fa fa-save"></i> Close</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -264,7 +263,7 @@
                                             </div>
                                             <!-- /.box-header -->
                                             <div class="box-body">
-                                                <table id="dt-player" class="table table-bordered table-striped">
+                                                <table id="dt-player" class="table table-bordered table-striped" style="width:100%">
                                                     <thead>
                                                         <tr>
                                                             <th>Call Sign</th>
@@ -283,7 +282,7 @@
                                     <div class="tab-pane" id="tab-fee">
                                         <div class="box">
                                             <div class="box-body">
-                                                <table id="dt-fee" class="table table-bordered table-striped">
+                                                <table id="dt-fee" class="table table-bordered table-striped" style="width:100%">
                                                     <thead>
                                                         <tr>
                                                             <th>Item</th>
@@ -291,38 +290,6 @@
                                                             <th>Total Fee</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Game Fee</td>
-                                                            <td>30</td>
-                                                            <td>4500</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>BBs</td>
-                                                            <td>2</td>
-                                                            <td>520</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Arm Band</td>
-                                                            <td>2</td>
-                                                            <td>200</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gun</td>
-                                                            <td>10</td>
-                                                            <td>3000</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Face Mask</td>
-                                                            <td>5</td>
-                                                            <td>250</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Vest</td>
-                                                            <td>5</td>
-                                                            <td>250</td>
-                                                        </tr>
-                                                    </tbody>
                                                 </table>
                                             </div>
                                             <!-- /.box-body -->
@@ -335,7 +302,7 @@
                                             <div class="box-header">                                   
                                                 <div class="row">
                                                     <div class="col-xs-12">
-                                                        <button type="button" class="btn" data-toggle="modal" data-target="#modal-add-expense">
+                                                        <button type="button" class="btn" data-toggle="modal" data-target="#modal-add-expense-game">
                                                             <i class="fa fa-plus"></i> Add Expense
                                                         </button>
                                                     </div>
@@ -343,26 +310,13 @@
                                             </div>
                                             <!-- /.box-header -->
                                             <div class="box-body">
-                                                <table id="dt-expense" class="table table-bordered table-striped">
+                                                <table id="dt-expense" class="table table-bordered table-striped" style="width:100%">
                                                     <thead>
                                                         <tr>
                                                             <th>Item</th>
-                                                            <th>Quantity</th>
-                                                            <th>Amount</th>
+                                                            <th>Total Cost</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Mineral Water</td>
-                                                            <td>2</td>
-                                                            <td>70</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Tube Ice</td>
-                                                            <td>4</td>
-                                                            <td>200</td>
-                                                        </tr>
-                                                    </tbody>
                                                 </table>
                                             </div>
                                             <!-- /.box-body -->

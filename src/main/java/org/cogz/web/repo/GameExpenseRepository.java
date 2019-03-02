@@ -13,29 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.repo;
 
-import java.util.List;
-import org.cogz.web.dto.GameDto;
-import org.cogz.web.entity.Game;
 import org.cogz.web.entity.GameExpense;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * The game service interface.
+ * The game expense repository interface.
  *
  * @author Myyron Latorilla
  */
-public interface GameService {
-
-    List<Game> getAllGames();
-
-    GameDto getGame(long id);
-
-    Long createGame(Game game);
-
-    Long editGame(Game game);
-
-    Long deleteGame(long id);
-
-    Long addExpense(GameExpense gameExpense);
+public interface GameExpenseRepository extends JpaRepository<GameExpense, Long> {
 }

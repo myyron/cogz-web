@@ -18,6 +18,7 @@ package org.cogz.web.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The game expense entity class.
@@ -28,11 +29,22 @@ import javax.persistence.Table;
 @Table(name = "GAME_EXPENSE")
 public class GameExpense extends BaseEntity {
 
+    @Transient
+    private Long gameId;
+
     @Column(nullable = false)
     private String itemName;
 
     @Column(nullable = false)
-    private Float amount;
+    private Float totalCost;
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
 
     public String getItemName() {
         return itemName;
@@ -42,11 +54,11 @@ public class GameExpense extends BaseEntity {
         this.itemName = itemName;
     }
 
-    public Float getAmount() {
-        return amount;
+    public Float getTotalCost() {
+        return totalCost;
     }
 
-    public void setAmount(Float amount) {
-        this.amount = amount;
+    public void setTotalCost(Float totalCost) {
+        this.totalCost = totalCost;
     }
 }

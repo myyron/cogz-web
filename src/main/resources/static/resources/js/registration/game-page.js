@@ -31,6 +31,23 @@ class GamePage extends DetailPage {
                     {data: 'player.totalFee'},
                     {data: 'player.checkOut'}
                 ]
+            },
+            {
+                name: 'fee',
+                data: game.feeSummaryList,
+                columns: [
+                    {data: 'feeSummary.itemName'},
+                    {data: 'feeSummay.quantity'},
+                    {data: 'feeSummay.totalFee'}
+                ]
+            },
+            {
+                name: 'expense',
+                data: game.gameExpenseList,
+                columns: [
+                    {data: 'itemName'},
+                    {data: 'totalCost'}
+                ]
             }
         ];
         super(pageName, tableDetail, game.date);
@@ -59,10 +76,10 @@ class GamePage extends DetailPage {
             });
         });
 
-        $('#btn-add-gun-' + this._pageName + '-save').click(function () {
-            $('#input-add-gun-player-id').val(self._player.id);
-            self._ajaxDetailListUpdate('add-gun', self, 'gun', undefined, function (resultData) {
-                self._table[self._gunTableIndex].row.add($.parseJSON(resultData)).draw();
+        $('#btn-add-expense-' + this._pageName + '-save').click(function () {
+            $('#input-add-expense-game-id').val(self._game.id);
+            self._ajaxDetailListUpdate('add-expense', self, 'gameExpense', undefined, function (resultData) {
+                self._table[self._expenseTableIndex].row.add($.parseJSON(resultData)).draw();
             });
         });
 

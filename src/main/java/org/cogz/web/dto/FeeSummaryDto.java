@@ -13,29 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
-
-import java.util.List;
-import org.cogz.web.dto.GameDto;
-import org.cogz.web.entity.Game;
-import org.cogz.web.entity.GameExpense;
+package org.cogz.web.dto;
 
 /**
- * The game service interface.
+ * The fee summary DTO class.
  *
  * @author Myyron Latorilla
  */
-public interface GameService {
+public class FeeSummaryDto {
 
-    List<Game> getAllGames();
+    private String itemName;
+    private int quantity;
+    private float totalFee;
 
-    GameDto getGame(long id);
+    public String getItemName() {
+        return itemName;
+    }
 
-    Long createGame(Game game);
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
-    Long editGame(Game game);
+    public int getQuantity() {
+        return quantity;
+    }
 
-    Long deleteGame(long id);
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-    Long addExpense(GameExpense gameExpense);
+    public float getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(float totalFee) {
+        this.totalFee = totalFee;
+    }
 }

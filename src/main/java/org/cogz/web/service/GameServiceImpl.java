@@ -19,6 +19,7 @@ import java.util.List;
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.RegisteredPlayerDto;
 import org.cogz.web.entity.Game;
+import org.cogz.web.entity.GameExpense;
 import org.cogz.web.entity.GamePlayer;
 import org.cogz.web.repo.GameRepository;
 import org.springframework.beans.BeanUtils;
@@ -78,5 +79,12 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
         Game game = gameRepository.findById(id);
         game.setEnabled(0);
         return delete(game);
+    }
+
+    @Override
+    public Long addExpense(GameExpense gameExpense) {
+        Game game = gameRepository.findById(gameExpense.getGameId()).orElse(null);
+        game.getGameExpenseList().add(gameExpense);
+        return add(game);
     }
 }

@@ -38,6 +38,7 @@ public class GameDto {
     private int totalPlayers;
     private GameStatus gameStatus;
     private List<RegisteredPlayerDto> playerList = new ArrayList<>();
+    private List<FeeSummaryDto> feeSummaryList = new ArrayList<>();
     private Set<GameExpense> gameExpenseList;
 
     public Long getId() {
@@ -94,5 +95,13 @@ public class GameDto {
 
     public void setGameExpenseList(Set<GameExpense> gameExpenseList) {
         this.gameExpenseList = gameExpenseList;
+    }
+
+    public List<FeeSummaryDto> getFeeSummaryList() {
+        return feeSummaryList;
+    }
+
+    public void setFeeSummaryList(List<FeeSummaryDto> feeSummaryList) {
+        this.feeSummaryList = feeSummaryList;
     }
 }
