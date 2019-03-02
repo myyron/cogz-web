@@ -37,5 +37,5 @@ public interface GameService {
 
     Long deleteGame(long id);
 
-    Long addExpense(GameExpense gameExpense);
+    GameExpense addExpense(GameExpense gameExpense);
 }

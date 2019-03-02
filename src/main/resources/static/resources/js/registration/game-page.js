@@ -83,52 +83,50 @@ class GamePage extends DetailPage {
             });
         });
 
-        $('#btn-edit-gun-' + this._pageName).click(function () {
-            let selectedData = self._table[self._gunTableIndex].row('.selected').data();
+        $('#btn-edit-expense-' + this._pageName).click(function () {
+            let selectedData = self._table[self._expenseTableIndex].row('.selected').data();
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
             } else {
-                $('#input-edit-gun-player-id').val(self._player.id);
-                $('#input-edit-gun-id').val(selectedData.id);
-                $('#input-edit-gun-name').val(selectedData.name);
-                $('#input-edit-gun-model').val(selectedData.model);
-                $('#input-edit-gun-type').val(selectedData.gunType);
-                $('#modal-edit-gun-' + self._pageName).modal('show');
+                $('#input-edit-expense-id').val(selectedData.id);
+                $('#input-edit-expense-item-name').val(selectedData.itemName);
+                $('#input-edit-expense-total-cost').val(selectedData.totalCost);
+                $('#modal-edit-expense-' + self._pageName).modal('show');
             }
         });
 
-        $('#btn-delete-gun-' + this._pageName).click(function () {
-            let selectedData = self._table[self._gunTableIndex].row('.selected').data();
+        $('#btn-delete-expense-' + this._pageName).click(function () {
+            let selectedData = self._table[self._expenseTableIndex].row('.selected').data();
             if (typeof selectedData === 'undefined') {
                 Dialog.alertTableSelect();
             } else {
                 Dialog.alertDelete(function () {
-                    self._ajaxDetailListUpdate('delete-gun', self, 'gun'
-                            , {playerId: self._player.id, gunId: selectedData.id}, function () {
+                    self._ajaxDetailListUpdate('delete-expense', self, 'gameExpense'
+                            , {id: selectedData.id}, function () {
                         let dataIndex = -1;
-                        self._table[self._gunTableIndex].row(function (idx, data) {
+                        self._table[self._expenseTableIndex].row(function (idx, data) {
                             if (data.id === selectedData.id) {
                                 dataIndex = idx;
                             }
                             return false;
                         });
-                        self._table[self._gunTableIndex].row(dataIndex).remove().draw();
+                        self._table[self._expenseTableIndex].row(dataIndex).remove().draw();
                     });
                 });
             }
         });
 
-        $('#btn-edit-gun-' + this._pageName + '-save').click(function () {
-            self._ajaxDetailListUpdate('edit-gun', self, 'gun', undefined, function (resultData) {
+        $('#btn-edit-expense-' + this._pageName + '-save').click(function () {
+            self._ajaxDetailListUpdate('edit-expense', self, 'gameExpense', undefined, function (resultData) {
                 let resultJSON = $.parseJSON(resultData);
                 let dataIndex = -1;
-                self._table[self._gunTableIndex].row(function (idx, data) {
+                self._table[self._expenseTableIndex].row(function (idx, data) {
                     if (data.id == resultJSON.id) {
                         dataIndex = idx;
                     }
                     return false;
                 });
-                self._table[self._gunTableIndex].row(dataIndex).data(resultJSON).draw();
+                self._table[self._expenseTableIndex].row(dataIndex).data(resultJSON).draw();
             });
         });
     }

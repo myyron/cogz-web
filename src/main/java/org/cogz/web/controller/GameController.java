@@ -95,23 +95,25 @@ public class GameController {
 
     @RequestMapping(value = "/game/add-expense", method = RequestMethod.POST)
     @ResponseBody
-    public Long addExpense(@RequestParam String gameExpense) throws IOException {
+    public String addExpense(@RequestParam String gameExpense) throws IOException {
         logger.debug("add expense: {}", gameExpense);
-        return gameService.addExpense(new ObjectMapper().readValue(gameExpense, GameExpense.class));
+        GameExpense persistedGameExpense = gameService.addExpense(new ObjectMapper().readValue(gameExpense, GameExpense.class));
+        return new ObjectMapper().writeValueAsString(persistedGameExpense);
     }
 
     @RequestMapping(value = "/game/edit-expense", method = RequestMethod.POST)
     @ResponseBody
-    public Long editExpense(@RequestParam String gameExpense) throws IOException {
+    public String editExpense(@RequestParam String gameExpense) throws IOException {
         logger.debug("edit expense: {}", gameExpense);
-        return gameExpenseService.editExpense(new ObjectMapper().readValue(gameExpense, GameExpense.class));
+        gameExpenseService.editExpense(new ObjectMapper().readValue(gameExpense, GameExpense.class));
+        return gameExpense;
     }
 
     @RequestMapping(value = "/game/delete-expense", method = RequestMethod.POST)
     @ResponseBody
-    public Long deleteExpense(@RequestParam long gameExpenseId) {
-        logger.debug("delete expense: {}", gameExpenseId);
-        return gameExpenseService.deleteExpense(gameExpenseId);
+    public Long deleteExpense(@RequestParam long id) {
+        logger.debug("delete expense: {}", id);
+        return gameExpenseService.deleteExpense(id);
     }
 
     @RequestMapping(value = "/report/{id}", method = RequestMethod.GET)

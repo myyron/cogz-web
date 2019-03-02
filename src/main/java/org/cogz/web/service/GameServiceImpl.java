@@ -82,9 +82,10 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
     }
 
     @Override
-    public Long addExpense(GameExpense gameExpense) {
+    public GameExpense addExpense(GameExpense gameExpense) {
         Game game = gameRepository.findById(gameExpense.getGameId()).orElse(null);
         game.getGameExpenseList().add(gameExpense);
-        return add(game);
+        edit(game);
+        return gameExpense;
     }
 }
