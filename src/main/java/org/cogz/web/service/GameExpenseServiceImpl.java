@@ -20,6 +20,7 @@ import org.cogz.web.repo.GameExpenseRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The {@link GameExpenseService} implementation.
@@ -33,6 +34,7 @@ public class GameExpenseServiceImpl extends BaseService<GameExpenseRepository, G
     private GameExpenseRepository gameExpenseRepository;
 
     @Override
+    @Transactional
     public Long editExpense(GameExpense updatedGameExpense) {
         GameExpense gameExpense = gameExpenseRepository.findById(updatedGameExpense.getId()).orElse(null);
         BeanUtils.copyProperties(updatedGameExpense, gameExpense);
@@ -40,6 +42,7 @@ public class GameExpenseServiceImpl extends BaseService<GameExpenseRepository, G
     }
 
     @Override
+    @Transactional
     public Long deleteExpense(long gameExpenseId) {
         GameExpense gameExpense = gameExpenseRepository.findById(gameExpenseId).orElse(null);
         gameExpense.setEnabled(0);

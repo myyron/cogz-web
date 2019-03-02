@@ -31,6 +31,8 @@ public interface GameService {
 
     GameDto getGame(long id);
 
+    GameDto getCurrentGame();
+
     Long createGame(Game game);
 
     Long editGame(Game game);

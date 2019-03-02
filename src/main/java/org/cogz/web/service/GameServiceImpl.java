@@ -60,6 +60,22 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
     }
 
     @Override
+    public GameDto getCurrentGame() {
+        GameDto result = new GameDto();
+        Game game = gameRepository.findByMaxId();
+        BeanUtils.copyProperties(game, result);
+        for (GamePlayer gamePlayer : game.getGamePlayerList()) {
+            RegisteredPlayerDto registeredPlayerDto = new RegisteredPlayerDto();
+            registeredPlayerDto.setCallSign(gamePlayer.getPlayer().getCallSign());
+            if (gamePlayer.getTimeOut() != null) {
+                registeredPlayerDto.setCheckOut(true);
+            }
+            result.getPlayerList().add(registeredPlayerDto);
+        }
+        return result;
+    }
+
+    @Override
     @Transactional
     public Long createGame(Game game) {
         return add(game);
@@ -82,6 +98,7 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
     }
 
     @Override
+    @Transactional
     public GameExpense addExpense(GameExpense gameExpense) {
         Game game = gameRepository.findById(gameExpense.getGameId()).orElse(null);
         game.getGameExpenseList().add(gameExpense);

@@ -77,6 +77,14 @@ public class GameController {
         return gameService.deleteGame(id);
     }
 
+    @RequestMapping(value = "/game/current", method = RequestMethod.GET)
+    public String showCurrentGameDetailPage(Model model) throws JsonProcessingException {
+        String game = new ObjectMapper().writeValueAsString(gameService.getCurrentGame());
+        logger.debug("game detail: {}", game);
+        model.addAttribute("game", game);
+        return "registration/game";
+    }
+
     @RequestMapping(value = "/game/{id}", method = RequestMethod.GET)
     public String showGameDetailPage(Model model, @PathVariable("id") long id) throws JsonProcessingException {
         String game = new ObjectMapper().writeValueAsString(gameService.getGame(id));

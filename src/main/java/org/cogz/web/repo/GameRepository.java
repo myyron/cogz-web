@@ -27,9 +27,15 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface GameRepository extends JpaRepository<Game, Long> {
 
-    @Query("select distinct g from Game g left join fetch g.gamePlayerList left join fetch g.gameExpenseList where g.enabled = 1")
+    @Query("select distinct g from Game g left join fetch g.gamePlayerList left join fetch g.gameExpenseList "
+            + "where g.enabled = 1")
     List<Game> findAllByEnabled();
 
-    @Query("select g from Game g left join fetch g.gamePlayerList left join fetch g.gameExpenseList where g.id = ?1 and g.enabled = 1")
+    @Query("select g from Game g left join fetch g.gamePlayerList left join fetch g.gameExpenseList "
+            + "where g.id = ?1 and g.enabled = 1")
     Game findById(long id);
+
+    @Query("select g from Game g left join fetch g.gamePlayerList left join fetch g.gameExpenseList "
+            + "where g.id = (select max(g.id) from Game g where g.enabled = 1)")
+    Game findByMaxId();
 }
