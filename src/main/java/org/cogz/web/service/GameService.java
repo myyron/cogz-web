@@ -35,7 +35,7 @@ public interface GameService {
 
     Long createGame(Game game);
 
-    Long editGame(Game game);
+    GameDto editGame(Game game);
 
     Long deleteGame(long id);
 

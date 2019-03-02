@@ -31,13 +31,5 @@ class GamesPage extends ListPage {
             {data: 'gameStatus'}
         ];
         super(pageName, columns);
-        this._initEvents();
-    }
-
-    _initEvents() {
-        $('#datepicker').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true
-        });
     }
 }

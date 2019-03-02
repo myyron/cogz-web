@@ -33,6 +33,11 @@ class BasePage {
         $('input[type="checkbox"]').change(function () {
             this.value = (Number(this.checked));
         });
+
+        $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
     }
 
     _getFormData(formId) {

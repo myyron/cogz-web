@@ -47,15 +47,7 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
     public GameDto getGame(long id) {
         GameDto result = new GameDto();
         Game game = gameRepository.findById(id);
-        BeanUtils.copyProperties(game, result);
-        for (GamePlayer gamePlayer : game.getGamePlayerList()) {
-            RegisteredPlayerDto registeredPlayerDto = new RegisteredPlayerDto();
-            registeredPlayerDto.setCallSign(gamePlayer.getPlayer().getCallSign());
-            if (gamePlayer.getTimeOut() != null) {
-                registeredPlayerDto.setCheckOut(true);
-            }
-            result.getPlayerList().add(registeredPlayerDto);
-        }
+        setGameDto(game, result);
         return result;
     }
 
@@ -63,15 +55,7 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
     public GameDto getCurrentGame() {
         GameDto result = new GameDto();
         Game game = gameRepository.findByMaxId();
-        BeanUtils.copyProperties(game, result);
-        for (GamePlayer gamePlayer : game.getGamePlayerList()) {
-            RegisteredPlayerDto registeredPlayerDto = new RegisteredPlayerDto();
-            registeredPlayerDto.setCallSign(gamePlayer.getPlayer().getCallSign());
-            if (gamePlayer.getTimeOut() != null) {
-                registeredPlayerDto.setCheckOut(true);
-            }
-            result.getPlayerList().add(registeredPlayerDto);
-        }
+        setGameDto(game, result);
         return result;
     }
 
@@ -83,10 +67,14 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
 
     @Override
     @Transactional
-    public Long editGame(Game updatedGame) {
+    public GameDto editGame(Game updatedGame) {
+        GameDto result = new GameDto();
         Game game = gameRepository.findById(updatedGame.getId()).orElse(null);
-        BeanUtils.copyProperties(updatedGame, game);
-        return edit(game);
+        game.setDate(updatedGame.getDate());
+        game.setEventDesc(updatedGame.getEventDesc());
+        edit(game);
+        setGameDto(game, result);
+        return result;
     }
 
     @Override
@@ -104,5 +92,17 @@ public class GameServiceImpl extends BaseService<GameRepository, Game> implement
         game.getGameExpenseList().add(gameExpense);
         edit(game);
         return gameExpense;
+    }
+
+    private void setGameDto(Game game, GameDto gameDto) {
+        BeanUtils.copyProperties(game, gameDto);
+        for (GamePlayer gamePlayer : game.getGamePlayerList()) {
+            RegisteredPlayerDto registeredPlayerDto = new RegisteredPlayerDto();
+            registeredPlayerDto.setCallSign(gamePlayer.getPlayer().getCallSign());
+            if (gamePlayer.getTimeOut() != null) {
+                registeredPlayerDto.setCheckOut(true);
+            }
+            gameDto.getPlayerList().add(registeredPlayerDto);
+        }
     }
 }

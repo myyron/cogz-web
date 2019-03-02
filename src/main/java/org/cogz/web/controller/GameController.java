@@ -18,6 +18,7 @@ package org.cogz.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import org.cogz.web.dto.GameDto;
 import org.cogz.web.entity.Game;
 import org.cogz.web.entity.GameExpense;
 import org.cogz.web.service.GameExpenseService;
@@ -97,8 +98,8 @@ public class GameController {
     @ResponseBody
     public String editGame(@RequestParam String game) throws IOException {
         logger.debug("edit game: {}", game);
-        gameService.editGame(new ObjectMapper().readValue(game, Game.class));
-        return game;
+        GameDto gameDto = gameService.editGame(new ObjectMapper().readValue(game, Game.class));
+        return new ObjectMapper().writeValueAsString(gameDto);
     }
 
     @RequestMapping(value = "/game/add-expense", method = RequestMethod.POST)

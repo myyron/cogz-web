@@ -61,17 +61,15 @@ class GamePage extends DetailPage {
 
     _initEvents(self) {
         $('#btn-edit-' + this._pageName).click(function () {
-            $('#input-edit-id').val(self._player.id);
-            $('#input-edit-call-sign').val(self._player.callSign);
-            $('#input-edit-first-name').val(self._player.firstName);
-            $('#input-edit-last-name').val(self._player.lastName);
-            $('#input-edit-contact-num').val(self._player.contactNum);
+            $('#input-edit-id').val(self._game.id);
+            $('#datepicker').val(self._game.date);
+            $('#input-edit-event-desc').val(self._game.eventDesc);
             $('#modal-edit-' + self._pageName).modal('show');
         });
 
         $('#btn-edit-' + this._pageName + '-save').click(function () {
             self._ajaxDetailUpdate('edit', self, undefined, function (resultData) {
-                self._player = $.parseJSON(resultData);
+                self._game = $.parseJSON(resultData);
                 self._loadDetail();
             });
         });
