@@ -1,60 +1,22 @@
-/*
- * Copyright 2018 Myyron Latorilla
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.cogz.web.dto;
 
-import org.cogz.web.enums.RoleType;
+import java.sql.Date;
+import org.cogz.web.model.ERole;
 
 /**
- * The user DTO class.
  *
- * @author Myyron Latorilla
+ * @author altrax
  */
 public class UserDto {
 
-    private Long id;
     private String username;
-    private String firstName;
-    private String lastName;
-    private String oldPw;
-    private String newPw;
-    private RoleType roleType;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOldPw() {
-        return oldPw;
-    }
-
-    public void setOldPw(String oldPw) {
-        this.oldPw = oldPw;
-    }
-
-    public String getNewPw() {
-        return newPw;
-    }
-
-    public void setNewPw(String newPw) {
-        this.newPw = newPw;
-    }
+    private String password;
+    private ERole role;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String mobileNumber;
+    private Date birthdate;
 
     public String getUsername() {
         return username;
@@ -64,27 +26,59 @@ public class UserDto {
         this.username = username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getLastName() {
-        return lastName;
+    public ERole getRole() {
+        return role;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setRole(ERole role) {
+        this.role = role;
     }
 
-    public RoleType getRoleType() {
-        return roleType;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setRoleType(RoleType roleType) {
-        this.roleType = roleType;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 }
