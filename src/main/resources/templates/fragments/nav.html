@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <div th:fragment="content">
+
+            <div class="py-1 mb-4 border-bottom shadow-sm">
+                <div class="container text-center">
+                    <div class="row mt-1">
+                        <div class="col-sm-4 col-12">
+                            <span class="h4">CoGZ Online Portal</span>
+                        </div>
+
+                        <div class="col-sm-8 col-12">
+                            <ul class="nav nav-tabs">
+                                <li class="col-3">
+                                    <a id="navHome" th:href="@{/}" class="nav-link active">
+                                        <i class="bi bi-house-door-fill"></i>
+                                    </a>
+                                </li>
+                                <li class="col-3">
+                                    <a id="navGameskedList" href="#" class="nav-link">
+                                        <i class="bi bi-calendar-week-fill"></i>
+                                    </a>
+                                </li>
+                                <li class="col-3">
+                                    <a id="navUserList" th:href="@{/user-list}" class="nav-link">
+                                        <i class="bi bi-people-fill"></i>
+                                    </a>
+                                </li>
+                                <li class="col-3">
+                                    <a class="nav-link" href="javascript: document.logoutForm.submit()">
+                                        <i class="bi bi-door-closed-fill"></i>
+                                    </a>
+                                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                                        <input hidden type="submit"/>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

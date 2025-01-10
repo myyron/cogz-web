@@ -13,24 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repository;
+package org.cogz.web.service;
 
 import java.util.List;
-import java.util.Optional;
+import org.cogz.web.dto.UserDto;
 import org.cogz.web.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author altrax
  */
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface IUserService {
 
-    List<User> findAllByEnabled(Integer enabled);
+    List<User> getUsers();
 
-    Optional<User> findByUsername(String username);
+    User getCurrentUser();
 
-    Boolean existsByUsername(String username);
+    Integer createUser(UserDto userDto);
+
+    void editUser(UserDto userDto);
+
+    void deactivateUser(String username);
+
+    void resetPassword(String username, String password);
 }

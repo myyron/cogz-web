@@ -13,24 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repository;
+package org.cogz.web.service;
 
-import java.util.List;
-import java.util.Optional;
-import org.cogz.web.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.cogz.web.dto.GameskedDto;
 
 /**
  *
  * @author altrax
  */
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface IGameskedService {
 
-    List<User> findAllByEnabled(Integer enabled);
-
-    Optional<User> findByUsername(String username);
-
-    Boolean existsByUsername(String username);
+    Integer addGamesked(GameskedDto gameskedDto);
 }

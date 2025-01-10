@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repository;
+package org.cogz.web.dto;
 
-import java.util.List;
-import java.util.Optional;
-import org.cogz.web.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.time.LocalDate;
 
 /**
  *
  * @author altrax
  */
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public class GameskedDto {
 
-    List<User> findAllByEnabled(Integer enabled);
+    private LocalDate gamedate;
 
-    Optional<User> findByUsername(String username);
+    public LocalDate getGamedate() {
+        return gamedate;
+    }
 
-    Boolean existsByUsername(String username);
+    public void setGamedate(LocalDate gamedate) {
+        this.gamedate = gamedate;
+    }
 }

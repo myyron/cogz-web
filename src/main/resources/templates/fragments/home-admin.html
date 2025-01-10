@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <div class="container" th:fragment="content">
+            <div class="row mb-3 text-center">
+                <div class="col px-4">
+                    <div class="card mb-2 rounded-3 shadow-sm">
+                        <div class="card-header py-3 text-center">
+                            <h5 class="my-0 h6">Active Game Schedule</h5>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title pricing-card-title">Date: <small class="text-body-secondary fw-light">01/12/2025</small></h3>
+                            <h3 class="card-title pricing-card-title">Type: <small class="text-body-secondary fw-light">Regular</small></h3>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>10 players registered</li>
+                                <li>2 players pending payment</li>
+                                <li>4 companions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col px-4">
+                    <div class="card mb-2 rounded-3 shadow-sm">
+                        <div class="card-header py-3 text-center">
+                            <h5 class="my-0 h6">Admin Tasks</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group list-group-flush mb-4">
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createGameskedModal">
+                                    Create Game Schedule
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistration">Account Registration - Myyron Latorilla</a>
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistration">Account Registration - Roberto Latorilla</a>
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPayment">Payment Verification - Noel Cagurangan</a>
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPayment">Payment Verification - Paolo Panaligan</a>                                
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPayment">Payment Verification - Michael Santos</a>
+                            </div>
+
+                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">View All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- createGameskedModal -->
+            <div class="modal fade" id="createGameskedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Game Schedule</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <label for="inputGamedate" class="col-sm-2 col-form-label">Game Date</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" id="inputGamedate">
+                                    </div>
+                                </div>
+                                <select class="form-select form-select-sm" aria-label="Game Type">
+                                    <option selected>Game Type</option>
+                                    <option value="1">Regular Game</option>
+                                    <option value="2">Private Game</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- verifyAccountRegistration -->
+            <div class="modal fade" id="verifyAccountRegistration" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Verify Account Registration</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <label for="inputGamedate" class="col-sm-2 col-form-label">Game Date</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" id="inputGamedate">
+                                    </div>
+                                </div>
+                                <select class="form-select form-select-sm" aria-label="Game Type">
+                                    <option selected>Game Type</option>
+                                    <option value="1">Regular Game</option>
+                                    <option value="2">Private Game</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Restricted</button>
+                                <button type="submit" class="btn btn-primary">Ok</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- verifyPayment -->
+            <div class="modal fade" id="verifyPayment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Verify Payment</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <label for="inputGamedate" class="col-sm-2 col-form-label">Game Date</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" id="inputGamedate">
+                                    </div>
+                                </div>
+                                <select class="form-select form-select-sm" aria-label="Game Type">
+                                    <option selected>Game Type</option>
+                                    <option value="1">Regular Game</option>
+                                    <option value="2">Private Game</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Verified</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

@@ -15,9 +15,12 @@
  */
 package org.cogz.web.controller;
 
-import jakarta.validation.Valid;
-import org.cogz.web.dto.UserDto;
-import org.cogz.web.service.IUserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.cogz.web.dto.GameskedDto;
+import org.cogz.web.service.IGameskedService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,15 +33,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @author altrax
  */
 @RestController
-@RequestMapping("/api")
-public class ApiController {
+@RequestMapping("/account")
+public class GameskedController {
+
+    Logger logger = LoggerFactory.getLogger(GameskedController.class);
 
     @Autowired
-    private IUserService userService;
+    private IGameskedService gameskedService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody UserDto userDto) {
-        userService.createUser(userDto);
-        return ResponseEntity.ok("User created successfully.");
+    @PostMapping("/add-gamesked")
+    public ResponseEntity<?> addGamesked(@RequestBody GameskedDto gameskedDto) throws JsonProcessingException {
+        logger.info("add gamesked - {}", new ObjectMapper().writeValueAsString(gameskedDto));
+        gameskedService.addGamesked(gameskedDto);
+        return ResponseEntity.ok("Game schedule added successfully.");
     }
 }
