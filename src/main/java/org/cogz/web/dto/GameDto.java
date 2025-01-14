@@ -13,35 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.model;
+package org.cogz.web.dto;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.EGameType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.sql.Date;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author altrax
  */
-@Entity
-@Table(name = "GAMESCHEDULE")
-public class Gamesked extends BaseEntity {
+public class GameDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    private Date date;
-
+    private LocalDate schedule;
     private EGameType type;
+    private EGameStatus status;
+    
+    private List<GameUserDto> gameUserList = new ArrayList<>();
 
-    public Gamesked() {
+    public List<GameUserDto> getGameUserList() {
+        return gameUserList;
+    }
+
+    public void setGameUserList(List<GameUserDto> gameUserList) {
+        this.gameUserList = gameUserList;
     }
 
     public Integer getId() {
@@ -52,12 +50,12 @@ public class Gamesked extends BaseEntity {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDate getSchedule() {
+        return schedule;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setSchedule(LocalDate schedule) {
+        this.schedule = schedule;
     }
 
     public EGameType getType() {
@@ -66,5 +64,13 @@ public class Gamesked extends BaseEntity {
 
     public void setType(EGameType type) {
         this.type = type;
+    }
+
+    public EGameStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EGameStatus status) {
+        this.status = status;
     }
 }

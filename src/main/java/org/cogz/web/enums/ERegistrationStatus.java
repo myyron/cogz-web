@@ -13,24 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.cogz.web.enums;
 
-class HomeUser {
-
-    constructor() {
-        
-        $("#navHome").addClass("active");        
-        $("#navGameList").addClass("disabled");
-        $("#navUserList").addClass("disabled");
-
-        $.ajax({
-            url: "/user/current"
-        }).done(function (data) {
-            $("#inputUsername").val(data.username);
-            $("#inputFirstname").val(data.firstname);
-            $("#inputLastname").val(data.lastname);
-            $("#inputEmail").val(data.email);
-            $("#inputMobileNumber").val(data.mobileNumber);
-            $("#inputBirthdate").val(data.birthdate);
-        });
-    }
+/**
+ *
+ * @author altrax
+ */
+public enum ERegistrationStatus {
+    PENDING_PAYMENT,
+    PAID;
 }

@@ -27,6 +27,8 @@ public interface IUserService {
 
     List<User> getUsers();
 
+    User getUser(Integer userId);
+
     User getCurrentUser();
 
     Integer createUser(UserDto userDto);

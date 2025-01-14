@@ -15,23 +15,27 @@
  */
 package org.cogz.web.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.cogz.web.enums.ERole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
+import org.cogz.web.enums.EUserStatus;
 
 /**
  *
  * @author altrax
  */
 @Entity
-@Table(name = "WEBUSER",
+@Table(name = "USERS",
         uniqueConstraints = {
             @UniqueConstraint(columnNames = "username")
         })
@@ -64,8 +68,8 @@ public class User extends BaseEntity {
     private String mobileNumber;
 
     private LocalDate birthdate;
-
     private ERole role;
+    private EUserStatus status;
 
     public User() {
     }
@@ -145,5 +149,13 @@ public class User extends BaseEntity {
 
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public EUserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EUserStatus status) {
+        this.status = status;
     }
 }

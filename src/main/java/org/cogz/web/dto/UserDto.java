@@ -17,6 +17,7 @@ package org.cogz.web.dto;
 
 import java.time.LocalDate;
 import org.cogz.web.enums.ERole;
+import org.cogz.web.enums.EUserStatus;
 
 /**
  *
@@ -26,13 +27,15 @@ public class UserDto {
 
     private String username;
     private String password;
-    private ERole role;
     private String firstname;
     private String lastname;
     private String email;
     private String mobileNumber;
     private LocalDate birthdate;
     private String insBy;
+
+    private ERole role;
+    private EUserStatus status;
 
     public String getInsBy() {
         return insBy;
@@ -104,5 +107,13 @@ public class UserDto {
 
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public EUserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EUserStatus status) {
+        this.status = status;
     }
 }

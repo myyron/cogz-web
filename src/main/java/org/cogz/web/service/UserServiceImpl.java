@@ -76,7 +76,6 @@ public class UserServiceImpl implements IUserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         user.setUpdBy(authentication.getName());
         user.setUpdDate(LocalDateTime.now());
-        userRepository.save(user);
     }
 
     @Override
@@ -99,7 +98,6 @@ public class UserServiceImpl implements IUserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         user.setUpdBy(authentication.getName());
         user.setUpdDate(LocalDateTime.now());
-        userRepository.save(user);
     }
 
     @Override
@@ -111,6 +109,11 @@ public class UserServiceImpl implements IUserService {
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userRepository.findByUsername(authentication.getName()).get();
+    }
+    
+    @Override
+    public User getUser(Integer userId) {
+        return userRepository.findByIdAndEnabled(userId, 1).get();
     }
 
 }

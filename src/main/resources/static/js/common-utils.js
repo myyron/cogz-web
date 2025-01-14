@@ -24,3 +24,32 @@ function getCurrentUser() {
     return;
 }
 
+/**
+ * Converts the form's input data to dto.
+ * @param {type} elements
+ * @param {array of objects} fields - array of object with key and fieldId attribute
+ * @returns {String} in json string
+ */
+function createDtoFromForm(elements, fields) {
+    const data = {};
+    for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        let attrname = el.getAttribute("name");
+
+        if (!attrname)
+            continue;
+        data[attrname] = el.value;
+    }
+
+    for (let i = 0; i < fields.length; i++) {
+        let text = $("#" + fields[i].inputId + " :selected").text();
+        if (fields[i].key === 'role') {
+            text = "ROLE_" + text;
+        }
+        data[fields[i].key] = text;
+    }
+
+    let result = JSON.stringify(data);
+    return result;
+}
+

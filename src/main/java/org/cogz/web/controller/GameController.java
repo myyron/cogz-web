@@ -1,0 +1,102 @@
+/*
+ * Copyright 2025 Contractors of Ground Zero (CoGZ)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.cogz.web.controller;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.util.ArrayList;
+import java.util.List;
+import org.cogz.web.dto.GameDto;
+import org.cogz.web.dto.GameUserDto;
+import org.cogz.web.dto.UserDto;
+import org.cogz.web.model.Game;
+import org.cogz.web.model.GameUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.cogz.web.service.IGameService;
+import org.cogz.web.service.IUserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+/**
+ *
+ * @author altrax
+ */
+@RestController
+@RequestMapping("/game")
+public class GameController {
+
+    Logger logger = LoggerFactory.getLogger(GameController.class);
+
+    @Autowired
+    private IGameService gameService;
+
+    @Autowired
+    private IUserService userService;
+
+    @GetMapping("/list")
+    public List<GameDto> getGames() {
+        ModelMapper mapper = new ModelMapper();
+        List<GameDto> result = new ArrayList<>();
+        for (Game game : gameService.getGames()) {
+            GameDto gameDto = mapper.map(game, GameDto.class);
+            for (GameUser gameUser : gameService.getPlayers(game.getId())) {
+                GameUserDto gameUserDto = mapper.map(gameUser, GameUserDto.class);
+                gameUserDto.setUser(mapper.map(userService.getUser(gameUser.getUserId()), UserDto.class));
+                gameDto.getGameUserList().add(gameUserDto);
+            }
+            result.add(gameDto);
+        }
+        logger.info("game list - {}", result.size());
+        return result;
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createGame(@RequestBody GameDto gameDto) throws JsonProcessingException {
+        logger.info("create game - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(gameDto));
+        gameService.createGame(gameDto);
+        return ResponseEntity.ok("Game created successfully.");
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<?> editGame(@RequestBody GameDto gameDto) throws JsonProcessingException {
+        logger.info("edit game - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(gameDto));
+        gameService.editGame(gameDto);
+        return ResponseEntity.ok("Game edited successfully.");
+    }
+
+    @PostMapping("/deactivate")
+    public ResponseEntity<?> deactivateGame(@RequestParam Integer id) {
+        logger.info("delete game - {}", id);
+        gameService.deactivateGame(id);
+        return ResponseEntity.ok("Game deleted successfully.");
+    }
+
+    @PostMapping("/add-users")
+    public ResponseEntity<?> addUsers(@RequestParam Integer gameId, @RequestParam String usernames) {
+        logger.info("add usernames {} to game {}", usernames, gameId);
+        gameService.addUsers(gameId, usernames);
+        return ResponseEntity.ok("User added to game successfully.");
+    }
+}

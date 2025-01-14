@@ -15,7 +15,9 @@
  */
 package org.cogz.web.repository;
 
-import org.cogz.web.model.Gamesked;
+import java.util.List;
+import org.cogz.web.model.Game;
+import org.cogz.web.model.GameUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +26,9 @@ import org.springframework.stereotype.Repository;
  * @author altrax
  */
 @Repository
-public interface GameskedRepository extends JpaRepository<Gamesked, Integer> {
+public interface GameUserRepository extends JpaRepository<GameUser, Integer> {
+    
+    List<GameUser> findAllByEnabled(Integer enabled);
+    
+    List<GameUser> findAllByGameIdAndEnabled(Integer gameId, Integer enabled);
 }

@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.cogz.web.service;
 
-class HomeUser {
+import java.util.List;
+import org.cogz.web.dto.GameDto;
+import org.cogz.web.model.Game;
+import org.cogz.web.model.GameUser;
 
-    constructor() {
-        
-        $("#navHome").addClass("active");        
-        $("#navGameList").addClass("disabled");
-        $("#navUserList").addClass("disabled");
+/**
+ *
+ * @author altrax
+ */
+public interface IGameService {
 
-        $.ajax({
-            url: "/user/current"
-        }).done(function (data) {
-            $("#inputUsername").val(data.username);
-            $("#inputFirstname").val(data.firstname);
-            $("#inputLastname").val(data.lastname);
-            $("#inputEmail").val(data.email);
-            $("#inputMobileNumber").val(data.mobileNumber);
-            $("#inputBirthdate").val(data.birthdate);
-        });
-    }
+    List<Game> getGames();
+
+    Integer createGame(GameDto gameDto);
+
+    void editGame(GameDto gameDto);
+
+    void deactivateGame(Integer id);
+    
+    void addUsers(Integer gameId, String usernames);
+    
+    List<GameUser> getPlayers(Integer gameId);
 }

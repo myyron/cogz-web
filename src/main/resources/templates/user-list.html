@@ -51,6 +51,7 @@
                                                     <th>Fullname</th>
                                                     <th>Username</th>
                                                     <th>Role</th>
+                                                    <th>Status</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -120,15 +121,28 @@
                                     <div class="col-sm-9">
                                         <select id="inputRoleType" class="form-select form-select-sm" aria-label="Role Type" required>
                                             <option hidden selected></option>
-                                            <option value="1">USER</option>
-                                            <option value="2">STAFF</option>
+                                            <option value="USER">USER</option>
+                                            <option value="STAFF">STAFF</option>
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <option value="ADMIN">ADMIN</option>
+                                                </th>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="inputUserStatus" class="col-sm-3 col-form-label text-small">Status</label>
+                                    <div class="col-sm-9">
+                                        <select id="inputUserStatus" class="form-select form-select-sm" aria-label="User Status" required>
+                                            <option hidden selected></option>
+                                            <option value="GOOD">GOOD</option>
+                                            <option value="BANNED">BANNED</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" id="createUserButton" class="btn btn-outline-primary">Create</button>
+                                <button type="submit" class="btn btn-outline-primary">Save</button>
                             </div>
                         </form>
                     </div>
@@ -201,11 +215,21 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <label for="editInputUserStatus" class="col-sm-3 col-form-label text-small">Status</label>
+                                    <div class="col-sm-9">
+                                        <select id="editInputUserStatus" class="form-select form-select-sm" aria-label="User Status" required>
+                                            <option hidden selected></option>
+                                            <option value="GOOD">GOOD</option>
+                                            <option value="BANNED">BANNED</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <button type="button" id="showResetPasswordModal" class="btn btn-outline-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Reset Password</button>
-                                <button type="submit" id="editUserButton" class="btn btn-outline-primary">Edit</button>
+                                <button type="submit" class="btn btn-outline-primary">Save</button>
                             </div>
                         </form>
                     </div>
@@ -238,7 +262,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" id="resetPasswordButton" class="btn btn-outline-primary">Reset</button>
+                                <button type="submit" id="resetPasswordButton" class="btn btn-outline-primary">Save</button>
                             </div>
                         </form>
                     </div>
@@ -255,6 +279,7 @@
         <script src="https://cdn.datatables.net/2.2.0/js/dataTables.bootstrap5.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>
 
+        <script src="js/common-utils.js"></script>
         <script src="js/user-list.js"></script>
         <script>
             new UserList();

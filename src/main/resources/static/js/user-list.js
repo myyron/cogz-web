@@ -19,6 +19,7 @@ class UserList {
     constructor() {
 
         $("#navHome").removeClass("active");
+        $("#navGameList").removeClass("active");
         $("#navUserList").addClass("active");
 
         const userListTable = new DataTable('#userListTable', {
@@ -36,6 +37,15 @@ class UserList {
                 {data: null,
                     render: function (data) {
                         return data.role.split("_")[1];
+                    }
+                },
+                {data: null,
+                    render: function (data) {
+                        if (data.status === 'BANNED') {
+                            return '<span class="badge rounded-pill text-bg-danger">BANNED</span>';
+                        } else {
+                            return data.status;
+                        }
                     }
                 }
             ],
@@ -63,7 +73,9 @@ class UserList {
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#createUserForm input'), 'inputRoleType')
+                data: createDtoFromForm(document.querySelectorAll('#createUserForm input'), [{key:'role', inputId:'inputRoleType'},
+                    {key:'status', inputId:'inputUserStatus'}
+                ])
             }).always(function () {
                 $("#createUserModal").modal("hide");
                 userListTable.ajax.reload();
@@ -78,18 +90,20 @@ class UserList {
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#editUserForm input'), 'editInputRoleType')
+                data: createDtoFromForm(document.querySelectorAll('#editUserForm input'), [{key:'role', inputId:'editInputRoleType'},
+                    {key:'status', inputId:'editInputUserStatus'}
+                ])
             }).always(function () {
                 $("#editUserModal").modal("hide");
                 userListTable.ajax.reload();
                 $("#editUserForm")[0].reset();
             });
         });
-        
+
         $("#resetPasswordForm").on("submit", function (e) {
             if ($("#resetInputPassword").val() !== $("#resetInputPassword2").val()) {
                 bootbox.alert({
-                    message: '<div class="text-center text-warning">Password do not match</div>',
+                    message: '<div class="text-center text-danger">Password do not match</div>',
                     size: 'small'
 
                 }).init(function () {
@@ -98,7 +112,7 @@ class UserList {
                 });
                 return e.preventDefault();
             }
-            
+
             $.ajax({
                 url: "/user/reset",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -114,7 +128,7 @@ class UserList {
         $("#deleteUserButton").on("click", function () {
             bootbox.confirm({
                 title: 'Delete User?',
-                message: 'Are you sure?',
+                message: '<div class="text-center text-warning">Are you sure?</div>',
                 buttons: {
                     cancel: {
                         label: 'Cancel',
@@ -166,6 +180,7 @@ class UserList {
             $('#editInputMobileNumber').val(data.mobileNumber);
             $('#editInputBirthdate').val(data.birthdate);
             $('#editInputRoleType').val(data.role.split("_")[1]);
+            $('#editInputUserStatus').val(data.status);
         });
 
         $("#showCreateUserModal").on("click", function () {
@@ -196,28 +211,6 @@ class UserList {
             for (let i = 0; i < tokens.length; i++) {
                 result += tokens[i].substring(0, 1);
             }
-            return result;
-        }
-
-        /**
-         * Converts the form's input data to dto.
-         * @param {type} elements
-         * @returns {String} in json string
-         */
-        function createDtoFromForm(elements, inputRoleTypeId) {
-            const data = {};
-            for (let i = 0; i < elements.length; i++) {
-                let el = elements[i];
-                let attrname = el.getAttribute("name");
-
-                if (!attrname)
-                    continue;
-                data[attrname] = el.value;
-            }
-
-            data["role"] = "ROLE_" + $("#" + inputRoleTypeId + " :selected").text();
-
-            let result = JSON.stringify(data);
             return result;
         }
     }

@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
-
-import org.cogz.web.dto.GameskedDto;
+package org.cogz.web.enums;
 
 /**
  *
  * @author altrax
  */
-public interface IGameskedService {
-
-    Integer addGamesked(GameskedDto gameskedDto);
+public enum EUserStatus {
+    GOOD,
+    BANNED;
 }
