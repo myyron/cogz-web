@@ -26,6 +26,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
-    
+
     List<Game> findAllByEnabled(Integer enabled);
 }

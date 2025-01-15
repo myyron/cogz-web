@@ -19,10 +19,9 @@ class HomeAdmin {
     constructor() {
 
         getCurrentUser();
-        
-        $("#navHome").addClass("active");        
+
+        $("#navHome").addClass("active");
         $("#navGameList").removeClass("active");
         $("#navUserList").removeClass("active");
-
     }
 }

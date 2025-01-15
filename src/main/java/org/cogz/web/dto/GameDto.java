@@ -27,13 +27,14 @@ import org.cogz.web.enums.EGameType;
  *
  * @author altrax
  */
-@Getter @Setter
+@Getter
+@Setter
 public class GameDto {
 
     private Integer id;
     private LocalDate schedule;
     private EGameType type;
     private EGameStatus status;
-    
+
     private List<GameUserDto> gameUserList = new ArrayList<>();
 }

@@ -27,8 +27,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GameUserRepository extends JpaRepository<GameUser, Integer> {
-    
+
     List<GameUser> findAllByEnabled(Integer enabled);
-    
+
     List<GameUser> findAllByGameIdAndEnabled(Integer gameId, Integer enabled);
 }

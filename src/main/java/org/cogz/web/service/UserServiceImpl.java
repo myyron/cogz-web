@@ -110,7 +110,7 @@ public class UserServiceImpl implements IUserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userRepository.findByUsername(authentication.getName()).get();
     }
-    
+
     @Override
     public User getUser(Integer userId) {
         return userRepository.findByIdAndEnabled(userId, 1).get();

@@ -29,19 +29,20 @@ import org.cogz.web.enums.ERegistrationStatus;
  *
  * @author altrax
  */
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "GAME_USERS")
 public class GameUser extends BaseEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     private Integer gameId;
-    private Integer userId;    
-    private ERegistrationStatus regStatus;    
-    private LocalDateTime paymentDate;    
+    private Integer userId;
+    private ERegistrationStatus regStatus;
+    private LocalDateTime paymentDate;
     private Boolean refunded;
     private Boolean absent;
     private Integer fps;

@@ -34,7 +34,9 @@ import org.cogz.web.enums.EUserStatus;
  *
  * @author altrax
  */
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "USERS",
         uniqueConstraints = {

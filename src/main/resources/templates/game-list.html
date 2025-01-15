@@ -78,7 +78,10 @@
                                         <div class="btn-group" role="group">
                                             <button type="button" id="showAddUsersModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#addUsersModal">
                                                 <i class="bi bi-plus-lg"></i>
-                                            </button>                                        
+                                            </button>
+                                            <button type="button" id="showEditUserModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                                <i class="bi bi-pen-fill"></i>
+                                            </button>
                                             <button type="button" id="removeUserButton" class="btn btn-outline-primary disabled">
                                                 <i class="bi bi-dash-lg"></i>
                                             </button>
@@ -202,7 +205,7 @@
                 </div>
             </div>
 
-            <!-- addUserModal -->
+            <!-- addUsersModal -->
             <div class="modal fade" id="addUsersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
@@ -220,6 +223,68 @@
                                         <select id="inputAddUsers" name="user[]" multiple placeholder="Select users..." autocomplete="off" required>
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-outline-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- editUserModal -->
+            <div class="modal fade" id="editUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="editUserForm">
+                            
+                            <input type="hidden" id="editInputGameUserId" name="id"/>
+                            
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Edit Game</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">                                    
+                                <div class="row mb-3">
+                                    <label for="editInputRegStatus" class="col-sm-4 col-form-label text-small">Registration Status</label>
+                                    <div class="col-sm-8">
+                                        <select id="editInputRegStatus" class="form-select form-select-sm" required>
+                                            <option hidden selected></option>
+                                            <option value="PENDING_PAYMENT">PENDING_PAYMENT</option>
+                                            <option value="PAID">PAID</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="editInputProofPayment" class="col-sm-4 form-label text-small">Proof of Payment</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control form-control-sm" id="editInputProofPayment" type="file">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="editInputFps" class="col-sm-2 col-form-label text-small">FPS</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control form-control-sm" id="editInputFps" name="fps">
+                                    </div>
+                                </div>
+                                <div class="row mb-2 form-check">                                        
+                                    <div class="col-sm-2">
+                                        <input class="form-check-input" type="checkbox" value="" id="editInputAbsent">
+                                    </div>
+                                    <label class="col-sm-4 form-check-label text-small" for="editInputAbsent">
+                                        Absent
+                                    </label>
+                                </div>
+                                <div class="row mb-2 form-check">
+                                    <div class="col-sm-2">
+                                        <input class="form-check-input" type="checkbox" value="" id="editInputRefunded">
+                                    </div>
+                                    <label class="col-sm-4 form-check-label text-small" for="editInputRefunded">
+                                        Refunded
+                                    </label>
                                 </div>
                             </div>
                             <div class="modal-footer">

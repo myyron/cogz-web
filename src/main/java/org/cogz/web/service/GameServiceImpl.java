@@ -40,7 +40,7 @@ public class GameServiceImpl implements IGameService {
 
     @Autowired
     private GameRepository gameRepository;
-    
+
     @Autowired
     private GameUserRepository gameUserRepository;
 
@@ -91,17 +91,28 @@ public class GameServiceImpl implements IGameService {
         Game game = gameRepository.findById(gameId).get();
         for (String username : usernames.split(",")) {
             GameUser gameUser = new GameUser();
-            gameUser.setGameId(game.getId());            
+            gameUser.setGameId(game.getId());
             gameUser.setUserId(userRepository.findByUsername(username).get().getId());
             gameUser.setRegStatus(ERegistrationStatus.PENDING_PAYMENT);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             gameUser.setInsBy(authentication.getName());
-            
+
             gameUserRepository.save(gameUser);
         }
     }
-    
+
+    @Override
+    @Transactional
+    public void removeUser(Integer id) {
+        GameUser gameUser = gameUserRepository.findById(id).get();
+        gameUser.setEnabled(0);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        gameUser.setUpdBy(authentication.getName());
+        gameUser.setUpdDate(LocalDateTime.now());
+    }
+
     @Override
     public List<GameUser> getPlayers(Integer gameId) {
         return gameUserRepository.findAllByGameIdAndEnabled(gameId, 1);

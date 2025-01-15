@@ -26,7 +26,8 @@ import lombok.Setter;
  *
  * @author altrax
  */
-@Getter @Setter
+@Getter
+@Setter
 @MappedSuperclass
 public class BaseEntity {
 

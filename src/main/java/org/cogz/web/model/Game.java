@@ -31,7 +31,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author altrax
  */
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "GAME")
 public class Game extends BaseEntity {

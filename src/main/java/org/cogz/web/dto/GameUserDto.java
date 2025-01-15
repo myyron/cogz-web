@@ -24,7 +24,8 @@ import org.cogz.web.enums.ERegistrationStatus;
  *
  * @author altrax
  */
-@Getter @Setter
+@Getter
+@Setter
 public class GameUserDto {
 
     private Integer id;
@@ -35,6 +36,6 @@ public class GameUserDto {
     private Boolean refunded;
     private Boolean absent;
     private Integer fps;
-    
+
     private UserDto user;
 }

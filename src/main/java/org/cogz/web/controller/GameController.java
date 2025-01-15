@@ -99,4 +99,11 @@ public class GameController {
         gameService.addUsers(gameId, usernames);
         return ResponseEntity.ok("User added to game successfully.");
     }
+
+    @PostMapping("/remove-user")
+    public ResponseEntity<?> removeUser(@RequestParam Integer id) {
+        logger.info("remove user - {}", id);
+        gameService.removeUser(id);
+        return ResponseEntity.ok("User removed successfully.");
+    }
 }

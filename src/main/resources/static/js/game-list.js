@@ -72,7 +72,8 @@ class GameList {
                     }
                 },
                 {data: "regStatus"}
-            ]
+            ],
+            select: true
         });
 
         gameListTable.on('click', 'tbody tr', (e) => {
@@ -82,6 +83,7 @@ class GameList {
                 $("#showEditGameModal").addClass("disabled");
                 $("#deleteGameButton").addClass("disabled");
                 $("#showAddUsersModal").addClass("disabled");
+                $("#showEditUserModal").addClass("disabled");
                 $("#removeUserButton").addClass("disabled");
                 $('#editInputId').val('');
                 regUserListTable.clear().draw();
@@ -99,6 +101,24 @@ class GameList {
             }
         });
 
+        regUserListTable.on('click', 'tbody tr', (e) => {
+            let classList = e.currentTarget.classList;
+            if (classList.contains('selected')) {
+                classList.remove('selected');
+                $("#showEditUserModal").addClass("disabled");
+                $("#removeUserButton").addClass("disabled");
+                $('#editInputGameUserId').val('');
+            } else {
+                gameListTable.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+                classList.add('selected');
+                $("#showEditUserModal").removeClass("disabled");
+                $("#removeUserButton").removeClass("disabled");
+
+                let data = regUserListTable.row('.selected').data();
+                $('#editInputGameUserId').val(data.id);
+            }
+        });
+
         $("#createGameForm").on("submit", function () {
             $.ajax({
                 url: "/game/create",
@@ -106,8 +126,8 @@ class GameList {
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#createGameForm input'), [{key:'type', inputId:'inputGameType'},
-                    {key:'status', inputId:'inputGameStatus'}
+                data: createDtoFromForm(document.querySelectorAll('#createGameForm input'), [{key: 'type', inputId: 'inputGameType'},
+                    {key: 'status', inputId: 'inputGameStatus'}
                 ])
             }).always(function () {
                 $("#createGameModal").modal("hide");
@@ -123,8 +143,8 @@ class GameList {
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#editGameForm input'), [{key:'type', inputId:'editInputGameType'},
-                    {key:'status', inputId:'editInputGameStatus'}
+                data: createDtoFromForm(document.querySelectorAll('#editGameForm input'), [{key: 'type', inputId: 'editInputGameType'},
+                    {key: 'status', inputId: 'editInputGameStatus'}
                 ])
             }).always(function () {
                 $("#editGameModal").modal("hide");
@@ -174,6 +194,37 @@ class GameList {
                         }).always(function () {
                             gameListTable.ajax.reload();
                             $("#deleteGameButton").addClass("disabled");
+                        });
+                    }
+                }
+            });
+        });
+
+        $("#removeUserButton").on("click", function () {
+            bootbox.confirm({
+                title: 'Remove User?',
+                message: '<div class="text-center text-warning">Are you sure?</div>',
+                buttons: {
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-outline-secondary'
+                    },
+                    confirm: {
+                        label: 'Confirm',
+                        className: 'btn-outline-primary'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/game/remove-user",
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            type: "post",
+                            dataType: "json",
+                            data: "id=" + regUserListTable.row('.selected').data().id
+                        }).always(function () {
+                            regUserListTable.row('.selected').remove().draw();
+                            $("#removeUserButton").addClass("disabled");
                         });
                     }
                 }

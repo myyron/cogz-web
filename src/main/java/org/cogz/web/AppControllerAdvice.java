@@ -13,30 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web;
 
-import java.util.List;
-import org.cogz.web.dto.GameDto;
-import org.cogz.web.model.Game;
-import org.cogz.web.model.GameUser;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author altrax
  */
-public interface IGameService {
+@ControllerAdvice(annotations = RestController.class)
+public class AppControllerAdvice {
 
-    List<Game> getGames();
+    @Value("${cogz-web.app.version}")
+    private String appVersion;
 
-    Integer createGame(GameDto gameDto);
-
-    void editGame(GameDto gameDto);
-
-    void deactivateGame(Integer id);
-
-    void addUsers(Integer gameId, String usernames);
-
-    void removeUser(Integer id);
-
-    List<GameUser> getPlayers(Integer gameId);
+    @ModelAttribute("appVersion")
+    public String getAppVersion() {
+        return appVersion;
+    }
 }

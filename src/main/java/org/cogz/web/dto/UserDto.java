@@ -25,7 +25,8 @@ import org.cogz.web.enums.EUserStatus;
  *
  * @author altrax
  */
-@Getter @Setter
+@Getter
+@Setter
 public class UserDto {
 
     private String username;
