@@ -16,12 +16,15 @@
 package org.cogz.web.dto;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 import org.cogz.web.enums.ERegistrationStatus;
 
 /**
  *
  * @author altrax
  */
+@Getter @Setter
 public class GameUserDto {
 
     private Integer id;
@@ -31,70 +34,7 @@ public class GameUserDto {
     private LocalDateTime paymentDate;
     private Boolean refunded;
     private Boolean absent;
+    private Integer fps;
     
     private UserDto user;
-
-    public UserDto getUser() {
-        return user;
-    }
-
-    public void setUser(UserDto user) {
-        this.user = user;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public ERegistrationStatus getRegStatus() {
-        return regStatus;
-    }
-
-    public void setRegStatus(ERegistrationStatus regStatus) {
-        this.regStatus = regStatus;
-    }
-
-    public LocalDateTime getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(LocalDateTime paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    public Integer getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(Integer gameId) {
-        this.gameId = gameId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Boolean getRefunded() {
-        return refunded;
-    }
-
-    public void setRefunded(Boolean refunded) {
-        this.refunded = refunded;
-    }
-
-    public Boolean getAbsent() {
-        return absent;
-    }
-
-    public void setAbsent(Boolean absent) {
-        this.absent = absent;
-    }
 }

@@ -18,6 +18,8 @@ package org.cogz.web.dto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.EGameType;
 
@@ -25,6 +27,7 @@ import org.cogz.web.enums.EGameType;
  *
  * @author altrax
  */
+@Getter @Setter
 public class GameDto {
 
     private Integer id;
@@ -33,44 +36,4 @@ public class GameDto {
     private EGameStatus status;
     
     private List<GameUserDto> gameUserList = new ArrayList<>();
-
-    public List<GameUserDto> getGameUserList() {
-        return gameUserList;
-    }
-
-    public void setGameUserList(List<GameUserDto> gameUserList) {
-        this.gameUserList = gameUserList;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public LocalDate getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(LocalDate schedule) {
-        this.schedule = schedule;
-    }
-
-    public EGameType getType() {
-        return type;
-    }
-
-    public void setType(EGameType type) {
-        this.type = type;
-    }
-
-    public EGameStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EGameStatus status) {
-        this.status = status;
-    }
 }

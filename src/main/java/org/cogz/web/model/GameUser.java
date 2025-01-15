@@ -21,12 +21,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 import org.cogz.web.enums.ERegistrationStatus;
 
 /**
  *
  * @author altrax
  */
+@Getter @Setter
 @Entity
 @Table(name = "GAME_USERS")
 public class GameUser extends BaseEntity {
@@ -41,63 +44,5 @@ public class GameUser extends BaseEntity {
     private LocalDateTime paymentDate;    
     private Boolean refunded;
     private Boolean absent;
-    
-    public GameUser() {
-    }
-
-    public LocalDateTime getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(LocalDateTime paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    public Boolean getRefunded() {
-        return refunded;
-    }
-
-    public void setRefunded(Boolean refunded) {
-        this.refunded = refunded;
-    }
-
-    public Boolean getAbsent() {
-        return absent;
-    }
-
-    public void setAbsent(Boolean absent) {
-        this.absent = absent;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public ERegistrationStatus getRegStatus() {
-        return regStatus;
-    }
-
-    public void setRegStatus(ERegistrationStatus regStatus) {
-        this.regStatus = regStatus;
-    }
-
-    public Integer getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(Integer gameId) {
-        this.gameId = gameId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+    private Integer fps;
 }

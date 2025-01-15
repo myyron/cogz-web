@@ -3,4 +3,5 @@ logs/
 
 data/*trace*
 
+nb-configuration.xml
 nbactions.xml

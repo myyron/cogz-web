@@ -22,6 +22,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 import org.cogz.web.enums.EGameStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,6 +31,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author altrax
  */
+@Getter @Setter
 @Entity
 @Table(name = "GAME")
 public class Game extends BaseEntity {
@@ -42,39 +45,4 @@ public class Game extends BaseEntity {
 
     private EGameType type;
     private EGameStatus status;
-
-    public Game() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public LocalDate getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(LocalDate schedule) {
-        this.schedule = schedule;
-    }
-
-    public EGameType getType() {
-        return type;
-    }
-
-    public void setType(EGameType type) {
-        this.type = type;
-    }
-
-    public EGameStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EGameStatus status) {
-        this.status = status;
-    }
 }

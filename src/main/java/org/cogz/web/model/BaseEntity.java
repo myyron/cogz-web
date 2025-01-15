@@ -19,11 +19,14 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author altrax
  */
+@Getter @Setter
 @MappedSuperclass
 public class BaseEntity {
 
@@ -39,44 +42,4 @@ public class BaseEntity {
     private LocalDateTime insDate = LocalDateTime.now();
 
     private LocalDateTime updDate;
-
-    public Integer getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Integer enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getInsBy() {
-        return insBy;
-    }
-
-    public void setInsBy(String insBy) {
-        this.insBy = insBy;
-    }
-
-    public String getUpdBy() {
-        return updBy;
-    }
-
-    public void setUpdBy(String updBy) {
-        this.updBy = updBy;
-    }
-
-    public LocalDateTime getInsDate() {
-        return insDate;
-    }
-
-    public void setInsDate(LocalDateTime insDate) {
-        this.insDate = insDate;
-    }
-
-    public LocalDateTime getUpdDate() {
-        return updDate;
-    }
-
-    public void setUpdDate(LocalDateTime updDate) {
-        this.updDate = updDate;
-    }
 }

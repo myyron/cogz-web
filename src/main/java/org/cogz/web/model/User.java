@@ -15,25 +15,26 @@
  */
 package org.cogz.web.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.cogz.web.enums.ERole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.cogz.web.enums.EUserStatus;
 
 /**
  *
  * @author altrax
  */
+@Getter @Setter @NoArgsConstructor
 @Entity
 @Table(name = "USERS",
         uniqueConstraints = {
@@ -71,91 +72,8 @@ public class User extends BaseEntity {
     private ERole role;
     private EUserStatus status;
 
-    public User() {
-    }
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public ERole getRole() {
-        return role;
-    }
-
-    public void setRole(ERole role) {
-        this.role = role;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public EUserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EUserStatus status) {
-        this.status = status;
     }
 }

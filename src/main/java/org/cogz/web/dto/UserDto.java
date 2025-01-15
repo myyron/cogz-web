@@ -16,6 +16,8 @@
 package org.cogz.web.dto;
 
 import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 import org.cogz.web.enums.ERole;
 import org.cogz.web.enums.EUserStatus;
 
@@ -23,6 +25,7 @@ import org.cogz.web.enums.EUserStatus;
  *
  * @author altrax
  */
+@Getter @Setter
 public class UserDto {
 
     private String username;
@@ -36,84 +39,4 @@ public class UserDto {
 
     private ERole role;
     private EUserStatus status;
-
-    public String getInsBy() {
-        return insBy;
-    }
-
-    public void setInsBy(String insBy) {
-        this.insBy = insBy;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public ERole getRole() {
-        return role;
-    }
-
-    public void setRole(ERole role) {
-        this.role = role;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public EUserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EUserStatus status) {
-        this.status = status;
-    }
 }
