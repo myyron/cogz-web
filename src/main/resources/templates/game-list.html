@@ -5,7 +5,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>CoGZ Online Portal</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/2.2.0/css/dataTables.bootstrap5.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/2.2.0/css/dataTables.dataTables.css" rel="stylesheet">
@@ -15,7 +16,7 @@
     </head>
     <body>
         <header>
-            <div th:replace="~{fragments/nav :: content}"></div>            
+            <div th:replace="~{fragments/nav :: content}"></div>
         </header>
 
         <main>
@@ -31,14 +32,18 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="btn-group" role="group">
-                                            <button type="button" id="showCreateGameModal" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createGameModal">
+                                            <button type="button" id="showCreateGameModal" class="btn btn-outline-primary"
+                                                    data-bs-toggle="modal" data-bs-target="#createGameModal">
                                                 <i class="bi bi-plus-lg"></i>
                                             </button>
-                                            <button type="button" id="showEditGameModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#editGameModal">
+                                            <button type="button" id="showEditGameModal"
+                                                    class="btn btn-outline-primary disabled" data-bs-toggle="modal"
+                                                    data-bs-target="#editGameModal">
                                                 <i class="bi bi-pen-fill"></i>
-                                            </button>                                                
+                                            </button>
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                                <button type="button" id="deleteGameButton" class="btn btn-outline-primary disabled">
+                                                <button type="button" id="deleteGameButton"
+                                                        class="btn btn-outline-primary disabled">
                                                     <i class="bi bi-trash-fill"></i>
                                                 </button>
                                                 </th>
@@ -76,13 +81,18 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="btn-group" role="group">
-                                            <button type="button" id="showAddUsersModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#addUsersModal">
+                                            <button type="button" id="showAddUsersModal"
+                                                    class="btn btn-outline-primary disabled" data-bs-toggle="modal"
+                                                    data-bs-target="#addUsersModal">
                                                 <i class="bi bi-plus-lg"></i>
                                             </button>
-                                            <button type="button" id="showEditUserModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                            <button type="button" id="showEditUserModal"
+                                                    class="btn btn-outline-primary disabled" data-bs-toggle="modal"
+                                                    data-bs-target="#editUserModal">
                                                 <i class="bi bi-pen-fill"></i>
                                             </button>
-                                            <button type="button" id="removeUserButton" class="btn btn-outline-primary disabled">
+                                            <button type="button" id="removeUserButton"
+                                                    class="btn btn-outline-primary disabled">
                                                 <i class="bi bi-dash-lg"></i>
                                             </button>
                                         </div>
@@ -107,43 +117,44 @@
             </div>
 
             <!-- createGameModal -->
-            <div class="modal fade" id="createGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="createGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <form id="createGameForm">
                             <div class="modal-header">
                                 <h1 class="modal-title h5" id="staticBackdropLabel">Create Game</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
-                            <div class="modal-body">            
+                            <div class="modal-body">
                                 <div class="row mb-2">
                                     <label for="inputSchedule" class="col-sm-2 col-form-label text-small">Schedule</label>
                                     <div class="col-sm-10">
-                                        <input type="date" class="form-control form-control-sm" id="inputSchedule" name="schedule" required>
+                                        <input type="date" class="form-control form-control-sm" id="inputSchedule"
+                                               name="schedule" required>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <label for="inputGameType" class="col-sm-2 col-form-label text-small">Type</label>
                                     <div class="col-sm-10">
-                                        <select id="inputGameType" class="form-select form-select-sm" aria-label="Game Type" required>
+                                        <select id="inputGameType" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
                                             <option value="REGULAR">REGULAR</option>
                                             <option value="PRIVATE">PRIVATE</option>
                                         </select>
                                     </div>
-                                </div>  
+                                </div>
                                 <div class="row mb-2">
                                     <label for="inputGameStatus" class="col-sm-2 col-form-label text-small">Status</label>
                                     <div class="col-sm-10">
-                                        <select id="inputGameStatus" class="form-select form-select-sm" aria-label="Game Status" required>
+                                        <select id="inputGameStatus" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
                                             <option value="OPEN">OPEN</option>
                                             <option value="LOCKED">LOCKED</option>
                                             <option value="CLOSED">CLOSED</option>
                                         </select>
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -155,7 +166,7 @@
             </div>
 
             <!-- editGameModal -->
-            <div class="modal fade" id="editGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="editGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <form id="editGameForm">
@@ -164,37 +175,38 @@
 
                             <div class="modal-header">
                                 <h1 class="modal-title h5" id="staticBackdropLabel">Edit Game</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
-                            <div class="modal-body">                                               
+                            <div class="modal-body">
                                 <div class="row mb-2">
                                     <label for="editInputSchedule" class="col-sm-2 col-form-label text-small">Schedule</label>
                                     <div class="col-sm-10">
-                                        <input type="date" class="form-control form-control-sm" id="editInputSchedule" name="schedule" required>
+                                        <input type="date" class="form-control form-control-sm" id="editInputSchedule"
+                                               name="schedule" required>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <label for="editInputGameType" class="col-sm-2 col-form-label text-small">Type</label>
                                     <div class="col-sm-10">
-                                        <select id="editInputGameType" class="form-select form-select-sm" aria-label="Game Type" required>
+                                        <select id="editInputGameType" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
                                             <option value="REGULAR">REGULAR</option>
                                             <option value="PRIVATE">PRIVATE</option>
                                         </select>
                                     </div>
-                                </div>  
+                                </div>
                                 <div class="row mb-2">
                                     <label for="editInputGameStatus" class="col-sm-2 col-form-label text-small">Status</label>
                                     <div class="col-sm-10">
-                                        <select id="editInputGameStatus" class="form-select form-select-sm" aria-label="Game Status" required>
+                                        <select id="editInputGameStatus" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
                                             <option value="OPEN">OPEN</option>
                                             <option value="LOCKED">LOCKED</option>
                                             <option value="CLOSED">CLOSED</option>
                                         </select>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -206,21 +218,22 @@
             </div>
 
             <!-- addUsersModal -->
-            <div class="modal fade" id="addUsersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="addUsersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <form id="addUsersForm">
 
                             <div class="modal-header">
                                 <h1 class="modal-title h5" id="staticBackdropLabel">Add Users to Selected Game</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
-                            <div class="modal-body">    
+                            <div class="modal-body">
                                 <div class="row mb-2">
                                     <label for="inputAddUsers" class="col-sm-2 col-form-label text-small">Users</label>
                                     <div class="col-sm-10">
-                                        <select id="inputAddUsers" name="user[]" multiple placeholder="Select users..." autocomplete="off" required>
+                                        <select id="inputAddUsers" name="user[]" multiple placeholder="Select users..."
+                                                autocomplete="off" required>
                                         </select>
                                     </div>
                                 </div>
@@ -239,17 +252,18 @@
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <form id="editUserForm">
-                            
+
                             <input type="hidden" id="editInputGameUserId" name="id"/>
-                            
+
                             <div class="modal-header">
-                                <h1 class="modal-title h5">Edit Game</h1>
+                                <h1 class="modal-title h5">Edit Game User</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
-                            <div class="modal-body">                                    
+                            <div class="modal-body">
                                 <div class="row mb-3">
-                                    <label for="editInputRegStatus" class="col-sm-4 col-form-label text-small">Registration Status</label>
+                                    <label for="editInputRegStatus" class="col-sm-4 col-form-label text-small">Registration
+                                        Status</label>
                                     <div class="col-sm-8">
                                         <select id="editInputRegStatus" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
@@ -259,9 +273,16 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="editInputProofPayment" class="col-sm-4 form-label text-small">Proof of Payment</label>
+                                    <label for="editInputPaymentProof" class="col-sm-4 form-label text-small">Proof of
+                                        Payment</label>
                                     <div class="col-sm-8">
-                                        <input class="form-control form-control-sm" id="editInputProofPayment" type="file">
+                                        <input class="form-control form-control-sm" id="editInputPaymentProof" type="file"
+                                               accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 justify-content-center">
+                                    <div class="col-6">
+                                        <img id="paymentProof" alt="" class="img-thumbnail">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -270,7 +291,7 @@
                                         <input type="text" class="form-control form-control-sm" id="editInputFps" name="fps">
                                     </div>
                                 </div>
-                                <div class="row mb-2 form-check">                                        
+                                <div class="row mb-2 form-check">
                                     <div class="col-sm-2">
                                         <input class="form-check-input" type="checkbox" value="" id="editInputAbsent">
                                     </div>
@@ -297,21 +318,26 @@
             </div>
         </main>
 
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>   
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+                integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/2.2.0/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/select/2.1.0/js/dataTables.select.js"></script>
         <script src="https://cdn.datatables.net/select/2.1.0/js/select.dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.2.0/js/dataTables.bootstrap5.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js"></script>
 
         <script src="js/common-utils.js"></script>
         <script src="js/game-list.js"></script>
         <script>
             new GameList();
-        </script> 
+        </script>
 
     </body>
 </html>

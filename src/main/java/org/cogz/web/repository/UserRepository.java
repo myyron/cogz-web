@@ -15,11 +15,12 @@
  */
 package org.cogz.web.repository;
 
-import java.util.List;
-import java.util.Optional;
 import org.cogz.web.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  *

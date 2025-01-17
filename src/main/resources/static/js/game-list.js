@@ -94,7 +94,7 @@ class GameList {
                 $("#deleteGameButton").removeClass("disabled");
                 $("#showAddUsersModal").removeClass("disabled");
 
-                let data = gameListTable.row('.selected').data();
+                let data = gameListTable.row(e.currentTarget).data();
                 $('#editInputId').val(data.id);
                 regUserListTable.clear();
                 regUserListTable.rows.add(data.gameUserList).draw();
@@ -109,12 +109,11 @@ class GameList {
                 $("#removeUserButton").addClass("disabled");
                 $('#editInputGameUserId').val('');
             } else {
-                gameListTable.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
                 classList.add('selected');
                 $("#showEditUserModal").removeClass("disabled");
                 $("#removeUserButton").removeClass("disabled");
 
-                let data = regUserListTable.row('.selected').data();
+                let data = regUserListTable.row(e.currentTarget).data();
                 $('#editInputGameUserId').val(data.id);
             }
         });
@@ -162,9 +161,35 @@ class GameList {
                 dataType: "json",
                 data: "gameId=" + $('#editInputId').val() + "&usernames=" + $("#inputAddUsers").val()
             }).always(function () {
-                $("#inputAddUsersModal").modal("hide");
-                regUserListTable.ajax.reload();
+                $("#addUsersModal").modal("hide");
+                gameListTable.ajax.reload();
                 $("#addUsersForm")[0].reset();
+            });
+        });
+
+        $("#editUserForm").on("submit", function () {
+
+            let fd = new FormData();
+            fd.append('paymentProof', $('#editInputPaymentProof')[0].files[0]);
+            fd.append('gameId', $('#editInputId').val());
+            fd.append('gameUserId', $('#editInputGameUserId').val());
+
+            fd.append('regStatus', $('#editInputRegStatus').val());
+            fd.append('fps', $('#editInputFps').val());
+            fd.append('absent', $("#editInputAbsent").prop("checked") ? true : false);
+            fd.append('refunded', $("#editInputRefunded").prop("checked") ? true : false);
+
+            $.ajax({
+                url: "/game/edit-user",
+                contentType: false,
+                processData: false,
+                type: "post",
+                async: false,
+                data: fd
+            }).always(function () {
+                $("#editUserModal").modal("hide");
+                gameListTable.ajax.reload();
+                $("#editUserForm")[0].reset();
             });
         });
 
@@ -193,7 +218,9 @@ class GameList {
                             data: "id=" + gameListTable.row('.selected').data().id
                         }).always(function () {
                             gameListTable.ajax.reload();
+                            regUserListTable.clear().draw();
                             $("#deleteGameButton").addClass("disabled");
+                            $("#showEditGameModal").addClass("disabled");
                         });
                     }
                 }
@@ -225,6 +252,7 @@ class GameList {
                         }).always(function () {
                             regUserListTable.row('.selected').remove().draw();
                             $("#removeUserButton").addClass("disabled");
+                            $("#showEditUserModal").addClass("disabled");
                         });
                     }
                 }
@@ -237,6 +265,22 @@ class GameList {
             $('#editInputSchedule').val(data.schedule);
             $('#editInputGameType').val(data.type);
             $('#editInputGameStatus').val(data.status);
+        });
+
+        $('#editUserModal').on('show.bs.modal', function () {
+            let gameId = $('#editInputId').val();
+            let gameUserId = $('#editInputGameUserId').val();
+            $("#paymentProof").attr("src", "payment/" + gameId + "/" + gameUserId + ".jpg");
+
+            let data = regUserListTable.row('.selected').data();
+            $('#editInputRegStatus').val(data.regStatus);
+            $('#editInputFps').val(data.fps);
+            $('#editInputAbsent').prop('checked', data.absent);
+            $('#editInputRefunded').prop('checked', data.refunded);
+        });
+
+        $('#paymentProof').on("error", function () {
+            $("#paymentProof").attr("src", "payment/blank proof.png");
         });
 
         $("#showCreateGameModal").on("click", function () {

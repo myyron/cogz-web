@@ -15,24 +15,31 @@
  */
 package org.cogz.web.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import org.cogz.web.dto.GameDto;
+import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.cogz.web.model.User;
 import org.cogz.web.repository.GameRepository;
 import org.cogz.web.repository.GameUserRepository;
 import org.cogz.web.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- *
  * @author altrax
  */
 @Service
@@ -91,8 +98,16 @@ public class GameServiceImpl implements IGameService {
         Game game = gameRepository.findById(gameId).get();
         for (String username : usernames.split(",")) {
             GameUser gameUser = new GameUser();
+
+            User user = userRepository.findByUsername(username).get();
+
+            if(gameUserRepository.existsByGameIdAndUserIdAndEnabled(game.getId(), user.getId(), 1)) {
+                continue;
+            }
+
             gameUser.setGameId(game.getId());
-            gameUser.setUserId(userRepository.findByUsername(username).get().getId());
+            gameUser.setUserId(user.getId());
+
             gameUser.setRegStatus(ERegistrationStatus.PENDING_PAYMENT);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -114,7 +129,29 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
-    public List<GameUser> getPlayers(Integer gameId) {
+    public List<GameUser> getUsers(Integer gameId) {
         return gameUserRepository.findAllByGameIdAndEnabled(gameId, 1);
+    }
+
+    @Override
+    @Transactional
+    public void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException {
+
+        if (paymentProof != null) {
+            final String BASE_PAYMENT_DIR = "data/payment/";
+            Path path = Files.createDirectories(Paths.get(BASE_PAYMENT_DIR + gameUserDto.getGameId()));
+            Path fileNameAndPath = Paths.get(String.valueOf(path), gameUserDto.getUserId() + ".jpg");
+            Files.write(fileNameAndPath, paymentProof.getBytes());
+        }
+
+        GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserDto.getId(), 1).get();
+        gameUser.setRegStatus(gameUserDto.getRegStatus());
+        gameUser.setFps(gameUserDto.getFps());
+        gameUser.setAbsent(gameUserDto.getAbsent());
+        gameUser.setRefunded(gameUserDto.getRefunded());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        gameUser.setUpdBy(authentication.getName());
+        gameUser.setUpdDate(LocalDateTime.now());
     }
 }

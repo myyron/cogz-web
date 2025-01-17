@@ -15,15 +15,12 @@
  */
 package org.cogz.web.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.cogz.web.enums.ERegistrationStatus;
+
+import java.time.LocalDateTime;
 
 /**
  *
@@ -42,7 +39,6 @@ public class GameUser extends BaseEntity {
     private Integer gameId;
     private Integer userId;
     private ERegistrationStatus regStatus;
-    private LocalDateTime paymentDate;
     private Boolean refunded;
     private Boolean absent;
     private Integer fps;

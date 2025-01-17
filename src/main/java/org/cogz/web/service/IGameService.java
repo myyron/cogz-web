@@ -15,10 +15,14 @@
  */
 package org.cogz.web.service;
 
-import java.util.List;
 import org.cogz.web.dto.GameDto;
+import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -38,5 +42,7 @@ public interface IGameService {
 
     void removeUser(Integer id);
 
-    List<GameUser> getPlayers(Integer gameId);
+    List<GameUser> getUsers(Integer gameId);
+
+    void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException;
 }

@@ -17,8 +17,8 @@
 class HomeUser {
 
     constructor() {
-        
-        $("#navHome").addClass("active");        
+
+        $("#navHome").addClass("active");
         $("#navGameList").addClass("disabled");
         $("#navUserList").addClass("disabled");
 

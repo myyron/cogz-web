@@ -1,7 +1,9 @@
 target/
 logs/
+.idea/
 
 data/*trace*
+data/payment
 
 nb-configuration.xml
 nbactions.xml

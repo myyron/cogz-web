@@ -15,11 +15,12 @@
  */
 package org.cogz.web.dto;
 
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 import org.cogz.web.enums.ERole;
 import org.cogz.web.enums.EUserStatus;
+
+import java.time.LocalDate;
 
 /**
  *

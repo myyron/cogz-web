@@ -15,9 +15,10 @@
  */
 package org.cogz.web.service;
 
-import java.util.List;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.model.User;
+
+import java.util.List;
 
 /**
  *

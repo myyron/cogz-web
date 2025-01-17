@@ -16,6 +16,7 @@
 package org.cogz.web;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -32,5 +33,10 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/user-list").setViewName("user-list");
         registry.addViewController("/game-list").setViewName("game-list");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/payment/**").addResourceLocations("file:///c:/altrax/codes/cogz-web/data/payment/");
     }
 }

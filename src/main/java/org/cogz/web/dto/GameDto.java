@@ -15,13 +15,14 @@
  */
 package org.cogz.web.dto;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.EGameType;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

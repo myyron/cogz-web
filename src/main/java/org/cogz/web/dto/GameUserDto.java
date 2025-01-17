@@ -15,10 +15,11 @@
  */
 package org.cogz.web.dto;
 
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.cogz.web.enums.ERegistrationStatus;
+
+import java.time.LocalDateTime;
 
 /**
  *
@@ -32,7 +33,6 @@ public class GameUserDto {
     private Integer gameId;
     private Integer userId;
     private ERegistrationStatus regStatus;
-    private LocalDateTime paymentDate;
     private Boolean refunded;
     private Boolean absent;
     private Integer fps;

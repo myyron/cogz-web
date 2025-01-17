@@ -15,8 +15,6 @@
  */
 package org.cogz.web.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.model.User;
 import org.cogz.web.repository.UserRepository;
@@ -29,6 +27,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *

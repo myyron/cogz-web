@@ -3,9 +3,14 @@ cogz-web:
     version: '@project.version@'
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
+      enabled: true
   devtools:
     livereload:
-        enabled: true
+      enabled: true
   thymeleaf: # Thymeleaf
     cache: false
     mode: HTML
@@ -22,6 +27,9 @@ spring:
     password:
   jpa:
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
     hibernate.ddl-auto: update # for production use validate
   h2:
     console:

@@ -18,29 +18,30 @@ package org.cogz.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.util.ArrayList;
-import java.util.List;
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.dto.UserDto;
+import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.cogz.web.service.IGameService;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author altrax
  */
 @RestController
@@ -61,7 +62,7 @@ public class GameController {
         List<GameDto> result = new ArrayList<>();
         for (Game game : gameService.getGames()) {
             GameDto gameDto = mapper.map(game, GameDto.class);
-            for (GameUser gameUser : gameService.getPlayers(game.getId())) {
+            for (GameUser gameUser : gameService.getUsers(game.getId())) {
                 GameUserDto gameUserDto = mapper.map(gameUser, GameUserDto.class);
                 gameUserDto.setUser(mapper.map(userService.getUser(gameUser.getUserId()), UserDto.class));
                 gameDto.getGameUserList().add(gameUserDto);
@@ -105,5 +106,18 @@ public class GameController {
         logger.info("remove user - {}", id);
         gameService.removeUser(id);
         return ResponseEntity.ok("User removed successfully.");
+    }
+
+    @PostMapping("/edit-user")
+    public ResponseEntity<?> editUser(@RequestParam(required=false) MultipartFile paymentProof, Integer gameId, Integer gameUserId, ERegistrationStatus regStatus, Integer fps, Boolean absent, Boolean refunded) throws IOException {
+        GameUserDto gameUserDto = new GameUserDto();
+        gameUserDto.setGameId(gameId);
+        gameUserDto.setId(gameUserId);
+        gameUserDto.setRegStatus(regStatus);
+        gameUserDto.setFps(fps);
+        gameUserDto.setAbsent(absent);
+        gameUserDto.setRefunded(refunded);
+        gameService.editUser(paymentProof, gameUserDto);
+        return ResponseEntity.ok("User updated successfully.");
     }
 }

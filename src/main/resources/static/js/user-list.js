@@ -73,8 +73,8 @@ class UserList {
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#createUserForm input'), [{key:'role', inputId:'inputRoleType'},
-                    {key:'status', inputId:'inputUserStatus'}
+                data: createDtoFromForm(document.querySelectorAll('#createUserForm input'), [{key: 'role', inputId: 'inputRoleType'},
+                    {key: 'status', inputId: 'inputUserStatus'}
                 ])
             }).always(function () {
                 $("#createUserModal").modal("hide");
@@ -90,8 +90,8 @@ class UserList {
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#editUserForm input'), [{key:'role', inputId:'editInputRoleType'},
-                    {key:'status', inputId:'editInputUserStatus'}
+                data: createDtoFromForm(document.querySelectorAll('#editUserForm input'), [{key: 'role', inputId: 'editInputRoleType'},
+                    {key: 'status', inputId: 'editInputUserStatus'}
                 ])
             }).always(function () {
                 $("#editUserModal").modal("hide");
