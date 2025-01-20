@@ -13,36 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web;
 
-import org.cogz.web.dto.UserDto;
-import org.cogz.web.dto.UserEditDto;
-import org.cogz.web.dto.UserWithPasswordDto;
 import org.cogz.web.model.User;
-
-import java.util.List;
+import org.cogz.web.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
 
 /**
- *
  * @author altrax
  */
-public interface IUserService {
+@Component
+@Scope(scopeName = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class SessionInfo {
 
-    List<User> getUsers();
+    @Autowired
+    private IUserService userService;
 
-    User getUser(Integer userId);
+    private User user;
 
-    User getCurrentUser();
-
-    Integer createUser(UserWithPasswordDto userDto);
-
-    void editUser(UserDto userDto);
-
-    void deactivateUser(String username);
-
-    void resetPassword(String username, String password);
-
-    Integer createUserEdit(UserEditDto userEditDto);
-
-    void approveUserEdit(Integer userEditId);
+    public User getCurrentUser() {
+        if (user == null) {
+            user = userService.getCurrentUser();
+        }
+        return user;
+    }
 }

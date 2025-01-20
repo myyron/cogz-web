@@ -199,19 +199,5 @@ class UserList {
             let username = firstname + lastname;
             $('#inputUsername').val(username.toLowerCase());
         });
-
-        /**
-         * Parses the firstname into appended first characters.
-         * @param {type} firstname
-         * @returns {String}
-         */
-        function parseFirstname(firstname) {
-            let tokens = firstname.split(" ");
-            let result = "";
-            for (let i = 0; i < tokens.length; i++) {
-                result += tokens[i].substring(0, 1);
-            }
-            return result;
-        }
     }
 }

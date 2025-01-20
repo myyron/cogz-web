@@ -16,7 +16,11 @@
 package org.cogz.web.service;
 
 import org.cogz.web.dto.UserDto;
+import org.cogz.web.dto.UserEditDto;
+import org.cogz.web.dto.UserWithPasswordDto;
 import org.cogz.web.model.User;
+import org.cogz.web.model.UserEdit;
+import org.cogz.web.repository.UserEditRepository;
 import org.cogz.web.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -26,7 +30,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +39,7 @@ import java.util.List;
  * @author altrax
  */
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl extends BaseService implements IUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -44,15 +47,17 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserEditRepository userEditRepository;
+
     @Override
     @Transactional
-    public Integer createUser(UserDto userDto) {
+    public Integer createUser(UserWithPasswordDto userDto) {
         User user = new ModelMapper().map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        if (!StringUtils.hasLength(userDto.getInsBy())) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            user.setInsBy(authentication.getName());
+        if (userDto.getInsBy() == null) {
+            user.setInsBy(sessionInfo.getCurrentUser().getId());
         }
 
         return userRepository.save(user).getId();
@@ -74,8 +79,7 @@ public class UserServiceImpl implements IUserService {
 
         modelMapper.map(userDto, user);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        user.setUpdBy(authentication.getName());
+        user.setUpdBy(sessionInfo.getCurrentUser().getId());
         user.setUpdDate(LocalDateTime.now());
     }
 
@@ -84,9 +88,7 @@ public class UserServiceImpl implements IUserService {
     public void deactivateUser(String username) {
         User user = userRepository.findByUsername(username).get();
         user.setEnabled(0);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        user.setUpdBy(authentication.getName());
+        user.setUpdBy(sessionInfo.getCurrentUser().getId());
         user.setUpdDate(LocalDateTime.now());
     }
 
@@ -95,9 +97,7 @@ public class UserServiceImpl implements IUserService {
     public void resetPassword(String username, String password) {
         User user = userRepository.findByUsername(username).get();
         user.setPassword(passwordEncoder.encode(password));
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        user.setUpdBy(authentication.getName());
+        user.setUpdBy(sessionInfo.getCurrentUser().getId());
         user.setUpdDate(LocalDateTime.now());
     }
 
@@ -117,4 +117,33 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findByIdAndEnabled(userId, 1).get();
     }
 
+    @Override
+    @Transactional
+    public Integer createUserEdit(UserEditDto userEditDto) {
+        UserEdit userEdit = new ModelMapper().map(userEditDto, UserEdit.class);
+        userEdit.setUserId(sessionInfo.getCurrentUser().getId());
+        userEdit.setInsBy(sessionInfo.getCurrentUser().getId());
+        return userEditRepository.save(userEdit).getId();
+    }
+
+    @Override
+    @Transactional
+    public void approveUserEdit(Integer userEditId) {
+
+        UserEdit userEdit = userEditRepository.findByIdAndEnabled(userEditId, 1).get();
+        User user = userRepository.findByIdAndEnabled(userEdit.getUserId(), 1).get();
+
+        user.setUsername(userEdit.getUsername());
+        user.setFirstname(userEdit.getFirstname());
+        user.setLastname(userEdit.getLastname());
+        user.setEmail(userEdit.getEmail());
+        user.setMobileNumber(userEdit.getMobileNumber());
+        user.setBirthdate(userEdit.getBirthdate());
+        user.setUpdBy(sessionInfo.getCurrentUser().getId());
+        user.setUpdDate(LocalDateTime.now());
+
+        userEdit.setEnabled(0);
+        userEdit.setUpdBy(sessionInfo.getCurrentUser().getId());
+        userEdit.setUpdDate(LocalDateTime.now());
+    }
 }

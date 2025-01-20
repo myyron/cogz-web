@@ -26,11 +26,12 @@ spring:
     username: sa
     password:
   jpa:
-    show-sql: true
+    open-in-view: false
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
-    hibernate.ddl-auto: update # for production use validate
+    hibernate.ddl-auto: update # for production use validate, otherwise update
   h2:
     console:
       enabled: true

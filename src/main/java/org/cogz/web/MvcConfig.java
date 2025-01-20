@@ -37,6 +37,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/payment/**").addResourceLocations("file:///c:/altrax/codes/cogz-web/data/payment/");
+        registry.addResourceHandler("/uploaded-images/**").addResourceLocations("file:///c:/altrax/codes/cogz-web/data/images/");
+        //registry.addResourceHandler("/uploaded-images/**").addResourceLocations("file:/home/ec2-user/app/data/images/");
     }
 }

@@ -15,34 +15,15 @@
  */
 package org.cogz.web.service;
 
-import org.cogz.web.dto.UserDto;
-import org.cogz.web.dto.UserEditDto;
-import org.cogz.web.dto.UserWithPasswordDto;
-import org.cogz.web.model.User;
-
-import java.util.List;
+import org.cogz.web.SessionInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author altrax
  */
-public interface IUserService {
+public class BaseService {
 
-    List<User> getUsers();
-
-    User getUser(Integer userId);
-
-    User getCurrentUser();
-
-    Integer createUser(UserWithPasswordDto userDto);
-
-    void editUser(UserDto userDto);
-
-    void deactivateUser(String username);
-
-    void resetPassword(String username, String password);
-
-    Integer createUserEdit(UserEditDto userEditDto);
-
-    void approveUserEdit(Integer userEditId);
+    @Autowired
+    protected SessionInfo sessionInfo;
 }

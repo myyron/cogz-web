@@ -13,36 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.repository;
 
-import org.cogz.web.dto.UserDto;
-import org.cogz.web.dto.UserEditDto;
-import org.cogz.web.dto.UserWithPasswordDto;
 import org.cogz.web.model.User;
+import org.cogz.web.model.UserEdit;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author altrax
  */
-public interface IUserService {
+@Repository
+public interface UserEditRepository extends JpaRepository<UserEdit, Integer> {
 
-    List<User> getUsers();
-
-    User getUser(Integer userId);
-
-    User getCurrentUser();
-
-    Integer createUser(UserWithPasswordDto userDto);
-
-    void editUser(UserDto userDto);
-
-    void deactivateUser(String username);
-
-    void resetPassword(String username, String password);
-
-    Integer createUserEdit(UserEditDto userEditDto);
-
-    void approveUserEdit(Integer userEditId);
+    Optional<UserEdit> findByIdAndEnabled(Integer id, Integer enabled);
 }

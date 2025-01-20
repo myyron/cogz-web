@@ -13,36 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.dto;
 
-import org.cogz.web.dto.UserDto;
-import org.cogz.web.dto.UserEditDto;
-import org.cogz.web.dto.UserWithPasswordDto;
-import org.cogz.web.model.User;
+import lombok.Getter;
+import lombok.Setter;
+import org.cogz.web.enums.ERole;
+import org.cogz.web.enums.EUserStatus;
 
-import java.util.List;
+import java.time.LocalDate;
 
 /**
  *
  * @author altrax
  */
-public interface IUserService {
+@Getter
+@Setter
+public class UserWithPasswordDto {
 
-    List<User> getUsers();
+    private String username;
+    private String password;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String mobileNumber;
+    private LocalDate birthdate;
+    private Integer insBy;
 
-    User getUser(Integer userId);
-
-    User getCurrentUser();
-
-    Integer createUser(UserWithPasswordDto userDto);
-
-    void editUser(UserDto userDto);
-
-    void deactivateUser(String username);
-
-    void resetPassword(String username, String password);
-
-    Integer createUserEdit(UserEditDto userEditDto);
-
-    void approveUserEdit(Integer userEditId);
+    private ERole role;
+    private EUserStatus status;
 }

@@ -270,7 +270,7 @@ class GameList {
         $('#editUserModal').on('show.bs.modal', function () {
             let gameId = $('#editInputId').val();
             let gameUserId = $('#editInputGameUserId').val();
-            $("#paymentProof").attr("src", "payment/" + gameId + "/" + gameUserId + ".jpg");
+            $("#paymentProof").attr("src", "uploaded-images/payment/" + gameId + "/" + gameUserId + ".jpg");
 
             let data = regUserListTable.row('.selected').data();
             $('#editInputRegStatus').val(data.regStatus);
@@ -280,7 +280,7 @@ class GameList {
         });
 
         $('#paymentProof').on("error", function () {
-            $("#paymentProof").attr("src", "payment/blank proof.png");
+            $("#paymentProof").attr("src", "uploaded-images/payment/blank-proof.png");
         });
 
         $("#showCreateGameModal").on("click", function () {

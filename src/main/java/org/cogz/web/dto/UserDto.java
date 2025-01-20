@@ -15,6 +15,7 @@
  */
 package org.cogz.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.cogz.web.enums.ERole;
@@ -31,13 +32,11 @@ import java.time.LocalDate;
 public class UserDto {
 
     private String username;
-    private String password;
     private String firstname;
     private String lastname;
     private String email;
     private String mobileNumber;
     private LocalDate birthdate;
-    private String insBy;
 
     private ERole role;
     private EUserStatus status;

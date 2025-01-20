@@ -15,12 +15,13 @@
  */
 package org.cogz.web.model;
 
-import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -28,17 +29,31 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@MappedSuperclass
-public class BaseEntity {
+@NoArgsConstructor
+@Entity
+@Table(name = "USERS_EDIT")
+public class UserEdit extends BaseEntity {
 
-    private Integer enabled = 1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @NotNull
-    private Integer insBy;
+    private Integer userId;
 
-    private Integer updBy;
+    @Size(max = 20)
+    private String username;
 
-    private LocalDateTime insDate = LocalDateTime.now();
+    @Size(max = 120)
+    private String firstname;
 
-    private LocalDateTime updDate;
+    @Size(max = 120)
+    private String lastname;
+
+    @Size(max = 120)
+    private String email;
+
+    @Size(max = 20)
+    private String mobileNumber;
+
+    private LocalDate birthdate;
 }

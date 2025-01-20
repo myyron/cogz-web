@@ -19,6 +19,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.cogz.web.dto.UserDto;
+import org.cogz.web.dto.UserEditDto;
+import org.cogz.web.dto.UserWithPasswordDto;
 import org.cogz.web.model.User;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -62,7 +64,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) throws JsonProcessingException {
+    public ResponseEntity<?> createUser(@RequestBody UserWithPasswordDto userDto) throws JsonProcessingException {
         logger.info("create user - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(userDto));
         userService.createUser(userDto);
         return ResponseEntity.ok("User created successfully.");
@@ -84,7 +86,15 @@ public class UserController {
 
     @PostMapping("/reset")
     public ResponseEntity<?> resetPassword(@RequestParam String username, @RequestParam String password) {
+        logger.info("reset password - {}", username);
         userService.resetPassword(username, password);
         return ResponseEntity.ok("User password reset successfully.");
+    }
+
+    @PostMapping("/create-useredit")
+    public ResponseEntity<?> createUserEdit(@RequestBody UserEditDto userEditDto) throws JsonProcessingException {
+        logger.info("create user edit - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(userEditDto));
+        userService.createUserEdit(userEditDto);
+        return ResponseEntity.ok("User edit created successfully.");
     }
 }

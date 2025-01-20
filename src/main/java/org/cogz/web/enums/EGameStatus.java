@@ -22,5 +22,6 @@ package org.cogz.web.enums;
 public enum EGameStatus {
     OPEN,
     LOCKED,
-    CLOSED;
+    CLOSED,
+    ARCHIVED;
 }

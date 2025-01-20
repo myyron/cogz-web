@@ -122,7 +122,7 @@
                     <div class="modal-content rounded-4 shadow">
                         <form id="createGameForm">
                             <div class="modal-header">
-                                <h1 class="modal-title h5" id="staticBackdropLabel">Create Game</h1>
+                                <h1 class="modal-title h5">Create Game</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
@@ -174,7 +174,7 @@
                             <input type="hidden" id="editInputId" name="id"/>
 
                             <div class="modal-header">
-                                <h1 class="modal-title h5" id="staticBackdropLabel">Edit Game</h1>
+                                <h1 class="modal-title h5">Edit Game</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
@@ -201,9 +201,10 @@
                                     <div class="col-sm-10">
                                         <select id="editInputGameStatus" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
-                                            <option value="OPEN">OPEN</option>
-                                            <option value="LOCKED">LOCKED</option>
-                                            <option value="CLOSED">CLOSED</option>
+                                            <option value="OPEN">OPEN - User visible, registration is enabled</option>
+                                            <option value="LOCKED">LOCKED - User visible, registration is disabled</option>
+                                            <option value="CLOSED">CLOSED - User hidden, payment images available</option>
+                                            <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
                                         </select>
                                     </div>
                                 </div>
@@ -224,7 +225,7 @@
                         <form id="addUsersForm">
 
                             <div class="modal-header">
-                                <h1 class="modal-title h5" id="staticBackdropLabel">Add Users to Selected Game</h1>
+                                <h1 class="modal-title h5">Add Users to Selected Game</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 

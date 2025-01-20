@@ -41,15 +41,30 @@ function createDtoFromForm(elements, fields) {
         data[attrname] = el.value;
     }
 
-    for (let i = 0; i < fields.length; i++) {
-        let text = $("#" + fields[i].inputId + " :selected").text();
-        if (fields[i].key === 'role') {
-            text = "ROLE_" + text;
+    if (fields) {
+        for (let i = 0; i < fields.length; i++) {
+            let val = $("#" + fields[i].inputId + " :selected").val();
+            if (fields[i].key === 'role') {
+                val = "ROLE_" + val;
+            }
+            data[fields[i].key] = val;
         }
-        data[fields[i].key] = text;
     }
 
     let result = JSON.stringify(data);
     return result;
 }
 
+/**
+ * Parses the firstname into appended first characters.
+ * @param {type} firstname
+ * @returns {String}
+ */
+function parseFirstname(firstname) {
+    let tokens = firstname.split(" ");
+    let result = "";
+    for (let i = 0; i < tokens.length; i++) {
+        result += tokens[i].substring(0, 1);
+    }
+    return result;
+}

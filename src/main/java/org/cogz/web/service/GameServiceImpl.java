@@ -43,7 +43,7 @@ import java.util.List;
  * @author altrax
  */
 @Service
-public class GameServiceImpl implements IGameService {
+public class GameServiceImpl extends BaseService implements IGameService {
 
     @Autowired
     private GameRepository gameRepository;
@@ -63,10 +63,7 @@ public class GameServiceImpl implements IGameService {
     @Transactional
     public Integer createGame(GameDto gameDto) {
         Game game = new ModelMapper().map(gameDto, Game.class);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        game.setInsBy(authentication.getName());
-
+        game.setInsBy(sessionInfo.getCurrentUser().getId());
         return gameRepository.save(game).getId();
     }
 
@@ -76,8 +73,7 @@ public class GameServiceImpl implements IGameService {
         Game game = gameRepository.findById(gameDto.getId()).get();
         new ModelMapper().map(gameDto, game);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        game.setUpdBy(authentication.getName());
+        game.setUpdBy(sessionInfo.getCurrentUser().getId());
         game.setUpdDate(LocalDateTime.now());
     }
 
@@ -87,8 +83,7 @@ public class GameServiceImpl implements IGameService {
         Game game = gameRepository.findById(id).get();
         game.setEnabled(0);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        game.setUpdBy(authentication.getName());
+        game.setUpdBy(sessionInfo.getCurrentUser().getId());
         game.setUpdDate(LocalDateTime.now());
     }
 
@@ -107,11 +102,8 @@ public class GameServiceImpl implements IGameService {
 
             gameUser.setGameId(game.getId());
             gameUser.setUserId(user.getId());
-
             gameUser.setRegStatus(ERegistrationStatus.PENDING_PAYMENT);
-
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            gameUser.setInsBy(authentication.getName());
+            gameUser.setInsBy(sessionInfo.getCurrentUser().getId());
 
             gameUserRepository.save(gameUser);
         }
@@ -122,9 +114,7 @@ public class GameServiceImpl implements IGameService {
     public void removeUser(Integer id) {
         GameUser gameUser = gameUserRepository.findById(id).get();
         gameUser.setEnabled(0);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        gameUser.setUpdBy(authentication.getName());
+        gameUser.setUpdBy(sessionInfo.getCurrentUser().getId());
         gameUser.setUpdDate(LocalDateTime.now());
     }
 
@@ -138,9 +128,9 @@ public class GameServiceImpl implements IGameService {
     public void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException {
 
         if (paymentProof != null) {
-            final String BASE_PAYMENT_DIR = "data/payment/";
+            final String BASE_PAYMENT_DIR = "data/images/payment/";
             Path path = Files.createDirectories(Paths.get(BASE_PAYMENT_DIR + gameUserDto.getGameId()));
-            Path fileNameAndPath = Paths.get(String.valueOf(path), gameUserDto.getUserId() + ".jpg");
+            Path fileNameAndPath = Paths.get(String.valueOf(path), gameUserDto.getId() + ".jpg");
             Files.write(fileNameAndPath, paymentProof.getBytes());
         }
 
@@ -149,9 +139,7 @@ public class GameServiceImpl implements IGameService {
         gameUser.setFps(gameUserDto.getFps());
         gameUser.setAbsent(gameUserDto.getAbsent());
         gameUser.setRefunded(gameUserDto.getRefunded());
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        gameUser.setUpdBy(authentication.getName());
+        gameUser.setUpdBy(sessionInfo.getCurrentUser().getId());
         gameUser.setUpdDate(LocalDateTime.now());
     }
 }
