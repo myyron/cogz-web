@@ -121,7 +121,8 @@ public class GameController {
     }
 
     @PostMapping("/edit-user")
-    public ResponseEntity<?> editUser(@RequestParam(required=false) MultipartFile paymentProof, Integer gameId, Integer gameUserId, ERegistrationStatus regStatus, Integer fps, Boolean absent, Boolean refunded) throws IOException {
+    public ResponseEntity<?> editUser(@RequestParam(required = false) MultipartFile paymentProof, Integer gameId, Integer gameUserId, 
+            ERegistrationStatus regStatus, Integer fps, Boolean absent, Boolean refunded) throws IOException {
         GameUserDto gameUserDto = new GameUserDto();
         gameUserDto.setGameId(gameId);
         gameUserDto.setId(gameUserId);

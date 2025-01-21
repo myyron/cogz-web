@@ -102,7 +102,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
 
             User user = userRepository.findByUsername(username).get();
 
-            if(gameUserRepository.existsByGameIdAndUserIdAndEnabled(game.getId(), user.getId(), 1)) {
+            if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(game.getId(), user.getId(), 1)) {
                 continue;
             }
 
