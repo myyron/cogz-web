@@ -73,6 +73,18 @@ public class GameController {
         return result;
     }
 
+    @GetMapping("/list-active")
+    public List<GameDto> getActiveGames() {
+        ModelMapper mapper = new ModelMapper();
+        List<GameDto> result = new ArrayList<>();
+        for (Game game : gameService.getActiveGames()) {
+            GameDto gameDto = mapper.map(game, GameDto.class);
+            result.add(gameDto);
+        }
+        logger.info("active game list - {}", result.size());
+        return result;
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createGame(@RequestBody GameDto gameDto) throws JsonProcessingException {
         logger.info("create game - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(gameDto));

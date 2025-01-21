@@ -17,6 +17,7 @@ package org.cogz.web.service;
 
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
+import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
@@ -57,6 +58,11 @@ public class GameServiceImpl extends BaseService implements IGameService {
     @Override
     public List<Game> getGames() {
         return gameRepository.findAllByEnabled(1);
+    }
+
+    @Override
+    public List<Game> getActiveGames() {
+        return gameRepository.findAllByStatusInAndEnabled(List.of(EGameStatus.OPEN, EGameStatus.LOCKED), 1);
     }
 
     @Override

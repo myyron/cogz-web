@@ -45,4 +45,8 @@ public interface IUserService {
     Integer createUserEdit(UserEditDto userEditDto);
 
     void approveUserEdit(Integer userEditId);
+
+    void acceptWaiver();
+
+    Boolean isWaiverAccepted();
 }

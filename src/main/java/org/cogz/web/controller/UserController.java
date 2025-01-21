@@ -59,8 +59,10 @@ public class UserController {
 
     @GetMapping("/current")
     public UserDto getCurrentUser() {
-        User result = userService.getCurrentUser();
-        return new ModelMapper().map(result, UserDto.class);
+        User user = userService.getCurrentUser();
+        UserDto userDto = new ModelMapper().map(user, UserDto.class);
+        userDto.setWaiverAccepted(userService.isWaiverAccepted());
+        return userDto;
     }
 
     @PostMapping("/create")
@@ -96,5 +98,11 @@ public class UserController {
         logger.info("create user edit - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(userEditDto));
         userService.createUserEdit(userEditDto);
         return ResponseEntity.ok("User edit created successfully.");
+    }
+
+    @PostMapping("/accept-waiver")
+    public ResponseEntity<?> acceptWaiver() throws JsonProcessingException {
+        userService.acceptWaiver();
+        return ResponseEntity.ok("Waiver accepted successfully.");
     }
 }

@@ -15,15 +15,22 @@
  */
 package org.cogz.web.service;
 
+import org.antlr.v4.runtime.misc.LogManager;
+import org.cogz.web.controller.UserController;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.ETaskType;
 import org.cogz.web.model.User;
 import org.cogz.web.model.UserEdit;
+import org.cogz.web.model.UserTask;
 import org.cogz.web.repository.UserEditRepository;
 import org.cogz.web.repository.UserRepository;
+import org.cogz.web.repository.UserTaskRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +48,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends BaseService implements IUserService {
 
+    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -49,6 +58,9 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Autowired
     private UserEditRepository userEditRepository;
+
+    @Autowired
+    private UserTaskRepository userTaskRepository;
 
     @Override
     @Transactional
@@ -145,5 +157,22 @@ public class UserServiceImpl extends BaseService implements IUserService {
         userEdit.setEnabled(0);
         userEdit.setUpdBy(sessionInfo.getCurrentUser().getId());
         userEdit.setUpdDate(LocalDateTime.now());
+    }
+
+    @Override
+    @Transactional
+    public void acceptWaiver() {
+        UserTask userTask = new UserTask();
+        userTask.setUserId(sessionInfo.getCurrentUser().getId());
+        userTask.setType(ETaskType.WAIVER);
+        userTask.setStatus("ACCEPTED");
+        userTask.setInsBy(sessionInfo.getCurrentUser().getId());
+        userTaskRepository.save(userTask);
+        logger.info("waiver accepted - {}", sessionInfo.getCurrentUser().getUsername());
+    }
+
+    @Override
+    public Boolean isWaiverAccepted() {
+        return userTaskRepository.existsByUserIdAndTypeAndEnabled(sessionInfo.getCurrentUser().getId(), ETaskType.WAIVER, 1);
     }
 }

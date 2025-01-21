@@ -30,12 +30,66 @@ class HomeUser {
             $("#email").text(data.email);
             $("#mobileNumber").text(data.mobileNumber);
 
+            changeToWaiverAccepted(data.waiverAccepted);
+
             $("#editInputUsername").val(data.username);
             $("#editInputFirstname").val(data.firstname);
             $("#editInputLastname").val(data.lastname);
             $("#editInputEmail").val(data.email);
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
+        });
+
+        $.ajax({
+            url: "/game/list-active"
+        }).done(function (data) {
+            for (let i = 0; i < data.length; i++) {
+
+                let badgeColor = '<span class="badge text-bg-primary">';
+                if (data[i].status !== "OPEN") {
+                    badgeColor = '<span class="badge text-bg-warning">';
+                }
+
+                $("#gamelist").append(`<li class="list-group-item">
+                    <div class="row mb-2">
+                       <div class="col">
+                           <img id="gameBanner${i}" alt="" class="img-thumbnail"
+                                src="uploaded-images/banner/12.jpg">
+                       </div>
+                    </div>
+                    <div class="row mb-2 justify-content-center">
+                       <div class="col">
+                           <div id="timeLeft${i}" class="flipdown"></div>
+                       </div>
+                       <div class="col">
+                           <div class="text-end">
+                               <ul class="list-unstyled">
+                                   <li class="fw-bolder"><i class="bi bi-calendar-event-fill"></i> ${data[i].schedule}
+                                   </li>
+                                   <li class="mb-1" style="font-size: .8rem;">${data[i].type} Game</li>
+                                   <li id="gamestatus${i}">
+                                               ${badgeColor}
+                                                   <i class="bi bi-activity"></i> ${data[i].status}</span>
+                                   </li>
+                                   <li class="mt-2">
+                                       <button id="reg${i}" type="button" class="btn btn-outline-primary"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#showRegisterModal">Register
+                                       </button>
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+                    </div>
+                    </li>`);
+                let gameDate = new Date(data[i].schedule);
+                new FlipDown(Math.floor(gameDate.getTime() / 1000), "timeLeft" + [i]).start()
+                        .ifEnded(() => {
+                            $("#gamestatus" + i).html('<span class="badge text-bg-warning"><i class="bi bi-activity"></i> LOCKED</span>');
+                            $("#reg" + i).addClass("disabled");
+                            console.log('The countdown has ended!');
+                        });
+            }
         });
 
         $("#editProfileForm").on("submit", function (event) {
@@ -47,7 +101,6 @@ class HomeUser {
                 data: createDtoFromForm(document.querySelectorAll('#editProfileForm input'))
             }).always(function () {
                 $("#editProfileModal").modal("hide");
-                userListTable.ajax.reload();
                 $("#editProfileForm")[0].reset();
             });
         });
@@ -77,6 +130,17 @@ class HomeUser {
             });
         });
 
+        $("#acceptWaiverButton").on("click", function () {
+            $.ajax({
+                url: "/user/accept-waiver",
+                type: "post",
+                async: false
+            }).always(function () {
+                $("#waiverModal").modal("hide");
+                changeToWaiverAccepted(true);
+            });
+        });
+
         $('#editInputFirstname').on('input', function () {
             let value = $(this).val();
             $('#editInputUsername').val(parseFirstname(value).toLowerCase());
@@ -89,5 +153,25 @@ class HomeUser {
             let username = firstname + lastname;
             $('#editInputUsername').val(username.toLowerCase());
         });
+
+        function changeToWaiverAccepted(accepted) {
+            if (accepted) {
+                $("#taskWaiverStatus").removeClass("text-bg-warning");
+                $("#taskWaiverStatus").addClass("text-bg-success");
+                $("#taskWaiverStatus").text("Done");
+
+                $("#profileWaiverStatus").removeClass("text-bg-warning");
+                $("#profileWaiverStatus").addClass("text-bg-success");
+                $("#profileWaiverStatus").html('<i class="bi bi-check-circle"></i> Waiver');
+            } else {
+                $("#taskWaiverStatus").removeClass("text-bg-success");
+                $("#taskWaiverStatus").addClass("text-bg-warning");
+                $("#taskWaiverStatus").text("Not done");
+
+                $("#profileWaiverStatus").removeClass("text-bg-success");
+                $("#profileWaiverStatus").addClass("text-bg-warning");
+                $("#profileWaiverStatus").html('<i class="bi bi-question-circle"></i> Waiver');
+            }
+        }
     }
 }

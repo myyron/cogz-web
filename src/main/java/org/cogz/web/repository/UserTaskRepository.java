@@ -15,23 +15,17 @@
  */
 package org.cogz.web.repository;
 
-import org.cogz.web.enums.EGameStatus;
-import org.cogz.web.enums.EGameType;
-import org.cogz.web.model.Game;
+import org.cogz.web.enums.ETaskType;
+import org.cogz.web.model.UserTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  *
  * @author altrax
  */
 @Repository
-public interface GameRepository extends JpaRepository<Game, Integer> {
+public interface UserTaskRepository extends JpaRepository<UserTask, Integer> {
 
-    List<Game> findAllByEnabled(Integer enabled);
-
-    List<Game> findAllByStatusInAndEnabled(Collection<EGameStatus> statuses, Integer enabled);
+    Boolean existsByUserIdAndTypeAndEnabled(Integer userId, ETaskType type, Integer enabled);
 }

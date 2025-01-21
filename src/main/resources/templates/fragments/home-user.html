@@ -27,8 +27,7 @@
                                         <li id="email" style="font-size: .7rem;"></li>
                                         <li id="mobileNumber" style="font-size: .7rem;"></li>
                                         <li class="mt-2">
-                                            <span class="badge text-bg-success">
-                                                <i class="bi bi-check-circle"></i> Waiver</span>
+                                            <span id="profileWaiverStatus" class="badge"></span>
                                             <span class="badge text-bg-warning">
                                                 <i class="bi bi-question-circle"></i> ROE</span>
                                         </li>
@@ -38,10 +37,12 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="text-end">
-                                        <button type="button" id="showResetPasswordModal" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        <button type="button" id="showResetPasswordModal" class="btn btn-outline-primary"
+                                                data-bs-toggle="modal"
                                                 data-bs-target="#resetPasswordModal">Reset PW
                                         </button>
-                                        <button type="button" id="showEditProfileModal" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        <button type="button" id="showEditProfileModal" class="btn btn-outline-primary"
+                                                data-bs-toggle="modal"
                                                 data-bs-target="#editProfileModal">Request Mod
                                         </button>
                                     </div>
@@ -52,6 +53,7 @@
                 </div>
             </div>
 
+            <!-- Active Game Schedule -->
             <div class="row mb-3">
                 <div class="col px-4">
                     <div class="card mb-2 rounded-3 shadow-sm">
@@ -59,27 +61,9 @@
                             <h5 class="my-0 h6">Active Game Schedule</h5>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <img id="gameBanner" alt="" class="img-thumbnail"
-                                         src="uploaded-images/banner/12.jpg">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    01/19/2025 Regular Game
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="text-end">
-                                        <button type="button" class="btn btn-outline-primary"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#showRegisterModal">Register
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ul id="gamelist" class="list-unstyled list-group">
+
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -94,11 +78,14 @@
                         <div class="card-body">
                             <div class="list-group list-group-flush">
                                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal"
-                                   data-bs-target="#acceptGamesiteWaiver">
-                                    Accept Gamesite Waiver
+                                   data-bs-target="#waiverModal">
+                                    <i class="bi bi-file-earmark-text-fill"></i> Accept Gamesite Waiver
+                                    <span id="taskWaiverStatus" class="badge"></span>
                                 </a>
                                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal"
-                                   data-bs-target="#takeRoeCourse">Take ROE Course</a>
+                                   data-bs-target="#takeRoeCourse"><i class="bi bi-mortarboard-fill"></i> Take ROE Course
+                                    <span class="badge text-bg-info"> Soon!!</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -112,11 +99,18 @@
                     <div class="modal-content rounded-4 shadow">
                         <form id="editProfileForm">
                             <div class="modal-header">
-                                <h1 class="modal-title h5" >Request Profile Modification</h1>
+                                <h1 class="modal-title h5">Request Profile Modification</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
                             <div class="modal-body">
+                                <div class="row mb-2">
+                                    <div class="text-center">
+                                        <p class="text-warning fst-italic">Ensure all requested modification of information
+                                            below are accurate. You may need to coordinate with an ADMIN and present a valid ID
+                                            to confirm. Your accepted waiver depends on the below information.</p>
+                                    </div>
+                                </div>
                                 <div class="row mb-2">
                                     <label for="editInputUsername" class="col-sm-2 col-form-label text-small">Username</label>
                                     <div class="col-sm-10">
@@ -203,6 +197,47 @@
                                 <button type="submit" id="resetPasswordButton" class="btn btn-outline-primary">Save</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- waiverModal -->
+            <div class="modal fade" id="waiverModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <div class="modal-header">
+                            <h1 class="modal-title h5">Airsoft Gamesite Waiver</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    <p>I have read and understood the rules and regulations of CoGZ GAMESITE - MJC in
+                                        participating in airsoft activities at the said private property and I am willing to
+                                        obey and comply. I also understand the nature and risks in participating in airsoft
+                                        activities such as, but are not limited to: bodily injuries caused by playing without
+                                        protective equipment, bodily injuries and/or death caused by accidents or health
+                                        conditions, committing acts of disobedience to the laws of the Republic of the
+                                        Philippines such as, but not limited to, wearing military-style uniform in public and
+                                        brandishing firearm replicas in public.</p>
+                                    <p>Therefore, I voluntarily agree to release, waive, discharge CONTRACTORS OF GROUND ZERO
+                                        (CoGZ), MANILA JOCKEY CLUB INC., its officers, members, and affiliated personnel from
+                                        any and all liabilities, claims, actions or losses for bodily injury, property damage,
+                                        death, loss of services or otherwise which may cause the above mentioned during my
+                                        participation in airsoft activities and my presence at the said private property.</p>
+                                    <p>By clicking "I Agree" below, you agree that you have read and agree with the terms of the
+                                        waiver and that the information you provided shown in the "My Profile" web page card is
+                                        accurate. You futhermore agree that your submission of this form, via the "I Agree"
+                                        button, shall constitute the execution of this document in exactly the same manner as if
+                                        you had signed, by hand, a paper version of this agreement.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Skip</button>
+                            <button type="submit" id="acceptWaiverButton" class="btn btn-outline-primary">I Agree</button>
+                        </div>
                     </div>
                 </div>
             </div>

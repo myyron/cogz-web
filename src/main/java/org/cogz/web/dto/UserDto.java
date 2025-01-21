@@ -40,4 +40,6 @@ public class UserDto {
 
     private ERole role;
     private EUserStatus status;
+
+    private Boolean waiverAccepted;
 }

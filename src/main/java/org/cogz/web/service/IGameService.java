@@ -32,6 +32,8 @@ public interface IGameService {
 
     List<Game> getGames();
 
+    List<Game> getActiveGames();
+
     Integer createGame(GameDto gameDto);
 
     void editGame(GameDto gameDto);

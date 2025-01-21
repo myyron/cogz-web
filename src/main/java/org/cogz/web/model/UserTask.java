@@ -13,25 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repository;
+package org.cogz.web.model;
 
-import org.cogz.web.enums.EGameStatus;
-import org.cogz.web.enums.EGameType;
-import org.cogz.web.model.Game;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.Collection;
-import java.util.List;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.cogz.web.enums.ERegistrationStatus;
+import org.cogz.web.enums.ETaskType;
 
 /**
  *
  * @author altrax
  */
-@Repository
-public interface GameRepository extends JpaRepository<Game, Integer> {
+@Getter
+@Setter
+@Entity
+@Table(name = "USERS_TASK")
+public class UserTask extends BaseEntity {
 
-    List<Game> findAllByEnabled(Integer enabled);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    List<Game> findAllByStatusInAndEnabled(Collection<EGameStatus> statuses, Integer enabled);
+    private Integer userId;
+    private ETaskType type;
+    private String status;
 }

@@ -13,25 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repository;
-
-import org.cogz.web.enums.EGameStatus;
-import org.cogz.web.enums.EGameType;
-import org.cogz.web.model.Game;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.Collection;
-import java.util.List;
+package org.cogz.web.enums;
 
 /**
  *
  * @author altrax
  */
-@Repository
-public interface GameRepository extends JpaRepository<Game, Integer> {
-
-    List<Game> findAllByEnabled(Integer enabled);
-
-    List<Game> findAllByStatusInAndEnabled(Collection<EGameStatus> statuses, Integer enabled);
+public enum ETaskType {
+    WAIVER,
+    ROE;
 }
