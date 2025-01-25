@@ -20,6 +20,7 @@ package org.cogz.web.enums;
  * @author altrax
  */
 public enum EUserStatus {
+    ACCOUNT_VERIFICATION,
     GOOD,
     BANNED;
 }

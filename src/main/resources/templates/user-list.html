@@ -134,6 +134,7 @@
                                     <div class="col-sm-9">
                                         <select id="inputUserStatus" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
+                                            <option value="ACCOUNT_VERIFICATION">ACCOUNT_VERIFICATION</option>
                                             <option value="GOOD">GOOD</option>
                                             <option value="BANNED">BANNED</option>
                                         </select>
@@ -154,6 +155,9 @@
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <form id="editUserForm">
+                            
+                            <input type="hidden" id="editInputId" name="id"/>
+                            
                             <div class="modal-header">
                                 <h1 class="modal-title h5">Edit User</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -220,6 +224,7 @@
                                     <div class="col-sm-9">
                                         <select id="editInputUserStatus" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
+                                            <option value="ACCOUNT_VERIFICATION">ACCOUNT_VERIFICATION</option>
                                             <option value="GOOD">GOOD</option>
                                             <option value="BANNED">BANNED</option>
                                         </select>

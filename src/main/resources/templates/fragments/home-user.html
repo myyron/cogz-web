@@ -31,9 +31,12 @@
                                         <li id="email" style="font-size: .7rem;"></li>
                                         <li id="mobileNumber" style="font-size: .7rem;"></li>
                                         <li class="mt-2">
+                                            <span id="userStatus" class="badge"></span>
                                             <span id="profileWaiverStatus" class="badge"></span>
+                                            <!--
                                             <span class="badge text-bg-warning">
                                                 <i class="bi bi-question-circle"></i> ROE</span>
+                                            -->
                                         </li>
                                     </ul>
                                 </div>
@@ -212,32 +215,34 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
 
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col">
-                                    <p>I have read and understood the rules and regulations of CoGZ GAMESITE - MJC in
-                                        participating in airsoft activities at the said private property and I am willing to
-                                        obey and comply. I also understand the nature and risks in participating in airsoft
-                                        activities such as, but are not limited to: bodily injuries caused by playing without
-                                        protective equipment, bodily injuries and/or death caused by accidents or health
-                                        conditions, committing acts of disobedience to the laws of the Republic of the
-                                        Philippines such as, but not limited to, wearing military-style uniform in public and
-                                        brandishing firearm replicas in public.</p>
-                                    <p>Therefore, I voluntarily agree to release, waive, discharge CONTRACTORS OF GROUND ZERO
-                                        (CoGZ), MANILA JOCKEY CLUB INC., its officers, members, and affiliated personnel from
-                                        any and all liabilities, claims, actions or losses for bodily injury, property damage,
-                                        death, loss of services or otherwise which may cause the above mentioned during my
-                                        participation in airsoft activities and my presence at the said private property.</p>
-                                    <p>By clicking "I Agree" below, you agree that you have read and agree with the terms of the
-                                        waiver and that the information you provided shown in the "My Profile" web page card is
-                                        accurate. You furthermore agree that your submission of this form, via the "I Agree"
-                                        button, shall constitute the execution of this document in exactly the same manner as if
-                                        you had signed, by hand, a paper version of this agreement.</p>
+                        <form id='waiverForm'>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <p>I have read and understood the rules and regulations of CoGZ GAMESITE - MJC in
+                                            participating in airsoft activities at the said private property and I am willing to
+                                            obey and comply. I also understand the nature and risks in participating in airsoft
+                                            activities such as, but are not limited to: bodily injuries caused by playing without
+                                            protective equipment, bodily injuries and/or death caused by accidents or health
+                                            conditions, committing acts of disobedience to the laws of the Republic of the
+                                            Philippines such as, but not limited to, wearing military-style uniform in public and
+                                            brandishing firearm replicas in public.</p>
+                                        <p>Therefore, I voluntarily agree to release, waive, discharge CONTRACTORS OF GROUND ZERO
+                                            (CoGZ), MANILA JOCKEY CLUB INC., its officers, members, and affiliated personnel from
+                                            any and all liabilities, claims, actions or losses for bodily injury, property damage,
+                                            death, loss of services or otherwise which may cause the above mentioned during my
+                                            participation in airsoft activities and my presence at the said private property.</p>
+                                        <p>By clicking "I Agree" below, you agree that you have read and agree with the terms of the
+                                            waiver and that the information you provided shown in the "My Profile" web page card is
+                                            accurate. You furthermore agree that your submission of this form, via the "I Agree"
+                                            button, shall constitute the execution of this document in exactly the same manner as if
+                                            you had signed, by hand, a paper version of this agreement.</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="waiverModalFooter" class="modal-footer">
-                        </div>
+                            <div id="waiverModalFooter" class="modal-footer">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

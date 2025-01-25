@@ -93,7 +93,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
             }
         });
 
-        User user = userRepository.findByUsername(userDto.getUsername()).get();
+        User user = userRepository.findById(userDto.getId()).get();
 
         modelMapper.map(userDto, user);
 

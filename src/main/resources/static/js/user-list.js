@@ -79,8 +79,6 @@ class UserList {
                 ])
             }).always(function () {
                 $("#createUserModal").modal("hide");
-                userListTable.ajax.reload();
-                $("#createUserForm")[0].reset();
             });
         });
 
@@ -96,8 +94,6 @@ class UserList {
                 ])
             }).always(function () {
                 $("#editUserModal").modal("hide");
-                userListTable.ajax.reload();
-                $("#editUserForm")[0].reset();
             });
         });
 
@@ -122,7 +118,6 @@ class UserList {
                 data: "username=" + userListTable.row('.selected').data().username + "&password=" + $("#resetInputPassword").val()
             }).always(function () {
                 $("#resetPasswordModal").modal("hide");
-                $("#resetPasswordForm")[0].reset();
             });
         });
 
@@ -173,6 +168,7 @@ class UserList {
                 return e.preventDefault();
             }
 
+            $('#editInputId').val(data.id);
             $('#editInputUsername').val(data.username);
             $('#editInputPassword').val("dummy");
             $('#editInputFirstname').val(data.firstname);
@@ -190,7 +186,7 @@ class UserList {
 
         $('#inputFirstname').on('input', function () {
             let value = $(this).val();
-            $('#inputUsername').val(parseFirstname(value).toLowerCase());
+            $('#inputUsername').val(parseFirstname(value).toLowerCase() + $('#inputLastname').val().toLowerCase());
         });
 
         $('#inputLastname').on('input', function () {
@@ -199,6 +195,19 @@ class UserList {
             let firstname = parseFirstname($('#inputFirstname').val());
             let username = firstname + lastname;
             $('#inputUsername').val(username.toLowerCase());
+        });
+        
+        $('#editInputFirstname').on('input', function () {
+            let value = $(this).val();
+            $('#editInputUsername').val(parseFirstname(value).toLowerCase() + $('#editInputLastname').val().toLowerCase());
+        });
+
+        $('#editInputLastname').on('input', function () {
+            let value = $(this).val();
+            let lastname = value.replace(/ /g, '');
+            let firstname = parseFirstname($('#editInputFirstname').val());
+            let username = firstname + lastname;
+            $('#editInputUsername').val(username.toLowerCase());
         });
     }
 }
