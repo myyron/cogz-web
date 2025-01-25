@@ -79,6 +79,11 @@ public class GameController {
         List<GameDto> result = new ArrayList<>();
         for (Game game : gameService.getActiveGames()) {
             GameDto gameDto = mapper.map(game, GameDto.class);
+            for (GameUser gameUser : gameService.getUsers(game.getId())) {
+                GameUserDto gameUserDto = mapper.map(gameUser, GameUserDto.class);
+                gameUserDto.setUser(mapper.map(userService.getUser(gameUser.getUserId()), UserDto.class));
+                gameDto.getGameUserList().add(gameUserDto);
+            }
             result.add(gameDto);
         }
         logger.info("active game list - {}", result.size());

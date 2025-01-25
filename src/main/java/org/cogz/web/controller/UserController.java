@@ -18,9 +18,11 @@ package org.cogz.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.User;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -29,7 +31,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,5 +108,17 @@ public class UserController {
     public ResponseEntity<?> acceptWaiver() throws JsonProcessingException {
         userService.acceptWaiver();
         return ResponseEntity.ok("Waiver accepted successfully.");
+    }
+
+    @PostMapping("/change-pic")
+    public ResponseEntity<?> changePicture(@RequestParam MultipartFile profilePic, Integer userId) throws IOException {
+        userService.changePicture(profilePic, userId);
+        return ResponseEntity.ok("User profile picture changed successfully.");
+    }
+
+    @PostMapping("/reg-game")
+    public ResponseEntity<?> registerGame(@RequestParam MultipartFile paymentProof, Integer gameId) throws IOException {
+        userService.registerGame(paymentProof, gameId);
+        return ResponseEntity.ok("User registered to game successfully.");
     }
 }

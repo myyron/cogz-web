@@ -13,34 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.dto;
+package org.cogz.web.repository;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import org.cogz.web.enums.ERole;
-import org.cogz.web.enums.EUserStatus;
-
-import java.time.LocalDate;
+import org.cogz.web.model.UserPayment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author altrax
  */
-@Getter
-@Setter
-public class UserDto {
-
-    private Integer id;
-    private String username;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String mobileNumber;
-    private LocalDate birthdate;
-
-    private ERole role;
-    private EUserStatus status;
-
-    private Boolean waiverAccepted;
+@Repository
+public interface UserPaymentRepository extends JpaRepository<UserPayment, Integer> {
 }

@@ -6,8 +6,10 @@
     <body>
         <div class="container" th:fragment="content">
 
-            <div class="row mb-3">
-                <div class="col px-4">
+            <div class="row">
+
+                <!-- My Profile -->
+                <div class="col-sm px-4 mb-3">
                     <div class="card mb-2 rounded-3 shadow-sm">
                         <div class="card-header py-3 text-center">
                             <h5 class="my-0 h6">My Profile</h5>
@@ -15,9 +17,11 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-5">
+
+                                    <input id="inputProfilePic" type="file" style="display:none;">
+
                                     <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-                                        <img id="profilePic" alt=""
-                                             src="uploaded-images/profile/blank-profile.png">
+                                        <img id="profilePic" alt="">
                                     </div>
                                 </div>
                                 <div class="col-7">
@@ -51,26 +55,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Active Game Schedule -->
-            <div class="row mb-3">
-                <div class="col px-4">
-                    <div class="card mb-2 rounded-3 shadow-sm">
-                        <div class="card-header py-3 text-center">
-                            <h5 class="my-0 h6">Active Game Schedule</h5>
-                        </div>
-                        <div class="card-body">
-                            <ul id="gamelist" class="list-unstyled list-group">
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col px-4">
+                <!-- My Tasks -->
+                <div class="col-sm px-4 mb-3">
                     <div class="card mb-2 rounded-3 shadow-sm">
                         <div class="card-header py-3 text-center">
                             <h5 class="my-0 h6">My Tasks</h5>
@@ -90,8 +77,23 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
+            <!-- Active Game Schedule -->
+            <div class="row mb-3 justify-content-center">
+                <div class="col-sm-10 px-4">
+                    <div class="card mb-2 rounded-3 shadow-sm">
+                        <div class="card-header py-3 text-center">
+                            <h5 class="my-0 h6">Active Game Schedule</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul id="gamelist" class="list-unstyled list-group">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- editProfileModal -->
             <div class="modal fade" id="editProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -108,7 +110,7 @@
                                     <div class="text-center">
                                         <p class="text-warning fst-italic">Ensure all requested modification of information
                                             below are accurate. You may need to coordinate with an ADMIN and present a valid ID
-                                            to confirm. Your accepted waiver depends on the below information.</p>
+                                            to confirm. Your accepted waiver, gamesite security entry, and app notifications depend on the below information.</p>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -228,15 +230,13 @@
                                         participation in airsoft activities and my presence at the said private property.</p>
                                     <p>By clicking "I Agree" below, you agree that you have read and agree with the terms of the
                                         waiver and that the information you provided shown in the "My Profile" web page card is
-                                        accurate. You futhermore agree that your submission of this form, via the "I Agree"
+                                        accurate. You furthermore agree that your submission of this form, via the "I Agree"
                                         button, shall constitute the execution of this document in exactly the same manner as if
                                         you had signed, by hand, a paper version of this agreement.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Skip</button>
-                            <button type="submit" id="acceptWaiverButton" class="btn btn-outline-primary">I Agree</button>
+                        <div id="waiverModalFooter" class="modal-footer">
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,9 @@ logs/
 data/*trace*
 data/images/banner
 data/images/payment/*/
-data/images/profile/*/
+data/images/profile
+
+!data/images/profile/blank-profile.png
 
 nb-configuration.xml
 nbactions.xml

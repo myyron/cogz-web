@@ -20,6 +20,6 @@ package org.cogz.web.enums;
  * @author altrax
  */
 public enum ERegistrationStatus {
-    PENDING_PAYMENT,
+    PAYMENT_VERIFICATION,
     PAID;
 }

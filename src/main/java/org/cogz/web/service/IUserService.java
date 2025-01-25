@@ -19,7 +19,9 @@ import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
 import org.cogz.web.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -49,4 +51,8 @@ public interface IUserService {
     void acceptWaiver();
 
     Boolean isWaiverAccepted();
+
+    void changePicture(MultipartFile profilePic, Integer userId) throws IOException;
+
+    void registerGame(MultipartFile paymentProof, Integer gameId) throws IOException;
 }

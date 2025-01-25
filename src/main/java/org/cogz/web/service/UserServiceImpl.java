@@ -15,18 +15,13 @@
  */
 package org.cogz.web.service;
 
-import org.antlr.v4.runtime.misc.LogManager;
-import org.cogz.web.controller.UserController;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.enums.ETaskType;
-import org.cogz.web.model.User;
-import org.cogz.web.model.UserEdit;
-import org.cogz.web.model.UserTask;
-import org.cogz.web.repository.UserEditRepository;
-import org.cogz.web.repository.UserRepository;
-import org.cogz.web.repository.UserTaskRepository;
+import org.cogz.web.model.*;
+import org.cogz.web.repository.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
@@ -37,7 +32,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -61,6 +58,15 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Autowired
     private UserTaskRepository userTaskRepository;
+
+    @Autowired
+    private UserPaymentRepository userPaymentRepository;
+
+    @Autowired
+    private GameUserRepository gameUserRepository;
+
+    @Autowired
+    private IFileService fileService;
 
     @Override
     @Transactional
@@ -174,5 +180,34 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     public Boolean isWaiverAccepted() {
         return userTaskRepository.existsByUserIdAndTypeAndEnabled(sessionInfo.getCurrentUser().getId(), ETaskType.WAIVER, 1);
+    }
+
+    @Override
+    public void changePicture(MultipartFile profilePic, Integer userId) throws IOException {
+        fileService.writeImage(profilePic, "data/images/profile/", userId, null);
+    }
+
+    @Override
+    public void registerGame(MultipartFile paymentProof, Integer gameId) throws IOException {
+
+        Integer userId = sessionInfo.getCurrentUser().getId();
+
+        fileService.writeImage(paymentProof, "data/images/payment/", userId, gameId);
+
+        UserPayment userPayment = new UserPayment();
+        userPayment.setUserId(userId);
+        userPayment.setGameId(gameId);
+        userPayment.setFilepath("data/images/payment/" + gameId + "/" + userId + ".jpg");
+        userPayment.setInsBy(userId);
+        userPaymentRepository.save(userPayment);
+
+        GameUser gameUser = new GameUser();
+        gameUser.setGameId(gameId);
+        gameUser.setUserId(userId);
+        gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
+        gameUser.setInsBy(userId);
+        gameUserRepository.save(gameUser);
+
+        logger.info("user payment - {}", sessionInfo.getCurrentUser().getUsername());
     }
 }

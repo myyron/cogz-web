@@ -55,6 +55,9 @@ public class GameServiceImpl extends BaseService implements IGameService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private IFileService fileService;
+
     @Override
     public List<Game> getGames() {
         return gameRepository.findAllByEnabled(1);
@@ -96,19 +99,18 @@ public class GameServiceImpl extends BaseService implements IGameService {
     @Override
     @Transactional
     public void addUsers(Integer gameId, String usernames) {
-        Game game = gameRepository.findById(gameId).get();
         for (String username : usernames.split(",")) {
             GameUser gameUser = new GameUser();
 
             User user = userRepository.findByUsername(username).get();
 
-            if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(game.getId(), user.getId(), 1)) {
+            if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, user.getId(), 1)) {
                 continue;
             }
 
-            gameUser.setGameId(game.getId());
+            gameUser.setGameId(gameId);
             gameUser.setUserId(user.getId());
-            gameUser.setRegStatus(ERegistrationStatus.PENDING_PAYMENT);
+            gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
             gameUser.setInsBy(sessionInfo.getCurrentUser().getId());
 
             gameUserRepository.save(gameUser);
@@ -134,10 +136,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
     public void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException {
 
         if (paymentProof != null) {
-            final String BASE_PAYMENT_DIR = "data/images/payment/";
-            Path path = Files.createDirectories(Paths.get(BASE_PAYMENT_DIR + gameUserDto.getGameId()));
-            Path fileNameAndPath = Paths.get(String.valueOf(path), gameUserDto.getId() + ".jpg");
-            Files.write(fileNameAndPath, paymentProof.getBytes());
+            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId());
         }
 
         GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserDto.getId(), 1).get();

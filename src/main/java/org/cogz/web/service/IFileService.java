@@ -13,34 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.dto;
+package org.cogz.web.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import org.cogz.web.enums.ERole;
-import org.cogz.web.enums.EUserStatus;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
+import java.io.IOException;
 
 /**
- *
  * @author altrax
  */
-@Getter
-@Setter
-public class UserDto {
+public interface IFileService {
 
-    private Integer id;
-    private String username;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String mobileNumber;
-    private LocalDate birthdate;
-
-    private ERole role;
-    private EUserStatus status;
-
-    private Boolean waiverAccepted;
+    void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir) throws IOException;
 }
