@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-class HomeAdmin {
+class Tools {
 
     constructor() {
 
-        getCurrentUser();
-
-        $("#navHome").addClass("active");
+        $("#navHome").removeClass("active");
         $("#navGameList").removeClass("active");
         $("#navUserList").removeClass("active");
-        $("#navTools").removeClass("active");
+        $("#navTools").addClass("active");
     }
 }

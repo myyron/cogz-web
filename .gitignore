@@ -2,7 +2,7 @@ target/
 logs/
 .idea/
 
-data/*trace*
+data/*.db
 data/images/banner
 data/images/payment/*/
 data/images/profile

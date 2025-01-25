@@ -21,6 +21,7 @@ class GameList {
         $("#navHome").removeClass("active");
         $("#navGameList").addClass("active");
         $("#navUserList").removeClass("active");
+        $("#navTools").removeClass("active");
 
         DataTable.type('date', 'className', 'dt-left');
 

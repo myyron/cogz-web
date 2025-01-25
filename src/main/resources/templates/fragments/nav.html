@@ -16,22 +16,29 @@
 
                         <div class="col-sm-8 col-12">
                             <ul class="nav nav-tabs">
-                                <li class="col-3">
+                                <li class="col">
                                     <a id="navHome" th:href="@{/}" class="nav-link">
                                         <i class="bi bi-house-door-fill"></i>
                                     </a>
                                 </li>
-                                <li class="col-3">
-                                    <a id="navGameList" th:href="@{/game-list}" class="nav-link">
-                                        <i class="bi bi-calendar-week-fill"></i>
+                                <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                    <li class="col">
+                                        <a id="navGameList" th:href="@{/game-list}" class="nav-link">
+                                            <i class="bi bi-calendar-week-fill"></i>
+                                        </a>
+                                    </li>
+                                    <li class="col">
+                                        <a id="navUserList" th:href="@{/user-list}" class="nav-link">
+                                            <i class="bi bi-people-fill"></i>
+                                        </a>
+                                    </li>
+                                </th:block>
+                                <li class="col">
+                                    <a id="navTools" th:href="@{/tools}" class="nav-link">
+                                        <i class="bi bi-tools"></i>
                                     </a>
                                 </li>
-                                <li class="col-3">
-                                    <a id="navUserList" th:href="@{/user-list}" class="nav-link">
-                                        <i class="bi bi-people-fill"></i>
-                                    </a>
-                                </li>
-                                <li class="col-3">
+                                <li class="col">
                                     <a class="nav-link" href="javascript: document.logoutForm.submit()">
                                         <i class="bi bi-door-closed-fill"></i>
                                     </a>

@@ -39,7 +39,7 @@
                                                 <button type="button" id="deleteUserButton" class="btn btn-outline-primary disabled">
                                                     <i class="bi bi-trash-fill"></i>
                                                 </button>
-                                                </th>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@
                                             <option value="STAFF">STAFF</option>
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <option value="ADMIN">ADMIN</option>
-                                                </th>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@
                                             <option value="STAFF">STAFF</option>
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <option value="ADMIN">ADMIN</option>
-                                                </th>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>

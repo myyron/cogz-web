@@ -22,8 +22,7 @@ class HomeUser {
         let waiverAccepted;
 
         $("#navHome").addClass("active");
-        $("#navGameList").addClass("disabled");
-        $("#navUserList").addClass("disabled");
+        $("#navTools").removeClass("active");
 
         $.ajax({
             url: "/user/current"
