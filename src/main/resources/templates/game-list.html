@@ -21,6 +21,7 @@
 
         <main>
 
+            <!-- Game List -->
             <div class="container">
                 <div class="row mb-3">
                     <div class="col px-4">
@@ -70,6 +71,7 @@
                 </div>
             </div>
 
+            <!-- Registered User List -->
             <div class="container">
                 <div class="row mb-3">
                     <div class="col px-4">
@@ -135,6 +137,13 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
+                                    <label for="inputAdvanceDeadline" class="col-sm-4 col-form-label text-small">Advance Deadline</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" min="0" step="1" class="form-control form-control-sm" id="inputAdvanceDeadline"
+                                               name="advanceDeadline" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
                                     <label for="inputGameType" class="col-sm-2 col-form-label text-small">Type</label>
                                     <div class="col-sm-10">
                                         <select id="inputGameType" class="form-select form-select-sm" required>
@@ -144,15 +153,28 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
+                                <div class="row mb-4">
                                     <label for="inputGameStatus" class="col-sm-2 col-form-label text-small">Status</label>
                                     <div class="col-sm-10">
                                         <select id="inputGameStatus" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
-                                            <option value="OPEN">OPEN</option>
-                                            <option value="LOCKED">LOCKED</option>
-                                            <option value="CLOSED">CLOSED</option>
+                                            <option value="OPEN">OPEN - User visible, registration is enabled</option>
+                                            <option value="LOCKED">LOCKED - User visible, registration is disabled</option>
+                                            <option value="CLOSED">CLOSED - User hidden, payment images available</option>
+                                            <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
                                         </select>
+                                    </div>
+                                </div>                                
+                                <div class="row mb-3">
+                                    <label for="inputBanner" class="col-sm-4 form-label text-small">Banner</label>
+                                    <div class="col-sm-12">
+                                        <input class="form-control form-control-sm" id="inputBanner" type="file"
+                                               accept="image/*" oninput="banner.src=window.URL.createObjectURL(this.files[0])">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <img id="banner" src="uploaded-images/banner/default-banner.png" alt="" class="img-thumbnail">
                                     </div>
                                 </div>
                             </div>
@@ -185,6 +207,13 @@
                                         <input type="date" class="form-control form-control-sm" id="editInputSchedule"
                                                name="schedule" required>
                                     </div>
+                                </div>                                
+                                <div class="row mb-2">
+                                    <label for="editInputAdvanceDeadline" class="col-sm-4 col-form-label text-small">Advance Deadline</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" min="0" step="1" class="form-control form-control-sm" id="editInputAdvanceDeadline"
+                                               name="advanceDeadline" required>
+                                    </div>
                                 </div>
                                 <div class="row mb-2">
                                     <label for="editInputGameType" class="col-sm-2 col-form-label text-small">Type</label>
@@ -206,6 +235,18 @@
                                             <option value="CLOSED">CLOSED - User hidden, payment images available</option>
                                             <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
                                         </select>
+                                    </div>
+                                </div>                                                                
+                                <div class="row mb-3">
+                                    <label for="editInputBanner" class="col-sm-4 form-label text-small">Banner</label>
+                                    <div class="col-sm-12">
+                                        <input class="form-control form-control-sm" id="editInputBanner" type="file"
+                                               accept="image/*" oninput="editBanner.src=window.URL.createObjectURL(this.files[0])">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <img id="editBanner" alt="" class="img-thumbnail">
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +319,7 @@
                                         Payment</label>
                                     <div class="col-sm-8">
                                         <input class="form-control form-control-sm" id="editInputPaymentProof" type="file"
-                                               accept="image/*">
+                                               accept="image/*" oninput="paymentProof.src=window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                                 <div class="row mb-3 justify-content-center">

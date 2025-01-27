@@ -18,6 +18,7 @@ package org.cogz.web.service;
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.enums.EGameStatus;
+import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -70,26 +72,37 @@ public class GameServiceImpl extends BaseService implements IGameService {
 
     @Override
     @Transactional
-    public Integer createGame(GameDto gameDto) {
-        Game game = new ModelMapper().map(gameDto, Game.class);
+    public void createGame(MultipartFile banner, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
+        Game game = new Game();
+        game.setSchedule(schedule);
+        game.setAdvanceDeadline(advanceDeadline);
+        game.setType(type);
+        game.setStatus(status);
         game.setInsBy(sessionInfo.getCurrentUser().getId());
-        return gameRepository.save(game).getId();
+        gameRepository.save(game);
+
+        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, false);
     }
 
     @Override
     @Transactional
-    public void editGame(GameDto gameDto) {
-        Game game = gameRepository.findById(gameDto.getId()).get();
-        new ModelMapper().map(gameDto, game);
+    public void editGame(MultipartFile banner, Integer id, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
+        Game game = gameRepository.findByIdAndEnabled(id, 1).get();
+        game.setSchedule(schedule);
+        game.setAdvanceDeadline(advanceDeadline);
+        game.setType(type);
+        game.setStatus(status);
 
         game.setUpdBy(sessionInfo.getCurrentUser().getId());
         game.setUpdDate(LocalDateTime.now());
+
+        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, false);
     }
 
     @Override
     @Transactional
     public void deactivateGame(Integer id) {
-        Game game = gameRepository.findById(id).get();
+        Game game = gameRepository.findByIdAndEnabled(id, 1).get();
         game.setEnabled(0);
 
         game.setUpdBy(sessionInfo.getCurrentUser().getId());
@@ -102,7 +115,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
         for (String username : usernames.split(",")) {
             GameUser gameUser = new GameUser();
 
-            User user = userRepository.findByUsername(username).get();
+            User user = userRepository.findByUsernameAndEnabled(username, 1).get();
 
             if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, user.getId(), 1)) {
                 continue;
@@ -120,7 +133,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
     @Override
     @Transactional
     public void removeUser(Integer id) {
-        GameUser gameUser = gameUserRepository.findById(id).get();
+        GameUser gameUser = gameUserRepository.findByIdAndEnabled(id, 1).get();
         gameUser.setEnabled(0);
         gameUser.setUpdBy(sessionInfo.getCurrentUser().getId());
         gameUser.setUpdDate(LocalDateTime.now());
@@ -136,7 +149,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
     public void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException {
 
         if (paymentProof != null) {
-            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId());
+            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId(), false);
         }
 
         GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserDto.getId(), 1).get();

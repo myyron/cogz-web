@@ -21,6 +21,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.dto.UserDto;
+import org.cogz.web.enums.EGameStatus;
+import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
@@ -38,6 +40,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,16 +94,14 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createGame(@RequestBody GameDto gameDto) throws JsonProcessingException {
-        logger.info("create game - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(gameDto));
-        gameService.createGame(gameDto);
+    public ResponseEntity<?> createGame(@RequestParam(required = false) MultipartFile banner, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
+        gameService.createGame(banner, schedule, advanceDeadline, type, status);
         return ResponseEntity.ok("Game created successfully.");
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editGame(@RequestBody GameDto gameDto) throws JsonProcessingException {
-        logger.info("edit game - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(gameDto));
-        gameService.editGame(gameDto);
+    public ResponseEntity<?> editGame(@RequestParam(required = false) MultipartFile banner, Integer id, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
+        gameService.editGame(banner, id, schedule, advanceDeadline, type, status);
         return ResponseEntity.ok("Game edited successfully.");
     }
 
@@ -126,8 +127,8 @@ public class GameController {
     }
 
     @PostMapping("/edit-user")
-    public ResponseEntity<?> editUser(@RequestParam(required = false) MultipartFile paymentProof, Integer gameId, Integer gameUserId, 
-            ERegistrationStatus regStatus, Integer fps, Boolean absent, Boolean refunded) throws IOException {
+    public ResponseEntity<?> editUser(@RequestParam(required = false) MultipartFile paymentProof, Integer gameId, Integer gameUserId,
+                                      ERegistrationStatus regStatus, Integer fps, Boolean absent, Boolean refunded) throws IOException {
         GameUserDto gameUserDto = new GameUserDto();
         gameUserDto.setGameId(gameId);
         gameUserDto.setId(gameUserId);

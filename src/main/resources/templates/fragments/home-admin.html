@@ -31,9 +31,7 @@
                                         <li id="email" style="font-size: .7rem;"></li>
                                         <li id="mobileNumber" style="font-size: .7rem;"></li>
                                         <li class="mt-2">
-                                            <span id="profileWaiverStatus" class="badge"></span>
-                                            <span class="badge text-bg-warning">
-                                                <i class="bi bi-question-circle"></i> ROE</span>
+                                            <span id="userStatus" class="badge"></span>
                                         </li>
                                     </ul>
                                 </div>
@@ -56,20 +54,25 @@
                     </div>
                 </div>
 
-                <!-- Active Game Schedule -->
+                <!-- Game Stats -->
                 <div class="col-sm px-4 mb-3">
                     <div class="card mb-2 rounded-3 shadow-sm">
                         <div class="card-header py-3 text-center">
-                            <h5 class="my-0 h6">Active Game Schedule</h5>
+                            <h5 class="my-0 h6">Game Stats</h5>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title pricing-card-title">Date: <small class="text-body-secondary fw-light">01/12/2025</small></h3>
-                            <h3 class="card-title pricing-card-title">Type: <small class="text-body-secondary fw-light">Regular</small></h3>
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li>10 players registered</li>
-                                <li>2 players pending payment</li>
-                                <li>4 companions</li>
-                            </ul>
+                            <div class="row">                                
+                                <div class="col-sm-4 col-5">
+                                    <ul class="list-unstyled">
+                                        <li class="fw-bolder" style="font-size: .6rem;">TOTAL REGISTERED</li>
+                                        <li id="gameDate" style="font-size: .6rem;"><i class="bi bi-calendar-event-fill"></i> 2025-02-01</li>
+                                        <li id="totalRegistered" class="fw-bolder" style="font-size: 3rem;"><span class="badge rounded-pill text-bg-info">44</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-8 col-7">
+                                    <canvas id="attendanceChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,16 +89,14 @@
                         <div class="card-body">
                             <div class="list-group list-group-flush mb-4">
                                 <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createGameskedModal">
-                                    Create Game Schedule
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistration">Account Registration - Myyron Latorilla</a>
-                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistration">Account Registration - Roberto Latorilla</a>
-                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPayment">Payment Verification - Noel Cagurangan</a>
-                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPayment">Payment Verification - Paolo Panaligan</a>                                
-                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPayment">Payment Verification - Michael Santos</a>
+                                    <i class="bi bi-calendar-week-fill"></i> Create Game Schedule</a>
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistration">
+                                    <i class="bi bi-person-fill-check"></i> New Account Verification - Myyron Latorilla</a>
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistration">
+                                    <i class="bi bi-person-fill-gear"></i> Account Modification Request - Roberto Latorilla</a>
+                                <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPayment">
+                                    <i class="bi bi-wallet-fill"></i> Payment Verification - Noel Cagurangan</a>
                             </div>
-
-                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">View All</button>
                         </div>
                     </div>
                 </div>
@@ -188,6 +189,107 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Verified</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- editProfileModal -->
+            <div class="modal fade" id="editProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="editProfileForm">
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Modify Profile</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row mb-2">
+                                    <label for="editInputUsername" class="col-sm-2 col-form-label text-small">Username</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control form-control-sm" id="editInputUsername"
+                                               name="username" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="editInputFirstname" class="col-sm-2 col-form-label text-small">Firstname</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control form-control-sm" id="editInputFirstname"
+                                               name="firstname" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="editInputLastname" class="col-sm-2 col-form-label text-small">Lastname</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control form-control-sm" id="editInputLastname"
+                                               name="lastname" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="editInputEmail" class="col-sm-2 col-form-label text-small">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control form-control-sm" id="editInputEmail"
+                                               name="email">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="editInputMobileNumber" class="col-sm-3 col-form-label text-small">Mobile
+                                        Number</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" id="editInputMobileNumber"
+                                               name="mobileNumber">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="editInputBirthdate" class="col-sm-2 col-form-label text-small">Birthdate</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control form-control-sm" id="editInputBirthdate"
+                                               name="birthdate">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-outline-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- resetPasswordModal -->
+            <div class="modal fade" id="resetPasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="resetPasswordForm">
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Reset Password</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row mb-2">
+                                    <label for="resetInputPassword" class="col-sm-12 col-form-label text-small">New
+                                        Password</label>
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control form-control-sm" id="resetInputPassword"
+                                               name="password1" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="resetInputPassword2" class="col-sm-12 col-form-label text-small">Re-Enter New
+                                        Password</label>
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control form-control-sm" id="resetInputPassword2"
+                                               name="password2" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" id="resetPasswordButton" class="btn btn-outline-primary">Save</button>
                             </div>
                         </form>
                     </div>

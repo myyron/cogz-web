@@ -15,6 +15,9 @@
  */
 package org.cogz.web.service;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+import net.coobird.thumbnailator.name.Rename;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,13 +37,36 @@ public class FileServiceImpl implements IFileService {
     Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
-    public void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir) throws IOException {
+    public void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, boolean crop) throws IOException {
+
+        if (image == null) {
+            return;
+        }
+
         Path path = Paths.get(basedir);
         if (parentIdAsDir != null) {
             path = Files.createDirectories(Paths.get(basedir + parentIdAsDir));
         }
         Path fileNameAndPath = Paths.get(String.valueOf(path), id + ".jpg");
-        Files.write(fileNameAndPath, image.getBytes());
+
+        Thumbnails.of(image.getInputStream())
+                .size(400, 400)
+                .outputFormat("jpg")
+                .toFile(fileNameAndPath.toFile());
+
+        if (crop) {
+            Thumbnails.of(image.getInputStream())
+                    .crop(Positions.CENTER)
+                    .size(400, 400)
+                    .outputFormat("jpg")
+                    .toFile(fileNameAndPath.toFile());
+        } else {
+            Thumbnails.of(image.getInputStream())
+                    .size(400, 400)
+                    .outputFormat("jpg")
+                    .toFile(fileNameAndPath.toFile());
+        }
+
         logger.info("{} saved", fileNameAndPath.toString());
     }
 }

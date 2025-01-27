@@ -120,36 +120,45 @@ class GameList {
         });
 
         $("#createGameForm").on("submit", function () {
+
+            let fd = new FormData();
+            fd.append('banner', $('#inputBanner')[0].files[0]);
+            fd.append('schedule', $('#inputSchedule').val());
+            fd.append('advanceDeadline', $('#inputAdvanceDeadline').val());
+            fd.append('type', $('#inputGameType').val());
+            fd.append('status', $('#inputGameStatus').val());
+
             $.ajax({
                 url: "/game/create",
-                contentType: "application/json",
+                contentType: false,
+                processData: false,
                 type: "post",
                 async: false,
-                dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#createGameForm input'), [{key: 'type', inputId: 'inputGameType'},
-                    {key: 'status', inputId: 'inputGameStatus'}
-                ])
+                data: fd
             }).always(function () {
                 $("#createGameModal").modal("hide");
-                gameListTable.ajax.reload();
-                $("#createGameForm")[0].reset();
             });
         });
 
         $("#editGameForm").on("submit", function () {
+
+            let fd = new FormData();
+            fd.append('id', $('#editInputId').val());
+            fd.append('banner', $('#editInputBanner')[0].files[0]);
+            fd.append('schedule', $('#editInputSchedule').val());
+            fd.append('advanceDeadline', $('#editInputAdvanceDeadline').val());
+            fd.append('type', $('#editInputGameType').val());
+            fd.append('status', $('#editInputGameStatus').val());
+
             $.ajax({
                 url: "/game/edit",
-                contentType: "application/json",
+                contentType: false,
+                processData: false,
                 type: "post",
                 async: false,
-                dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#editGameForm input'), [{key: 'type', inputId: 'editInputGameType'},
-                    {key: 'status', inputId: 'editInputGameStatus'}
-                ])
+                data: fd
             }).always(function () {
-                $("#editGameModal").modal("hide");
-                gameListTable.ajax.reload();
-                $("#editGameForm")[0].reset();
+                $("#createGameModal").modal("hide");
             });
         });
 
@@ -163,8 +172,6 @@ class GameList {
                 data: "gameId=" + $('#editInputId').val() + "&usernames=" + $("#inputAddUsers").val()
             }).always(function () {
                 $("#addUsersModal").modal("hide");
-                gameListTable.ajax.reload();
-                $("#addUsersForm")[0].reset();
             });
         });
 
@@ -189,8 +196,6 @@ class GameList {
                 data: fd
             }).always(function () {
                 $("#editUserModal").modal("hide");
-                gameListTable.ajax.reload();
-                $("#editUserForm")[0].reset();
             });
         });
 
@@ -264,8 +269,10 @@ class GameList {
             let data = gameListTable.row('.selected').data();
             $('#editInputId').val(data.id);
             $('#editInputSchedule').val(data.schedule);
+            $('#editInputAdvanceDeadline').val(data.advanceDeadline);
             $('#editInputGameType').val(data.type);
             $('#editInputGameStatus').val(data.status);
+            $("#editBanner").attr("src", "uploaded-images/banner/" + data.id + ".jpg");
         });
 
         $('#editUserModal').on('show.bs.modal', function () {
@@ -282,6 +289,14 @@ class GameList {
 
         $('#paymentProof').on("error", function () {
             $("#paymentProof").attr("src", "uploaded-images/payment/blank-proof.png");
+        });
+
+        $('#banner').on("error", function () {
+            $("#banner").attr("src", "uploaded-images/banner/default-banner.png");
+        });
+        
+        $('#editBanner').on("error", function () {
+            $("#editBanner").attr("src", "uploaded-images/banner/default-banner.png");
         });
 
         $("#showCreateGameModal").on("click", function () {

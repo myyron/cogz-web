@@ -33,6 +33,7 @@ import java.util.List;
 public class GameDto {
 
     private Integer id;
+    private Integer advanceDeadline;
     private LocalDate schedule;
     private EGameType type;
     private EGameStatus status;

@@ -70,7 +70,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
-    public Integer createUser(UserWithPasswordDto userDto) {
+    public void createUser(UserWithPasswordDto userDto) {
         User user = new ModelMapper().map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
@@ -78,7 +78,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
             user.setInsBy(sessionInfo.getCurrentUser().getId());
         }
 
-        return userRepository.save(user).getId();
+        userRepository.save(user);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
             }
         });
 
-        User user = userRepository.findById(userDto.getId()).get();
+        User user = userRepository.findByIdAndEnabled(userDto.getId(), 1).get();
 
         modelMapper.map(userDto, user);
 
@@ -104,7 +104,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     @Transactional
     public void deactivateUser(String username) {
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findByUsernameAndEnabled(username, 1).get();
         user.setEnabled(0);
         user.setUpdBy(sessionInfo.getCurrentUser().getId());
         user.setUpdDate(LocalDateTime.now());
@@ -113,7 +113,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     @Transactional
     public void resetPassword(String username, String password) {
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findByUsernameAndEnabled(username, 1).get();
         user.setPassword(passwordEncoder.encode(password));
         user.setUpdBy(sessionInfo.getCurrentUser().getId());
         user.setUpdDate(LocalDateTime.now());
@@ -127,7 +127,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByUsername(authentication.getName()).get();
+        return userRepository.findByUsernameAndEnabled(authentication.getName(), 1).get();
     }
 
     @Override
@@ -137,11 +137,11 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
-    public Integer createUserEdit(UserEditDto userEditDto) {
+    public void createUserEdit(UserEditDto userEditDto) {
         UserEdit userEdit = new ModelMapper().map(userEditDto, UserEdit.class);
         userEdit.setUserId(sessionInfo.getCurrentUser().getId());
         userEdit.setInsBy(sessionInfo.getCurrentUser().getId());
-        return userEditRepository.save(userEdit).getId();
+        userEditRepository.save(userEdit);
     }
 
     @Override
@@ -184,15 +184,13 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     public void changePicture(MultipartFile profilePic, Integer userId) throws IOException {
-        fileService.writeImage(profilePic, "data/images/profile/", userId, null);
+        fileService.writeImage(profilePic, "data/images/profile/", userId, null, true);
     }
 
     @Override
     public void registerGame(MultipartFile paymentProof, Integer gameId) throws IOException {
 
         Integer userId = sessionInfo.getCurrentUser().getId();
-
-        fileService.writeImage(paymentProof, "data/images/payment/", userId, gameId);
 
         UserPayment userPayment = new UserPayment();
         userPayment.setUserId(userId);
@@ -207,6 +205,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
         gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
         gameUser.setInsBy(userId);
         gameUserRepository.save(gameUser);
+
+        fileService.writeImage(paymentProof, "data/images/payment/", userId, gameId, false);
 
         logger.info("user payment - {}", sessionInfo.getCurrentUser().getUsername());
     }

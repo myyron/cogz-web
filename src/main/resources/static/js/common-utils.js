@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 
-function getCurrentUser() {
-    $.ajax({
-        url: "/user/current"
-    }).done(function (data) {
-        localStorage.setItem('username', data.username);
-        localStorage.setItem('role', data.role);
-    });
-    return;
-}
-
 /**
  * Converts the form's input data to dto.
  * @param {type} elements
@@ -68,3 +58,48 @@ function parseFirstname(firstname) {
     }
     return result;
 }
+
+$("#resetPasswordForm").on("submit", function (e) {
+    if ($("#resetInputPassword").val() !== $("#resetInputPassword2").val()) {
+        bootbox.alert({
+            message: '<div class="text-center text-danger">Password do not match</div>',
+            size: 'small'
+
+        }).init(function () {
+            $('.btn').removeClass('btn-primary');
+            $('.btn').addClass('btn-outline-primary');
+        });
+        return e.preventDefault();
+    }
+
+    $.ajax({
+        url: "/user/reset",
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        type: "post",
+        dataType: "json",
+        data: "username=" + $("#username").text() + "&password=" + $("#resetInputPassword").val()
+    }).always(function () {
+        $("#resetPasswordModal").modal("hide");
+    });
+});
+
+$("#profilePic").on("click", function () {
+    $("#inputProfilePic").click();
+});
+
+$('#editInputFirstname').on('input', function () {
+    let value = $(this).val();
+    $('#editInputUsername').val(parseFirstname(value).toLowerCase() + $('#editInputLastname').val().toLowerCase());
+});
+
+$('#editInputLastname').on('input', function () {
+    let value = $(this).val();
+    let lastname = value.replace(/ /g, '');
+    let firstname = parseFirstname($('#editInputFirstname').val());
+    let username = firstname + lastname;
+    $('#editInputUsername').val(username.toLowerCase());
+});
+
+$('#profilePic').on("error", function () {
+    $("#profilePic").attr("src", "uploaded-images/profile/blank-profile.png");
+});

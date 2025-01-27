@@ -18,11 +18,13 @@ package org.cogz.web.repository;
 import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.EGameType;
 import org.cogz.web.model.Game;
+import org.cogz.web.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -30,6 +32,8 @@ import java.util.List;
  */
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
+
+    Optional<Game> findByIdAndEnabled(Integer id, Integer enabled);
 
     List<Game> findAllByEnabled(Integer enabled);
 

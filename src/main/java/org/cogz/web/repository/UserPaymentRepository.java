@@ -15,9 +15,12 @@
  */
 package org.cogz.web.repository;
 
+import org.cogz.web.model.User;
 import org.cogz.web.model.UserPayment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  *
@@ -25,4 +28,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserPaymentRepository extends JpaRepository<UserPayment, Integer> {
+
+    Optional<UserPayment> findByIdAndEnabled(Integer id, Integer enabled);
 }

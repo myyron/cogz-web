@@ -15,6 +15,9 @@
  */
 package org.cogz.web;
 
+import org.cogz.web.service.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +32,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
+    Logger logger = LoggerFactory.getLogger(AppExceptionHandler.class);
+
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
+        logger.error("Caught exception", ex);
         String bodyOfResponse = "This should be application specific";
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }

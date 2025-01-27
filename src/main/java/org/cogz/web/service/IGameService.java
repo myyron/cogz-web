@@ -17,11 +17,14 @@ package org.cogz.web.service;
 
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
+import org.cogz.web.enums.EGameStatus;
+import org.cogz.web.enums.EGameType;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -34,9 +37,9 @@ public interface IGameService {
 
     List<Game> getActiveGames();
 
-    Integer createGame(GameDto gameDto);
+    void createGame(MultipartFile banner, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException;
 
-    void editGame(GameDto gameDto);
+    void editGame(MultipartFile banner, Integer id, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException;
 
     void deactivateGame(Integer id);
 

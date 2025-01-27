@@ -38,6 +38,7 @@ public class Game extends BaseEntity {
     private Integer id;
 
     private LocalDate schedule;
+    private Integer advanceDeadline;
 
     private EGameType type;
     private EGameStatus status;

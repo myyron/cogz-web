@@ -36,7 +36,7 @@ public interface IUserService {
 
     User getCurrentUser();
 
-    Integer createUser(UserWithPasswordDto userDto);
+    void createUser(UserWithPasswordDto userDto);
 
     void editUser(UserDto userDto);
 
@@ -44,7 +44,7 @@ public interface IUserService {
 
     void resetPassword(String username, String password);
 
-    Integer createUserEdit(UserEditDto userEditDto);
+    void createUserEdit(UserEditDto userEditDto);
 
     void approveUserEdit(Integer userEditId);
 
