@@ -37,6 +37,8 @@ public interface IGameService {
 
     List<Game> getActiveGames();
 
+    List<Game> getOpenGames();
+
     void createGame(MultipartFile banner, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException;
 
     void editGame(MultipartFile banner, Integer id, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException;
@@ -50,4 +52,6 @@ public interface IGameService {
     List<GameUser> getUsers(Integer gameId);
 
     void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException;
+
+    void setToLock(Integer gameId);
 }

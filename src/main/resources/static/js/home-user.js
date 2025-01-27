@@ -226,7 +226,7 @@ class HomeUser {
 
                         let gameDate = new Date(data[i].schedule);
                         gameDate.setHours(0, 0, 0, 0);
-                        let advanceDeadline = gameDate.getTime() - (1000 * 60 * 60 * data[i].advanceDeadline)
+                        let advanceDeadline = gameDate.getTime() - (1000 * 60 * 60 * data[i].advanceDeadline);
                         new FlipDown(Math.floor(advanceDeadline / 1000), "timeLeft" + [i]).start()
                                 .ifEnded(() => {
                                     $("#gamestatus" + i).html('<span class="badge text-bg-warning"><i class="bi bi-activity"></i> LOCKED</span>');

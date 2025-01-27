@@ -37,7 +37,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
         logger.error("Caught exception", ex);
-        String bodyOfResponse = "This should be application specific";
+        String bodyOfResponse = "Server Error Encountered";
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 }

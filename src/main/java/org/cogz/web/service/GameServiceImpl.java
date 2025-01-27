@@ -71,6 +71,11 @@ public class GameServiceImpl extends BaseService implements IGameService {
     }
 
     @Override
+    public List<Game> getOpenGames() {
+        return gameRepository.findAllByStatusInAndEnabled(List.of(EGameStatus.OPEN), 1);
+    }
+
+    @Override
     @Transactional
     public void createGame(MultipartFile banner, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
         Game game = new Game();
@@ -159,5 +164,14 @@ public class GameServiceImpl extends BaseService implements IGameService {
         gameUser.setRefunded(gameUserDto.getRefunded());
         gameUser.setUpdBy(sessionInfo.getCurrentUser().getId());
         gameUser.setUpdDate(LocalDateTime.now());
+    }
+
+    @Override
+    @Transactional
+    public void setToLock(Integer gameId) {
+        Game game = gameRepository.findByIdAndEnabled(gameId, 1).get();
+        game.setStatus(EGameStatus.LOCKED);
+        game.setUpdBy(0);
+        game.setUpdDate(LocalDateTime.now());
     }
 }

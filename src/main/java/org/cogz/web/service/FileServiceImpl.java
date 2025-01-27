@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,9 +40,9 @@ public class FileServiceImpl implements IFileService {
     @Override
     public void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, boolean crop) throws IOException {
 
-        if (image == null) {
-            return;
-        }
+        if (image == null) return;
+
+        if (ImageIO.read(image.getInputStream()) == null) return;
 
         Path path = Paths.get(basedir);
         if (parentIdAsDir != null) {
