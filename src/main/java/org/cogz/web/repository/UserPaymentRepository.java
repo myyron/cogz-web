@@ -28,6 +28,4 @@ import java.util.Optional;
  */
 @Repository
 public interface UserPaymentRepository extends JpaRepository<UserPayment, Integer> {
-
-    Optional<UserPayment> findByIdAndEnabled(Integer id, Integer enabled);
 }

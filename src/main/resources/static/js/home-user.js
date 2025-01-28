@@ -43,6 +43,7 @@ class HomeUser {
             changeToWaiverAccepted(data.waiverAccepted);
             setUserStatus();
 
+            $("#editInputId").val(data.id);
             $("#editInputUsername").val(data.username);
             $("#editInputFirstname").val(data.firstname);
             $("#editInputLastname").val(data.lastname);
@@ -63,11 +64,38 @@ class HomeUser {
             });
         });
 
+        $("#resetPasswordForm").on("submit", function (e) {
+            if ($("#resetInputPassword").val() !== $("#resetInputPassword2").val()) {
+                bootbox.alert({
+                    message: '<div class="text-center text-danger">Password do not match</div>',
+                    size: 'small'
+
+                }).init(function () {
+                    $('.btn').removeClass('btn-primary');
+                    $('.btn').addClass('btn-outline-primary');
+                });
+                return e.preventDefault();
+            }
+
+            $.ajax({
+                url: "/user/reset-password",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                type: "post",
+                dataType: "json",
+                data: "userId=" + $("#resetPasswordUserId").val() + "&password=" + $("#resetInputPassword").val()
+            }).always(function () {
+                $("#resetPasswordModal").modal("hide");
+            });
+        });
+
+        $("#showResetPasswordModal").on("click", function () {
+            $("#resetPasswordForm")[0].reset();
+        });
+
         $("#inputProfilePic").on("change", function () {
 
             let fd = new FormData();
             fd.append('profilePic', $('#inputProfilePic')[0].files[0]);
-            fd.append('userId', userId);
 
             $.ajax({
                 url: "/user/change-pic",

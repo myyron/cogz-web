@@ -15,6 +15,7 @@
  */
 package org.cogz.web.repository;
 
+import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -31,7 +32,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findAllByEnabled(Integer enabled);
 
-    Optional<User> findByIdAndEnabled(Integer id, Integer enabled);
+    List<User> findAllByStatusAndEnabled(EUserStatus status, Integer enabled);
+
+    User findByIdAndEnabled(Integer id, Integer enabled);
 
     Optional<User> findByUsernameAndEnabled(String username, Integer enabled);
 }

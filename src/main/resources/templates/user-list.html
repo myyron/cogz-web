@@ -49,7 +49,6 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fullname</th>
-                                                    <th>Username</th>
                                                     <th>Role</th>
                                                     <th>Status</th>
                                                 </tr>
@@ -155,9 +154,9 @@
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <form id="editUserForm">
-                            
+
                             <input type="hidden" id="editInputId" name="id"/>
-                            
+
                             <div class="modal-header">
                                 <h1 class="modal-title h5">Edit User</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -168,12 +167,6 @@
                                     <label for="editInputUsername" class="col-sm-2 col-form-label text-small">Username</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control form-control-sm" id="editInputUsername" name="username" disabled>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <label for="editInputPassword" class="col-sm-2 col-form-label text-small">Password</label>
-                                    <div class="col-sm-10">
-                                        <input type="password" class="form-control form-control-sm" id="editInputPassword" name="password" disabled>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -246,6 +239,9 @@
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <form id="resetPasswordForm">
+
+                            <input type="hidden" id="resetPasswordUserId" name="id"/>
+
                             <div class="modal-header">
                                 <h1 class="modal-title h5">Reset Password</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

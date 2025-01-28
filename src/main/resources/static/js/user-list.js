@@ -34,7 +34,6 @@ class UserList {
                         return data.lastname + ", " + data.firstname.split(" ")[0];
                     }
                 },
-                {data: 'username'},
                 {data: null,
                     render: function (data) {
                         return data.role.split("_")[1];
@@ -44,6 +43,8 @@ class UserList {
                     render: function (data) {
                         if (data.status === 'BANNED') {
                             return '<span class="badge rounded-pill text-bg-danger">BANNED</span>';
+                        } else if (data.status === 'ACCOUNT_VERIFICATION') {
+                            return "VERIFICATION";
                         } else {
                             return data.status;
                         }
@@ -111,11 +112,11 @@ class UserList {
             }
 
             $.ajax({
-                url: "/user/reset",
+                url: "/user/reset-password",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 type: "post",
                 dataType: "json",
-                data: "username=" + userListTable.row('.selected').data().username + "&password=" + $("#resetInputPassword").val()
+                data: "userId=" + userListTable.row('.selected').data().id + "&password=" + $("#resetInputPassword").val()
             }).always(function () {
                 $("#resetPasswordModal").modal("hide");
             });
@@ -143,7 +144,7 @@ class UserList {
                             type: "post",
                             async: false,
                             dataType: "json",
-                            data: "username=" + userListTable.row('.selected').data().username
+                            data: "userId=" + userListTable.row('.selected').data().id
                         }).always(function () {
                             userListTable.ajax.reload();
                             $("#deleteUserButton").addClass("disabled");
@@ -170,7 +171,6 @@ class UserList {
 
             $('#editInputId').val(data.id);
             $('#editInputUsername').val(data.username);
-            $('#editInputPassword').val("dummy");
             $('#editInputFirstname').val(data.firstname);
             $('#editInputLastname').val(data.lastname);
             $('#editInputEmail').val(data.email);
@@ -178,6 +178,10 @@ class UserList {
             $('#editInputBirthdate').val(data.birthdate);
             $('#editInputRoleType').val(data.role.split("_")[1]);
             $('#editInputUserStatus').val(data.status);
+        });
+
+        $("#showResetPasswordModal").on("click", function () {
+            $("#resetPasswordForm")[0].reset();
         });
 
         $("#showCreateUserModal").on("click", function () {
@@ -196,7 +200,7 @@ class UserList {
             let username = firstname + lastname;
             $('#inputUsername').val(username.toLowerCase());
         });
-        
+
         $('#editInputFirstname').on('input', function () {
             let value = $(this).val();
             $('#editInputUsername').val(parseFirstname(value).toLowerCase() + $('#editInputLastname').val().toLowerCase());

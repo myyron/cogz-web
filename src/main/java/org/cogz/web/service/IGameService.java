@@ -49,9 +49,17 @@ public interface IGameService {
 
     void removeUser(Integer id);
 
-    List<GameUser> getUsers(Integer gameId);
+    List<GameUser> getGameUsers(Integer gameId);
+
+    List<GameUser> getGameUsersForVerification(Integer gameId);
 
     void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException;
 
     void setToLock(Integer gameId);
+
+    void setToPaid(Integer gameUserId);
+
+    Boolean isUserRegistered(Integer gameId, Integer userId);
+
+    Boolean isOpenGameExisting();
 }

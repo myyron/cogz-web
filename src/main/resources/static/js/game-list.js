@@ -23,6 +23,17 @@ class GameList {
         $("#navUserList").removeClass("active");
         $("#navTools").removeClass("active");
 
+        let addUsersSelect = new TomSelect("#inputAddUsers", {
+            onItemAdd: function () {
+                this.setTextboxValue('');
+                this.refreshOptions();
+            },
+            maxItems: null,
+            valueField: 'id',
+            labelField: 'title',
+            searchField: 'title'
+        });
+
         DataTable.type('date', 'className', 'dt-left');
 
         const gameListTable = new DataTable('#gameListTable', {
@@ -51,18 +62,6 @@ class GameList {
                 }
             ],
             select: true
-        });
-
-        $.ajax({
-            url: '/user/list',
-            async: false
-        }).done(function (data) {
-            $.each(data, function (i, data) {
-                $('#inputAddUsers').append($('<option>', {
-                    value: data.username,
-                    text: data.lastname + ", " + data.firstname
-                }));
-            });
         });
 
         const regUserListTable = new DataTable('#regUserListTable', {
@@ -169,7 +168,7 @@ class GameList {
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: "gameId=" + $('#editInputId').val() + "&usernames=" + $("#inputAddUsers").val()
+                data: "gameId=" + $('#editInputId').val() + "&userIds=" + $("#inputAddUsers").val()
             }).always(function () {
                 $("#addUsersModal").modal("hide");
             });
@@ -275,6 +274,20 @@ class GameList {
             $("#editBanner").attr("src", "uploaded-images/banner/" + data.id + ".jpg");
         });
 
+        $('#addUsersModal').on('show.bs.modal', function () {
+            $.ajax({
+                url: '/game/list-user-candidate',
+                async: false,
+                dataType: "json",
+                data: "gameId=" + gameListTable.row('.selected').data().id
+            }).done(function (data) {
+                $.each(data, function (i, data) {
+                    let fullname = data.lastname + ", " + data.firstname;
+                    addUsersSelect.addOption({id: data.id, title: fullname});
+                });
+            });
+        });
+
         $('#editUserModal').on('show.bs.modal', function () {
             let gameId = $('#editInputId').val();
             let gameUserId = $('#editInputGameUserId').val();
@@ -294,7 +307,7 @@ class GameList {
         $('#banner').on("error", function () {
             $("#banner").attr("src", "uploaded-images/banner/default-banner.png");
         });
-        
+
         $('#editBanner').on("error", function () {
             $("#editBanner").attr("src", "uploaded-images/banner/default-banner.png");
         });
@@ -304,16 +317,7 @@ class GameList {
         });
 
         $("#showAddUsersModal").on("click", function () {
-
-            $("#addUsersForm")[0].reset();
-
-            new TomSelect("#inputAddUsers", {
-                onItemAdd: function () {
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                maxItems: null
-            });
+            addUsersSelect.clear();
         });
     }
 }

@@ -38,7 +38,7 @@ public class FileServiceImpl implements IFileService {
     Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
-    public void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, boolean crop) throws IOException {
+    public void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, Integer size, boolean crop) throws IOException {
 
         if (image == null) return;
 
@@ -50,20 +50,15 @@ public class FileServiceImpl implements IFileService {
         }
         Path fileNameAndPath = Paths.get(String.valueOf(path), id + ".jpg");
 
-        Thumbnails.of(image.getInputStream())
-                .size(400, 400)
-                .outputFormat("jpg")
-                .toFile(fileNameAndPath.toFile());
-
         if (crop) {
             Thumbnails.of(image.getInputStream())
                     .crop(Positions.CENTER)
-                    .size(400, 400)
+                    .size(size, size)
                     .outputFormat("jpg")
                     .toFile(fileNameAndPath.toFile());
         } else {
             Thumbnails.of(image.getInputStream())
-                    .size(400, 400)
+                    .size(size, size)
                     .outputFormat("jpg")
                     .toFile(fileNameAndPath.toFile());
         }

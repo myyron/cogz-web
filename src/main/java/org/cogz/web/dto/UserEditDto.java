@@ -30,6 +30,7 @@ import java.time.LocalDate;
 @Setter
 public class UserEditDto {
 
+    private Integer userId;
     private String username;
     private String firstname;
     private String lastname;

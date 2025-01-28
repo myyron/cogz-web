@@ -15,29 +15,21 @@
  */
 package org.cogz.web.service;
 
-import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
-import org.cogz.web.model.User;
 import org.cogz.web.repository.GameRepository;
 import org.cogz.web.repository.GameUserRepository;
 import org.cogz.web.repository.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -86,13 +78,13 @@ public class GameServiceImpl extends BaseService implements IGameService {
         game.setInsBy(sessionInfo.getCurrentUser().getId());
         gameRepository.save(game);
 
-        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, false);
+        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, 800,false);
     }
 
     @Override
     @Transactional
     public void editGame(MultipartFile banner, Integer id, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
-        Game game = gameRepository.findByIdAndEnabled(id, 1).get();
+        Game game = gameRepository.findByIdAndEnabled(id, 1);
         game.setSchedule(schedule);
         game.setAdvanceDeadline(advanceDeadline);
         game.setType(type);
@@ -101,13 +93,13 @@ public class GameServiceImpl extends BaseService implements IGameService {
         game.setUpdBy(sessionInfo.getCurrentUser().getId());
         game.setUpdDate(LocalDateTime.now());
 
-        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, false);
+        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, 800,false);
     }
 
     @Override
     @Transactional
     public void deactivateGame(Integer id) {
-        Game game = gameRepository.findByIdAndEnabled(id, 1).get();
+        Game game = gameRepository.findByIdAndEnabled(id, 1);
         game.setEnabled(0);
 
         game.setUpdBy(sessionInfo.getCurrentUser().getId());
@@ -116,18 +108,11 @@ public class GameServiceImpl extends BaseService implements IGameService {
 
     @Override
     @Transactional
-    public void addUsers(Integer gameId, String usernames) {
-        for (String username : usernames.split(",")) {
+    public void addUsers(Integer gameId, String userIds) {
+        for (String userId : userIds.split(",")) {
             GameUser gameUser = new GameUser();
-
-            User user = userRepository.findByUsernameAndEnabled(username, 1).get();
-
-            if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, user.getId(), 1)) {
-                continue;
-            }
-
             gameUser.setGameId(gameId);
-            gameUser.setUserId(user.getId());
+            gameUser.setUserId(Integer.valueOf(userId));
             gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
             gameUser.setInsBy(sessionInfo.getCurrentUser().getId());
 
@@ -138,15 +123,20 @@ public class GameServiceImpl extends BaseService implements IGameService {
     @Override
     @Transactional
     public void removeUser(Integer id) {
-        GameUser gameUser = gameUserRepository.findByIdAndEnabled(id, 1).get();
+        GameUser gameUser = gameUserRepository.findByIdAndEnabled(id, 1);
         gameUser.setEnabled(0);
         gameUser.setUpdBy(sessionInfo.getCurrentUser().getId());
         gameUser.setUpdDate(LocalDateTime.now());
     }
 
     @Override
-    public List<GameUser> getUsers(Integer gameId) {
+    public List<GameUser> getGameUsers(Integer gameId) {
         return gameUserRepository.findAllByGameIdAndEnabled(gameId, 1);
+    }
+
+    @Override
+    public List<GameUser> getGameUsersForVerification(Integer gameId) {
+        return gameUserRepository.findAllByGameIdAndRegStatusAndEnabled(gameId, ERegistrationStatus.PAYMENT_VERIFICATION, 1);
     }
 
     @Override
@@ -154,10 +144,10 @@ public class GameServiceImpl extends BaseService implements IGameService {
     public void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException {
 
         if (paymentProof != null) {
-            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId(), false);
+            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId(), 400,false);
         }
 
-        GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserDto.getId(), 1).get();
+        GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserDto.getId(), 1);
         gameUser.setRegStatus(gameUserDto.getRegStatus());
         gameUser.setFps(gameUserDto.getFps());
         gameUser.setAbsent(gameUserDto.getAbsent());
@@ -169,9 +159,28 @@ public class GameServiceImpl extends BaseService implements IGameService {
     @Override
     @Transactional
     public void setToLock(Integer gameId) {
-        Game game = gameRepository.findByIdAndEnabled(gameId, 1).get();
+        Game game = gameRepository.findByIdAndEnabled(gameId, 1);
         game.setStatus(EGameStatus.LOCKED);
         game.setUpdBy(0);
         game.setUpdDate(LocalDateTime.now());
+    }
+
+    @Override
+    @Transactional
+    public void setToPaid(Integer gameUserId) {
+        GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserId, 1);
+        gameUser.setRegStatus(ERegistrationStatus.PAID);
+        gameUser.setUpdBy(sessionInfo.getCurrentUser().getId());
+        gameUser.setUpdDate(LocalDateTime.now());
+    }
+
+    @Override
+    public Boolean isUserRegistered(Integer gameId, Integer userId) {
+        return gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, userId, 1);
+    }
+
+    @Override
+    public Boolean isOpenGameExisting() {
+        return gameRepository.existsByStatusAndEnabled(EGameStatus.OPEN, 1);
     }
 }

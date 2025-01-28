@@ -33,7 +33,9 @@ import java.util.Optional;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
-    Optional<Game> findByIdAndEnabled(Integer id, Integer enabled);
+    Game findByIdAndEnabled(Integer id, Integer enabled);
+
+    Boolean existsByStatusAndEnabled(EGameStatus status, Integer enabled);
 
     List<Game> findAllByEnabled(Integer enabled);
 

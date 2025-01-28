@@ -18,7 +18,10 @@ package org.cogz.web.service;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.EUserEditStatus;
+import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
+import org.cogz.web.model.UserEdit;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -40,19 +43,25 @@ public interface IUserService {
 
     void editUser(UserDto userDto);
 
-    void deactivateUser(String username);
+    void deactivateUser(Integer userId);
 
-    void resetPassword(String username, String password);
+    void resetPassword(Integer userId, String password);
 
     void createUserEdit(UserEditDto userEditDto);
 
-    void approveUserEdit(Integer userEditId);
+    void changeUserEditStatus(Integer userId, EUserEditStatus status);
 
     void acceptWaiver();
 
     Boolean isWaiverAccepted();
 
-    void changePicture(MultipartFile profilePic, Integer userId) throws IOException;
+    void changePicture(MultipartFile profilePic) throws IOException;
 
     void registerGame(MultipartFile paymentProof, Integer gameId) throws IOException;
+
+    List<User> getUsersForVerification();
+
+    List<UserEdit> getUsersEdit();
+
+    void changeStatus(Integer userId, EUserStatus status);
 }

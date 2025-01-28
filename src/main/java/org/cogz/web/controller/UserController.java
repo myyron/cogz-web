@@ -18,12 +18,13 @@ package org.cogz.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
-import org.cogz.web.enums.ERegistrationStatus;
+import org.cogz.web.enums.EUserEditStatus;
+import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
+import org.cogz.web.model.UserEdit;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -57,7 +58,6 @@ public class UserController {
         for (User user : userService.getUsers()) {
             result.add(mapper.map(user, UserDto.class));
         }
-        logger.info("user list - {}", result.size());
         return result;
     }
 
@@ -67,6 +67,29 @@ public class UserController {
         UserDto userDto = new ModelMapper().map(user, UserDto.class);
         userDto.setWaiverAccepted(userService.isWaiverAccepted());
         return userDto;
+    }
+
+    @GetMapping("/list-registration")
+    public List<UserDto> getUsersForVerification() {
+        ModelMapper mapper = new ModelMapper();
+        List<UserDto> result = new ArrayList<>();
+        for (User user : userService.getUsersForVerification()) {
+            result.add(mapper.map(user, UserDto.class));
+        }
+        return result;
+    }
+
+    @GetMapping("/list-modification")
+    public List<UserDto> getUsersEdit() {
+        ModelMapper mapper = new ModelMapper();
+        List<UserDto> result = new ArrayList<>();
+        for (UserEdit userEdit : userService.getUsersEdit()) {
+            User user = userService.getUser(userEdit.getUserId());
+            UserDto userDto = mapper.map(user, UserDto.class);
+            userDto.setUserEdit(mapper.map(userEdit, UserEditDto.class));
+            result.add(userDto);
+        }
+        return result;
     }
 
     @PostMapping("/create")
@@ -84,16 +107,14 @@ public class UserController {
     }
 
     @PostMapping("/deactivate")
-    public ResponseEntity<?> deactivateUser(@RequestParam String username) {
-        logger.info("delete user - {}", username);
-        userService.deactivateUser(username);
-        return ResponseEntity.ok("User deleted successfully.");
+    public ResponseEntity<?> deactivateUser(Integer userId) {
+        userService.deactivateUser(userId);
+        return ResponseEntity.ok("User deactivated successfully.");
     }
 
-    @PostMapping("/reset")
-    public ResponseEntity<?> resetPassword(@RequestParam String username, @RequestParam String password) {
-        logger.info("reset password - {}", username);
-        userService.resetPassword(username, password);
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(Integer userId, String password) {
+        userService.resetPassword(userId, password);
         return ResponseEntity.ok("User password reset successfully.");
     }
 
@@ -111,8 +132,8 @@ public class UserController {
     }
 
     @PostMapping("/change-pic")
-    public ResponseEntity<?> changePicture(@RequestParam MultipartFile profilePic, Integer userId) throws IOException {
-        userService.changePicture(profilePic, userId);
+    public ResponseEntity<?> changePicture(@RequestParam MultipartFile profilePic) throws IOException {
+        userService.changePicture(profilePic);
         return ResponseEntity.ok("User profile picture changed successfully.");
     }
 
@@ -120,5 +141,29 @@ public class UserController {
     public ResponseEntity<?> registerGame(@RequestParam MultipartFile paymentProof, Integer gameId) throws IOException {
         userService.registerGame(paymentProof, gameId);
         return ResponseEntity.ok("User registered to game successfully.");
+    }
+
+    @PostMapping("/verification-good")
+    public ResponseEntity<?> verificationGood(Integer userId) {
+        userService.changeStatus(userId, EUserStatus.GOOD);
+        return ResponseEntity.ok("User verified to good successfully.");
+    }
+
+    @PostMapping("/verification-banned")
+    public ResponseEntity<?> verificationBanned(Integer userId) {
+        userService.changeStatus(userId, EUserStatus.BANNED);
+        return ResponseEntity.ok("User verified to banned successfully.");
+    }
+
+    @PostMapping("/modification-approve")
+    public ResponseEntity<?> approveUserEdit(Integer userId) {
+        userService.changeUserEditStatus(userId, EUserEditStatus.APPROVED);
+        return ResponseEntity.ok("User edit approved successfully.");
+    }
+
+    @PostMapping("/modification-reject")
+    public ResponseEntity<?> rejectUserEdit(Integer userId) {
+        userService.changeUserEditStatus(userId, EUserEditStatus.REJECTED);
+        return ResponseEntity.ok("User edit rejected successfully.");
     }
 }

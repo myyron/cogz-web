@@ -59,30 +59,6 @@ function parseFirstname(firstname) {
     return result;
 }
 
-$("#resetPasswordForm").on("submit", function (e) {
-    if ($("#resetInputPassword").val() !== $("#resetInputPassword2").val()) {
-        bootbox.alert({
-            message: '<div class="text-center text-danger">Password do not match</div>',
-            size: 'small'
-
-        }).init(function () {
-            $('.btn').removeClass('btn-primary');
-            $('.btn').addClass('btn-outline-primary');
-        });
-        return e.preventDefault();
-    }
-
-    $.ajax({
-        url: "/user/reset",
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        type: "post",
-        dataType: "json",
-        data: "username=" + $("#username").text() + "&password=" + $("#resetInputPassword").val()
-    }).always(function () {
-        $("#resetPasswordModal").modal("hide");
-    });
-});
-
 $("#profilePic").on("click", function () {
     $("#inputProfilePic").click();
 });

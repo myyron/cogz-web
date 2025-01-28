@@ -24,5 +24,5 @@ import java.io.IOException;
  */
 public interface IFileService {
 
-    void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, boolean crop) throws IOException;
+    void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, Integer size, boolean crop) throws IOException;
 }

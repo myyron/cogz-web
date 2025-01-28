@@ -15,8 +15,8 @@
  */
 package org.cogz.web.repository;
 
+import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.GameUser;
-import org.cogz.web.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,11 +30,11 @@ import java.util.Optional;
 @Repository
 public interface GameUserRepository extends JpaRepository<GameUser, Integer> {
 
-    List<GameUser> findAllByEnabled(Integer enabled);
+    List<GameUser> findAllByGameIdAndRegStatusAndEnabled(Integer gameId, ERegistrationStatus status, Integer enabled);
 
     List<GameUser> findAllByGameIdAndEnabled(Integer gameId, Integer enabled);
 
-    Optional<GameUser> findByIdAndEnabled(Integer gameUserId, Integer enabled);
+    GameUser findByIdAndEnabled(Integer gameUserId, Integer enabled);
 
     Boolean existsByGameIdAndUserIdAndEnabled(Integer gameId, Integer userId, Integer enabled);
 }

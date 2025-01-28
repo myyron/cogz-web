@@ -33,23 +33,23 @@
         <script src="js/common-utils.js"></script>
 
     <th:block sec:authorize="hasRole('ROLE_USER')">
-        
+
         <link href="css/flipdown.css" rel="stylesheet">
-        
+
         <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
         <script src="js/flipdown.js"></script>
         <script src="js/home-user.js"></script>
-        
+
         <script>
             new HomeUser();
         </script> 
     </th:block>
-    
+
     <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
-        
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
         <script src="js/home-admin.js"></script>
-        
+
         <script>
             new HomeAdmin();
         </script>

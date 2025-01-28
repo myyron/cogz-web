@@ -20,6 +20,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.cogz.web.enums.EUserEditStatus;
 
 import java.time.LocalDate;
 
@@ -56,4 +57,6 @@ public class UserEdit extends BaseEntity {
     private String mobileNumber;
 
     private LocalDate birthdate;
+
+    private EUserEditStatus status;
 }
