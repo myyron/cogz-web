@@ -40,9 +40,13 @@ public class FileServiceImpl implements IFileService {
     @Override
     public void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, Integer size, boolean crop) throws IOException {
 
-        if (image == null) return;
+        if (image == null) {
+            return;
+        }
 
-        if (ImageIO.read(image.getInputStream()) == null) return;
+        if (ImageIO.read(image.getInputStream()) == null) {
+            return;
+        }
 
         Path path = Paths.get(basedir);
         if (parentIdAsDir != null) {

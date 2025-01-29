@@ -18,6 +18,8 @@ package org.cogz.web.controller;
 import jakarta.validation.Valid;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.ERole;
+import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,10 @@ public class ApiController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody UserWithPasswordDto userDto) {
+        userDto.setRole(ERole.ROLE_USER);
+        userDto.setStatus(EUserStatus.ACCOUNT_VERIFICATION);
+        userDto.setInsBy(0);
         userService.createUser(userDto);
-        return ResponseEntity.ok("User created successfully.");
+        return ResponseEntity.ok("User signup successfully.");
     }
 }

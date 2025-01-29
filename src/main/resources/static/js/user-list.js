@@ -68,7 +68,19 @@ class UserList {
             }
         });
 
-        $("#createUserForm").on("submit", function (event) {
+        $("#createUserForm").on("submit", function (e) {
+            if ($("#inputPassword").val() !== $("#inputPassword2").val()) {
+                bootbox.alert({
+                    message: '<div class="text-center text-danger">Password do not match</div>',
+                    size: 'small'
+
+                }).init(function () {
+                    $('.btn').removeClass('btn-primary');
+                    $('.btn').addClass('btn-outline-primary');
+                });
+                return e.preventDefault();
+            }
+            
             $.ajax({
                 url: "/user/create",
                 contentType: "application/json",
@@ -157,16 +169,21 @@ class UserList {
         $('#editUserModal').on('show.bs.modal', function (e) {
             let data = userListTable.row('.selected').data();
 
-            if (data.role === "ROLE_ADMIN" && localStorage.getItem('role') === 'ROLE_STAFF') {
-                bootbox.alert({
-                    message: '<div class="text-center text-danger">Unauthorized</div>',
-                    size: 'small'
+            if (parseInt(localStorage.getItem('userId'), 10) !== data.id) {
+                if ((data.role === "ROLE_ADMIN" || data.role === "ROLE_STAFF") && localStorage.getItem('role') === 'ROLE_STAFF') {
+                    bootbox.alert({
+                        message: '<div class="text-center text-danger">Unauthorized</div>',
+                        size: 'small'
 
-                }).init(function () {
-                    $('.btn').removeClass('btn-primary');
-                    $('.btn').addClass('btn-outline-primary');
-                });
-                return e.preventDefault();
+                    }).init(function () {
+                        $('.btn').removeClass('btn-primary');
+                        $('.btn').addClass('btn-outline-primary');
+                    });
+                    return e.preventDefault();
+                }
+            } else {
+                $("#editInputRoleType").append('<option value="STAFF">STAFF</option>');
+                $("#editInputRoleType").val("STAFF");
             }
 
             $('#editInputId').val(data.id);
@@ -186,32 +203,6 @@ class UserList {
 
         $("#showCreateUserModal").on("click", function () {
             $("#createUserForm")[0].reset();
-        });
-
-        $('#inputFirstname').on('input', function () {
-            let value = $(this).val();
-            $('#inputUsername').val(parseFirstname(value).toLowerCase() + $('#inputLastname').val().toLowerCase());
-        });
-
-        $('#inputLastname').on('input', function () {
-            let value = $(this).val();
-            let lastname = value.replace(/ /g, '');
-            let firstname = parseFirstname($('#inputFirstname').val());
-            let username = firstname + lastname;
-            $('#inputUsername').val(username.toLowerCase());
-        });
-
-        $('#editInputFirstname').on('input', function () {
-            let value = $(this).val();
-            $('#editInputUsername').val(parseFirstname(value).toLowerCase() + $('#editInputLastname').val().toLowerCase());
-        });
-
-        $('#editInputLastname').on('input', function () {
-            let value = $(this).val();
-            let lastname = value.replace(/ /g, '');
-            let firstname = parseFirstname($('#editInputFirstname').val());
-            let username = firstname + lastname;
-            $('#editInputUsername').val(username.toLowerCase());
         });
     }
 }

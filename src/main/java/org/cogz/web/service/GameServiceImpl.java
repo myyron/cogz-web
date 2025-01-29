@@ -78,7 +78,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
         game.setInsBy(sessionInfo.getCurrentUser().getId());
         gameRepository.save(game);
 
-        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, 800,false);
+        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, 800, false);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
         game.setUpdBy(sessionInfo.getCurrentUser().getId());
         game.setUpdDate(LocalDateTime.now());
 
-        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, 800,false);
+        fileService.writeImage(banner, "data/images/banner/", game.getId(), null, 800, false);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
     public void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException {
 
         if (paymentProof != null) {
-            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId(), 400,false);
+            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId(), 400, false);
         }
 
         GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserDto.getId(), 1);

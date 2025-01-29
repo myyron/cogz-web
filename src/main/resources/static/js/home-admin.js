@@ -33,6 +33,7 @@ class HomeAdmin {
             userId = data.id;
             userStatus = data.status;
 
+            localStorage.setItem('userId', userId);
             localStorage.setItem('role', data.role);
 
             $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
@@ -50,6 +51,8 @@ class HomeAdmin {
             $("#editInputEmail").val(data.email);
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
+            
+            $("#resetPasswordUserId").val(data.id);
         });
 
         $.ajax({

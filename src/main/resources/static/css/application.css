@@ -6,33 +6,8 @@ table {
     font-size: .6rem;
 }
 
-.container {
-    max-width: 960px;
-}
-
-.nav-scroller .nav-link {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: .875rem;
-    color: #6c757d;
-}
-
-.nav-scroller .nav-link:hover {
-    color: #007bff;
-}
-
-.nav-scroller .active {
-    font-weight: 500;
-    color: #343a40;
-}
-
 .text-small {
-    font-size: 85%;
-}
-
-.form-signin {
-    max-width: 330px;
-    padding: 1rem;
+    font-size: .85rem;
 }
 
 .form-signin .form-floating:focus-within {
@@ -40,13 +15,11 @@ table {
 }
 
 .form-signin input[type="text"] {
-    margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
 
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }

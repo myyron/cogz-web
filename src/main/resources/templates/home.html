@@ -18,10 +18,7 @@
             <div sec:authorize="hasRole('ROLE_USER')">
                 <div th:replace="~{fragments/home-user :: content}"></div>
             </div>
-            <div sec:authorize="hasRole('ROLE_STAFF')">
-                <div th:replace="~{fragments/home-admin :: content}"></div>
-            </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <div sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
                 <div th:replace="~{fragments/home-admin :: content}"></div>
             </div>
         </main>

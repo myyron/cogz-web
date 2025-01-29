@@ -33,7 +33,12 @@ function createDtoFromForm(elements, fields) {
 
     if (fields) {
         for (let i = 0; i < fields.length; i++) {
+            
             let val = $("#" + fields[i].inputId + " :selected").val();
+            if (val === undefined) {
+                val = $("#" + fields[i].inputId).val();
+            } 
+            
             if (fields[i].key === 'role') {
                 val = "ROLE_" + val;
             }
@@ -61,6 +66,19 @@ function parseFirstname(firstname) {
 
 $("#profilePic").on("click", function () {
     $("#inputProfilePic").click();
+});
+
+$('#inputFirstname').on('input', function () {
+    let value = $(this).val();
+    $('#inputUsername').val(parseFirstname(value).toLowerCase() + $('#inputLastname').val().toLowerCase());
+});
+
+$('#inputLastname').on('input', function () {
+    let value = $(this).val();
+    let lastname = value.replace(/ /g, '');
+    let firstname = parseFirstname($('#inputFirstname').val());
+    let username = firstname + lastname;
+    $('#inputUsername').val(username.toLowerCase());
 });
 
 $('#editInputFirstname').on('input', function () {

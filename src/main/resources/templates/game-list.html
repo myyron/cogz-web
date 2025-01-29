@@ -161,7 +161,9 @@
                                             <option value="OPEN">OPEN - User visible, registration is enabled</option>
                                             <option value="LOCKED">LOCKED - User visible, registration is disabled</option>
                                             <option value="CLOSED">CLOSED - User hidden, payment images available</option>
-                                            <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>                                
@@ -233,7 +235,9 @@
                                             <option value="OPEN">OPEN - User visible, registration is enabled</option>
                                             <option value="LOCKED">LOCKED - User visible, registration is disabled</option>
                                             <option value="CLOSED">CLOSED - User hidden, payment images available</option>
-                                            <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>                                                                

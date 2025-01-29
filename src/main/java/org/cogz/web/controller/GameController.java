@@ -112,7 +112,9 @@ public class GameController {
         ModelMapper mapper = new ModelMapper();
         List<UserDto> result = new ArrayList<>();
         for (User user : userService.getUsers()) {
-            if (!gameService.isUserRegistered(gameId, user.getId())) result.add(mapper.map(user, UserDto.class));
+            if (!gameService.isUserRegistered(gameId, user.getId())) {
+                result.add(mapper.map(user, UserDto.class));
+            }
         }
         return result;
     }
@@ -123,13 +125,15 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createGame(@RequestParam(required = false) MultipartFile banner, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
+    public ResponseEntity<?> createGame(@RequestParam(required = false) MultipartFile banner, LocalDate schedule, 
+            Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
         gameService.createGame(banner, schedule, advanceDeadline, type, status);
         return ResponseEntity.ok("Game created successfully.");
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editGame(@RequestParam(required = false) MultipartFile banner, Integer id, LocalDate schedule, Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
+    public ResponseEntity<?> editGame(@RequestParam(required = false) MultipartFile banner, Integer id, LocalDate schedule, 
+            Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
         gameService.editGame(banner, id, schedule, advanceDeadline, type, status);
         return ResponseEntity.ok("Game edited successfully.");
     }
