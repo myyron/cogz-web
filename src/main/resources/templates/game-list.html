@@ -20,11 +20,11 @@
         </header>
 
         <main>
-
-            <!-- Game List -->
             <div class="container">
-                <div class="row mb-3">
-                    <div class="col px-4">
+
+                <!-- Game List Table -->
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8 px-4">
                         <div class="card mb-2 rounded-3 shadow-sm">
                             <div class="card-header py-3 text-center">
                                 <h5 class="my-0 h6">Game List</h5>
@@ -76,12 +76,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Registered User List -->
-            <div class="container">
-                <div class="row mb-3">
-                    <div class="col px-4">
+                <!-- Registered User List Table -->
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8 px-4">
                         <div class="card mb-2 rounded-3 shadow-sm">
                             <div class="card-header py-3 text-center">
                                 <h5 class="my-0 h6">Registered User List</h5>
@@ -121,77 +119,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- createGameModal -->
-            <div class="modal fade" id="createGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content rounded-4 shadow">
-                        <form id="createGameForm">
-                            <div class="modal-header">
-                                <h1 class="modal-title h5">Create Game</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <div class="modal-body">
-                                <div class="row mb-2">
-                                    <label for="inputSchedule" class="col-sm-2 col-form-label text-small">Schedule</label>
-                                    <div class="col-sm-10">
-                                        <input type="date" class="form-control form-control-sm" id="inputSchedule"
-                                               name="schedule" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <label for="inputAdvanceDeadline" class="col-sm-4 col-form-label text-small">Advance Deadline</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" min="0" step="1" class="form-control form-control-sm" id="inputAdvanceDeadline"
-                                               name="advanceDeadline" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <label for="inputGameType" class="col-sm-2 col-form-label text-small">Type</label>
-                                    <div class="col-sm-10">
-                                        <select id="inputGameType" class="form-select form-select-sm" required>
-                                            <option hidden selected></option>
-                                            <option value="REGULAR">REGULAR</option>
-                                            <option value="PRIVATE">PRIVATE</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="inputGameStatus" class="col-sm-2 col-form-label text-small">Status</label>
-                                    <div class="col-sm-10">
-                                        <select id="inputGameStatus" class="form-select form-select-sm" required>
-                                            <option hidden selected></option>
-                                            <option value="OPEN">OPEN - User visible, registration is enabled</option>
-                                            <option value="LOCKED">LOCKED - User visible, registration is disabled</option>
-                                            <option value="CLOSED">CLOSED - User hidden, payment images available</option>
-                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                                <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                </div>                                
-                                <div class="row mb-3">
-                                    <label for="inputBanner" class="col-sm-4 form-label text-small">Banner</label>
-                                    <div class="col-sm-12">
-                                        <input class="form-control form-control-sm" id="inputBanner" type="file"
-                                               accept="image/*" oninput="banner.src=window.URL.createObjectURL(this.files[0])">
-                                    </div>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-6">
-                                        <img id="banner" src="uploaded-images/banner/default-banner.png" alt="" class="img-thumbnail">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-outline-primary">Save</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -369,6 +296,9 @@
                     </div>
                 </div>
             </div>
+
+            <div th:replace="~{fragments/create-game-modal :: content}"></div>
+
         </main>
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"

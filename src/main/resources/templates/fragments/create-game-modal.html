@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <div th:fragment="content">
+
+            <!-- createGameModal -->
+            <div class="modal fade" id="createGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="createGameForm">
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Create Game</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row mb-2">
+                                    <label for="inputSchedule" class="col-sm-2 col-form-label text-small">Schedule</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control form-control-sm" id="inputSchedule"
+                                               name="schedule" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="inputAdvanceDeadline" class="col-sm-4 col-form-label text-small">Registration Cut-Off</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" min="0" step="1" class="form-control form-control-sm" id="inputAdvanceDeadline"
+                                               name="advanceDeadline" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="inputGameType" class="col-sm-2 col-form-label text-small">Type</label>
+                                    <div class="col-sm-10">
+                                        <select id="inputGameType" class="form-select form-select-sm" required>
+                                            <option hidden selected></option>
+                                            <option value="REGULAR">REGULAR</option>
+                                            <option value="PRIVATE">PRIVATE</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <label for="inputGameStatus" class="col-sm-2 col-form-label text-small">Status</label>
+                                    <div class="col-sm-10">
+                                        <select id="inputGameStatus" class="form-select form-select-sm" required>
+                                            <option hidden selected></option>
+                                            <option value="OPEN">OPEN - User visible, registration is enabled</option>
+                                            <option value="LOCKED">LOCKED - User visible, registration is disabled</option>
+                                            <option value="CLOSED">CLOSED - User hidden, payment images available</option>
+                                            <option value="ARCHIVED">ARCHIVED - User hidden, payment images purged</option>
+                                        </select>
+                                    </div>
+                                </div>                                
+                                <div class="row mb-3">
+                                    <label for="inputBanner" class="col-sm-4 form-label text-small">Banner</label>
+                                    <div class="col-sm-12">
+                                        <input class="form-control form-control-sm" id="inputBanner" type="file"
+                                               accept="image/*" oninput="banner.src=window.URL.createObjectURL(this.files[0])">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <img id="banner" src="uploaded-images/banner/default-banner.png" alt="" class="img-thumbnail">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-outline-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

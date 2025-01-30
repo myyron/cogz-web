@@ -311,6 +311,14 @@ class HomeUser {
                     }
                 });
             } else {
+                $("#userStatus").attr({
+                    "data-bs-toggle": "tooltip",
+                    "data-bs-placement": "bottom",
+                    "data-bs-title": "Contact a CoGZ Admin to know your violation details."
+                });
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
                 $("#userStatus").addClass("text-bg-danger");
                 $("#userStatus").html('<i class="bi bi-x-circle"></i> BANNED');
                 $("#gamelist").append(`<div class="text-center">Nothing to show</div>`);
