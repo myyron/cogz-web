@@ -15,6 +15,8 @@
  */
 package org.cogz.web.service;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.EGameType;
@@ -29,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

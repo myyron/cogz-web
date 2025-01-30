@@ -82,6 +82,7 @@ class GameList {
                 classList.remove('selected');
                 $("#showEditGameModal").addClass("disabled");
                 $("#deleteGameButton").addClass("disabled");
+                $("#downloadButton").addClass("disabled");
                 $("#showAddUsersModal").addClass("disabled");
                 $("#showEditUserModal").addClass("disabled");
                 $("#removeUserButton").addClass("disabled");
@@ -92,6 +93,7 @@ class GameList {
                 classList.add('selected');
                 $("#showEditGameModal").removeClass("disabled");
                 $("#deleteGameButton").removeClass("disabled");
+                $("#downloadButton").removeClass("disabled");
                 $("#showAddUsersModal").removeClass("disabled");
 
                 let data = gameListTable.row(e.currentTarget).data();
@@ -232,6 +234,21 @@ class GameList {
             });
         });
 
+        $("#downloadButton").on("click", function () {
+
+            let data = gameListTable.row('.selected').data();
+
+            $.ajax({
+                url: "/game/generate-pdf",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
+                dataType: "json",
+                data: "gameId=" + data.id + "&schedule=" + data.schedule
+            }).always(function () {
+                download("pdf/cogz-plist-" + data.schedule + ".pdf");
+            });
+        });
+
         $("#removeUserButton").on("click", function () {
             bootbox.confirm({
                 title: 'Remove User?',
@@ -319,5 +336,14 @@ class GameList {
         $("#showAddUsersModal").on("click", function () {
             addUsersSelect.clear();
         });
+
+        function download(url) {
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = url.split('/').pop();
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+        }
     }
 }

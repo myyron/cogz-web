@@ -33,12 +33,12 @@ function createDtoFromForm(elements, fields) {
 
     if (fields) {
         for (let i = 0; i < fields.length; i++) {
-            
+
             let val = $("#" + fields[i].inputId + " :selected").val();
             if (val === undefined) {
                 val = $("#" + fields[i].inputId).val();
-            } 
-            
+            }
+
             if (fields[i].key === 'role') {
                 val = "ROLE_" + val;
             }

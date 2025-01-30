@@ -51,7 +51,7 @@ class HomeAdmin {
             $("#editInputEmail").val(data.email);
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
-            
+
             $("#resetPasswordUserId").val(data.id);
         });
 
@@ -429,7 +429,6 @@ class HomeAdmin {
                 }
             });
         })();
-
 
         function setUserStatus() {
             if (userStatus === 'ACCOUNT_VERIFICATION') {

@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.service;
+package org.cogz.web.dto;
 
-import org.cogz.web.dto.GameUserDto;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
+ *
  * @author altrax
  */
-public interface IFileService {
+@Getter
+@Setter
+public class PdfPageDto {
 
-    void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, Integer size, boolean crop) throws IOException;
-
-    void generateGameUserListPdf(LocalDate gameSchedule, List<GameUserDto> gameUserDtoList) throws Exception;
+    private Document document;
+    private Image imageHeader;
+    private Font fontNormal;
+    private Font fontBold;
+    private Paragraph paragraphSchedule;
 }

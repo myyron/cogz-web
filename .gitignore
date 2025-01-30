@@ -3,10 +3,12 @@ logs/
 .idea/
 
 data/*.db
+data/pdf/*
 data/images/banner/*
 data/images/payment/*/
 data/images/profile/*
 
+!data/pdf/header.png
 !data/images/profile/system.jpg
 !data/images/profile/blank-profile.png
 !data/images/banner/default-banner.png

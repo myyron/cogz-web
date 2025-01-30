@@ -50,7 +50,7 @@ class HomeUser {
             $("#editInputEmail").val(data.email);
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
-            
+
             $("#resetPasswordUserId").val(data.id);
         });
 

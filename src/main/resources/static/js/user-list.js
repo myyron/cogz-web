@@ -80,7 +80,7 @@ class UserList {
                 });
                 return e.preventDefault();
             }
-            
+
             $.ajax({
                 url: "/user/create",
                 contentType: "application/json",

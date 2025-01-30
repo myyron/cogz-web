@@ -18,14 +18,13 @@ package org.cogz.web.controller;
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.dto.UserDto;
-import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.enums.EGameStatus;
 import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
 import org.cogz.web.model.User;
-import org.cogz.web.model.UserEdit;
+import org.cogz.web.service.IFileService;
 import org.cogz.web.service.IGameService;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -55,6 +54,9 @@ public class GameController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IFileService fileService;
 
     @GetMapping("/list")
     public List<GameDto> getGames() {
@@ -122,6 +124,19 @@ public class GameController {
     @GetMapping("/open-exist")
     public Boolean isOpenGameExisting() {
         return gameService.isOpenGameExisting();
+    }
+
+    @GetMapping("/generate-pdf")
+    public void generateGameUserListPdf(Integer gameId, LocalDate schedule) throws Exception {
+        ModelMapper mapper = new ModelMapper();
+        List<GameUserDto> gameUserDtoList = new ArrayList<>();
+        for (GameUser gameUser : gameService.getGameUsers(gameId)) {
+            GameUserDto gameUserDto = mapper.map(gameUser, GameUserDto.class);
+            User user = userService.getUser(gameUserDto.getUserId());
+            gameUserDto.setUser(mapper.map(user, UserDto.class));
+            gameUserDtoList.add(gameUserDto);
+        }
+        fileService.generateGameUserListPdf(schedule, gameUserDtoList);
     }
 
     @PostMapping("/create")
