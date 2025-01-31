@@ -56,6 +56,69 @@ class HomeAdmin {
         });
 
         $.ajax({
+            url: "/game/list"
+        }).done(function (data) {
+
+            const chartData = [
+                {date: '2024-12-01', count: 34},
+                {date: '2024-12-08', count: 15},
+                {date: '2024-12-15', count: 32},
+                {date: '2024-12-22', count: 33},
+                {date: '2024-12-29', count: 35},
+                {date: '2025-01-05', count: 44},
+                {date: '2025-01-12', count: 64},
+                {date: '2025-01-19', count: 52},
+                {date: '2025-01-26', count: 55}
+            ];
+
+            let earliestData;
+
+            let isActiveFound = false;
+            for (let i = 0; i < data.length; i++) {
+
+                if (!isActiveFound) {
+                    if (data[i].status !== 'CLOSED' && data[i].status !== 'ARCHIVED') {
+                        isActiveFound = true;
+                        earliestData = data[i];
+                    }
+                }
+
+                chartData.push({date: data[i].schedule, count: data[i].gameUserList.length});
+            }
+
+            $("#gameDate").html(`<i class="bi bi-calendar-event-fill"></i> ${earliestData.schedule}`);
+            $("#totalRegistered").html(`<span class="badge rounded-pill text-bg-info">${earliestData.gameUserList.length}</span>`);
+
+            new Chart(document.getElementById('attendanceChart'), {
+                type: 'line',
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false
+                        }
+                    }
+                },
+                data: {
+                    labels: chartData.map(row => row.date),
+                    datasets: [{
+                            data: chartData.map(row => row.count)
+                        }]
+                }
+            });
+        });
+
+        $.ajax({
             url: '/game/open-exist',
             async: false
         }).done(function (data) {
@@ -388,47 +451,6 @@ class HomeAdmin {
                 $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
             });
         });
-
-        (async function () {
-            const data = [
-                {date: 20241201, count: 34},
-                {date: 20241208, count: 15},
-                {date: 20241215, count: 32},
-                {date: 20241222, count: 33},
-                {date: 20241229, count: 35},
-                {date: 20250105, count: 44},
-                {date: 20250112, count: 64},
-                {date: 20250119, count: 52}
-            ];
-
-            new Chart(document.getElementById('attendanceChart'), {
-                type: 'line',
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            enabled: true
-                        }
-                    },
-                    scales: {
-                        x: {
-                            display: false
-                        },
-                        y: {
-                            display: false
-                        }
-                    }
-                },
-                data: {
-                    labels: data.map(row => row.date),
-                    datasets: [{
-                            data: data.map(row => row.count)
-                        }]
-                }
-            });
-        })();
 
         function setUserStatus() {
             if (userStatus === 'ACCOUNT_VERIFICATION') {
