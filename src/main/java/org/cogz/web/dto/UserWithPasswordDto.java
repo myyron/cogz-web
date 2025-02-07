@@ -28,17 +28,8 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-public class UserWithPasswordDto {
+public class UserWithPasswordDto extends UserDto {
 
-    private String username;
     private String password;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String mobileNumber;
-    private LocalDate birthdate;
     private Integer insBy;
-
-    private ERole role;
-    private EUserStatus status;
 }

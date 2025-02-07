@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,9 +120,17 @@ public class UserController {
     }
 
     @PostMapping("/create-useredit")
-    public ResponseEntity<?> createUserEdit(@RequestBody UserEditDto userEditDto) throws JsonProcessingException {
-        logger.info("create user edit - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(userEditDto));
-        userService.createUserEdit(userEditDto);
+    public ResponseEntity<?> createUserEdit(MultipartFile validId, Integer userId, String username, String firstname,
+                                            String lastname, String email, String mobileNumber, LocalDate birthdate) throws IOException {
+        UserEditDto userDto = new UserEditDto();
+        userDto.setUserId(userId);
+        userDto.setUsername(username);
+        userDto.setFirstname(firstname);
+        userDto.setLastname(lastname);
+        userDto.setEmail(email);
+        userDto.setMobileNumber(mobileNumber);
+        userDto.setBirthdate(birthdate);
+        userService.createUserEdit(validId, userDto);
         return ResponseEntity.ok("User edit created successfully.");
     }
 

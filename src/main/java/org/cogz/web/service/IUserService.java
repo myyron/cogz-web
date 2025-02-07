@@ -41,13 +41,15 @@ public interface IUserService {
 
     void createUser(UserWithPasswordDto userDto);
 
+    void createUser(MultipartFile validId, UserWithPasswordDto userDto) throws IOException;
+
     void editUser(UserDto userDto);
 
     void deactivateUser(Integer userId);
 
     void resetPassword(Integer userId, String password);
 
-    void createUserEdit(UserEditDto userEditDto);
+    void createUserEdit(MultipartFile validId, UserEditDto userEditDto) throws IOException;
 
     void changeUserEditStatus(Integer userId, EUserEditStatus status);
 

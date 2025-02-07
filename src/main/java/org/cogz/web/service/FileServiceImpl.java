@@ -93,6 +93,15 @@ public class FileServiceImpl implements IFileService {
     }
 
     @Override
+    public void deleteImage(String path, Integer id) {
+        Path fileToDeletePath = Paths.get(path + id + ".jpg");
+        try {
+            Files.delete(fileToDeletePath);
+        } catch (IOException e) {
+        }
+    }
+
+    @Override
     public void generateGameUserListPdf(LocalDate gameSchedule, List<GameUserDto> gameUserDtoList) throws Exception {
 
         final List<String> fullnameList = getFullnameList(gameUserDtoList);

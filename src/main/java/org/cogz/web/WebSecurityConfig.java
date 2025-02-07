@@ -26,12 +26,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- *
  * @author altrax
  */
 @Configuration
@@ -48,22 +49,31 @@ public class WebSecurityConfig {
                 // remove this block if not using h2
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers
-                .frameOptions(frameOptions -> frameOptions
-                .sameOrigin()
-                ))
+                        .frameOptions(frameOptions -> frameOptions
+                                .sameOrigin()
+                        ))
                 //
                 .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/images/**", "/js/**", "/css/**", "/h2-console/**", "/api/**").permitAll() // remove h2-console if not using h2
-                .anyRequest().authenticated()
+                        .requestMatchers("/images/**", "/js/**", "/css/**", "/h2-console/**", "/api/**").permitAll() // remove h2-console if not using h2
+                        .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .permitAll()
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout.permitAll())
+                .sessionManagement((customizer) -> customizer
+                        .maximumSessions(1)
+                        .sessionRegistry(sessionRegistry())
+                        .expiredUrl("/login?logout"));
 
         return http.build();
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     @Bean

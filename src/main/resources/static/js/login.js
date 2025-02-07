@@ -19,6 +19,12 @@ class Login {
     constructor() {
 
         $("#signupButton").on("click", function () {
+
+            if (!$('#signupForm')[0].checkValidity()) {
+                $('#signupForm')[0].reportValidity();
+                return;
+            }
+
             if ($("#signupPassword").val() !== $("#signupPassword2").val()) {
                 bootbox.alert({
                     message: '<div class="text-center text-danger">Password do not match</div>',
@@ -30,13 +36,23 @@ class Login {
                 });
             } else {
 
+                let fd = new FormData();
+                fd.append('username', $('#inputUsername').val());
+                fd.append('firstname', $('#inputFirstname').val());
+                fd.append('lastname', $('#inputLastname').val());
+                fd.append('email', $('#inputEmail').val());
+                fd.append('mobileNumber', $('#inputMobileNumber').val());
+                fd.append('birthdate', $('#inputBirthdate').val());
+                fd.append('password', $('#signupPassword').val());
+                fd.append('validId', $('#inputValidId')[0].files[0]);
+
                 $.ajax({
-                    url: "/api/signup",
-                    contentType: "application/json",
+                    url: "/api/signup-valid-id",
+                    contentType: false,
+                    processData: false,
                     type: "post",
                     async: false,
-                    dataType: "json",
-                    data: createDtoFromForm(document.querySelectorAll('#signupForm input'), [{key: 'password', inputId: 'signupPassword'}])
+                    data: fd
                 }).always(function () {
                     $("#loginUsername").val($("#inputUsername").val());
                     $("#signupModal").modal("hide");

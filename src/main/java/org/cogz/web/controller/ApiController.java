@@ -27,9 +27,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDate;
 
 /**
- *
  * @author altrax
  */
 @RestController
@@ -45,6 +48,26 @@ public class ApiController {
         userDto.setStatus(EUserStatus.ACCOUNT_VERIFICATION);
         userDto.setInsBy(0);
         userService.createUser(userDto);
+        return ResponseEntity.ok("User signup successfully.");
+    }
+
+    @PostMapping("/signup-valid-id")
+    public ResponseEntity<?> signupValidId(MultipartFile validId, String username, String firstname, String lastname,
+                                           String email, String mobileNumber, LocalDate birthdate, String password) throws IOException {
+
+        UserWithPasswordDto userDto = new UserWithPasswordDto();
+        userDto.setUsername(username);
+        userDto.setPassword(password);
+        userDto.setFirstname(firstname);
+        userDto.setLastname(lastname);
+        userDto.setEmail(email);
+        userDto.setMobileNumber(mobileNumber);
+        userDto.setBirthdate(birthdate);
+
+        userDto.setRole(ERole.ROLE_USER);
+        userDto.setStatus(EUserStatus.ACCOUNT_VERIFICATION);
+        userDto.setInsBy(0);
+        userService.createUser(validId, userDto);
         return ResponseEntity.ok("User signup successfully.");
     }
 }

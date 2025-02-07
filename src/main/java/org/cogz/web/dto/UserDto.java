@@ -32,13 +32,13 @@ import java.time.LocalDate;
 public class UserDto {
 
     private Integer id;
+
     private String username;
     private String firstname;
     private String lastname;
     private String email;
     private String mobileNumber;
     private LocalDate birthdate;
-
     private ERole role;
     private EUserStatus status;
 

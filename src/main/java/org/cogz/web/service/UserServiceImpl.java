@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +41,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author altrax
@@ -48,6 +49,9 @@ import java.util.Optional;
 public class UserServiceImpl extends BaseService implements IUserService {
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -85,6 +89,15 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
+    public void createUser(MultipartFile validId, UserWithPasswordDto userDto) throws IOException {
+        User user = new ModelMapper().map(userDto, User.class);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        User savedUser = userRepository.save(user);
+        fileService.writeImage(validId, "data/images/id/", savedUser.getId(), null, 400, false);
+    }
+
+    @Override
+    @Transactional
     public void editUser(UserDto userDto) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.addMappings(new PropertyMap<UserDto, User>() {
@@ -96,6 +109,10 @@ public class UserServiceImpl extends BaseService implements IUserService {
         });
 
         User user = userRepository.findByIdAndEnabled(userDto.getId(), 1);
+
+        if (!user.getUsername().equals(userDto.getUsername())) {
+            expireUserSession(user.getUsername());
+        }
 
         modelMapper.map(userDto, user);
 
@@ -139,7 +156,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
-    public void createUserEdit(UserEditDto userEditDto) {
+    public void createUserEdit(MultipartFile validId, UserEditDto userEditDto) throws IOException {
         ModelMapper mapper = new ModelMapper();
         mapper.addMappings(new PropertyMap<UserEditDto, UserEdit>() {
             @Override
@@ -158,6 +175,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
             userEdit.setUpdBy(sessionInfo.getCurrentUser().getId());
             userEdit.setUpdDate(LocalDateTime.now());
         }
+        fileService.writeImage(validId, "data/images/id-edit/", userEditDto.getUserId(), null, 400, false);
     }
 
     @Override
@@ -170,7 +188,11 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
             User user = userRepository.findByIdAndEnabled(userId, 1);
 
-            user.setUsername(userEdit.getUsername());
+            if (!user.getUsername().equals(userEdit.getUsername())) {
+                expireUserSession(user.getUsername());
+                user.setUsername(userEdit.getUsername());
+            }
+
             user.setFirstname(userEdit.getFirstname());
             user.setLastname(userEdit.getLastname());
             user.setEmail(userEdit.getEmail());
@@ -184,6 +206,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
         userEdit.setEnabled(0);
         userEdit.setUpdBy(sessionInfo.getCurrentUser().getId());
         userEdit.setUpdDate(LocalDateTime.now());
+
+        fileService.deleteImage("data/images/id-edit/", userId);
     }
 
     @Override
@@ -249,5 +273,21 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     public List<UserEdit> getUsersEdit() {
         return userEditRepository.findAllByEnabled(1);
+    }
+
+    private void expireUserSession(String username) {
+        final List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
+
+        for (final Object principal : allPrincipals) {
+            final org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) principal;
+
+            if (user.getUsername().equals(username)) {
+                List<SessionInformation> activeUserSessions = sessionRegistry.getAllSessions(principal, false);
+
+                for (SessionInformation sessionInformation : activeUserSessions) {
+                    sessionInformation.expireNow();
+                }
+            }
+        }
     }
 }

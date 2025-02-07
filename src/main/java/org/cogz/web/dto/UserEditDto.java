@@ -17,10 +17,6 @@ package org.cogz.web.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.cogz.web.enums.ERole;
-import org.cogz.web.enums.EUserStatus;
-
-import java.time.LocalDate;
 
 /**
  *
@@ -28,13 +24,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-public class UserEditDto {
+public class UserEditDto extends UserDto {
 
     private Integer userId;
-    private String username;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String mobileNumber;
-    private LocalDate birthdate;
 }

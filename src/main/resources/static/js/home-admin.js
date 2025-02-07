@@ -86,36 +86,41 @@ class HomeAdmin {
                 chartData.push({date: data[i].schedule, count: data[i].gameUserList.length});
             }
 
-            $("#gameDate").html(`<i class="bi bi-calendar-event-fill"></i> ${earliestData.schedule}`);
-            $("#totalRegistered").html(`<span class="badge rounded-pill text-bg-info">${earliestData.gameUserList.length}</span>`);
+            if (earliestData === undefined) {
+                $("#gameDate").html(`<i class="bi bi-calendar-event-fill"></i> NONE`);
+                $("#totalRegistered").html(`<span class="badge rounded-pill text-bg-info">0</span>`);
+            } else {
+                $("#gameDate").html(`<i class="bi bi-calendar-event-fill"></i> ${earliestData.schedule}`);
+                $("#totalRegistered").html(`<span class="badge rounded-pill text-bg-info">${earliestData.gameUserList.length}</span>`);
 
-            new Chart(document.getElementById('attendanceChart'), {
-                type: 'line',
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
+                new Chart(document.getElementById('attendanceChart'), {
+                    type: 'line',
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
                         },
-                        tooltip: {
-                            enabled: true
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
                         }
                     },
-                    scales: {
-                        x: {
-                            display: false
-                        },
-                        y: {
-                            display: false
-                        }
+                    data: {
+                        labels: chartData.map(row => row.date),
+                        datasets: [{
+                                data: chartData.map(row => row.count)
+                            }]
                     }
-                },
-                data: {
-                    labels: chartData.map(row => row.date),
-                    datasets: [{
-                            data: chartData.map(row => row.count)
-                        }]
-                }
-            });
+                });
+            }
         });
 
         $.ajax({
@@ -149,7 +154,7 @@ class HomeAdmin {
                         <div class="row">
                             <div class="col-3 col-sm-2 col-md-1">
                                 <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
-                                    <img id="profilePic${i}" alt="" src="uploaded-images/profile/${data.id}.jpg">
+                                    <img id="verifyAccountRegistrationProfilePic${i}" alt="" src="uploaded-images/profile/${data.id}.jpg">
                                 </div>
                             </div>
                             <div class="col-9 col-sm-10 col-md-11 mt-1">
@@ -170,16 +175,29 @@ class HomeAdmin {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
-                                    <div class="modal-body">
+                                    <div class="modal-body">                                                                           
+                                        <div class="row mb-3 justify-content-center">
+                                            <div class="col">
+                                                <div class="card">
+                                                    <div class="card-body"> 
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-auto">
+                                                                <ul class="list-unstyled">
+                                                                    <li>Username: <b>${data.username}</b></li>
+                                                                    <li>Fullname: <b>${data.lastname + ", " + data.firstname}</b></li>
+                                                                    <li>Email: <b>${data.email}</b></li>
+                                                                    <li>Mobile Number: <b>${data.mobileNumber}</b></li>                                                    
+                                                                    <li>Birthdate: <b>${data.birthdate}</b></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        </div>  
                                         <div class="row justify-content-center">
                                             <div class="col-auto">
-                                                <ul class="list-unstyled">
-                                                    <li>Username: <b>${data.username}</b></li>
-                                                    <li>Fullname: <b>${data.lastname + ", " + data.firstname}</b></li>
-                                                    <li>Email: <b>${data.email}</b></li>
-                                                    <li>Mobile Number: <b>${data.mobileNumber}</b></li>                                                    
-                                                    <li>Birthdate: <b>${data.birthdate}</b></li>
-                                                </ul>
+                                                <img id="validId${i}" src="uploaded-images/id/${data.id}.jpg" alt="" class="img-thumbnail">
                                             </div>
                                         </div>
                                     </div>
@@ -211,8 +229,12 @@ class HomeAdmin {
                     });
                 });
 
-                $('#profilePic' + i).on("error", function () {
-                    $("#profilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
+                $('#verifyAccountRegistrationProfilePic' + i).on("error", function () {
+                    $("#verifyAccountRegistrationProfilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
+                });
+
+                $('#validId' + i).on("error", function () {
+                    $("#validId" + i).attr("src", "uploaded-images/id/blank-id.png");
                 });
             });
         });
@@ -226,7 +248,7 @@ class HomeAdmin {
                         <div class="row">
                             <div class="col-3 col-sm-2 col-md-1">
                                 <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
-                                    <img id="profilePic${i}" alt="" src="uploaded-images/profile/${data.id}.jpg">
+                                    <img id="accountModificationRequestProfilePic${i}" alt="" src="uploaded-images/profile/${data.id}.jpg">
                                 </div>
                             </div>
                             <div class="col-9 col-sm-10 col-md-11 mt-1">
@@ -247,16 +269,41 @@ class HomeAdmin {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
-                                    <div class="modal-body">
-                                        <div class="row justify-content-center">
-                                            <div class="col-auto">
-                                                <ul class="list-unstyled">
-                                                    <li>${data.username} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.username}</b></li>
-                                                    <li>${data.lastname + ", " + data.firstname} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.lastname + ", " + data.userEdit.firstname}</b></li>
-                                                    <li>${data.email} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.email}</b></li>
-                                                    <li>${data.mobileNumber} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.mobileNumber}</b></li>                                                    
-                                                    <li>${data.birthdate} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.birthdate}</b></li>
-                                                </ul>
+                                    <div class="modal-body">                                                                          
+                                        <div class="row mb-3 justify-content-center">
+                                            <div class="col">
+                                                <div class="card">
+                                                    <div class="card-body"> 
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-auto">
+                                                                <ul class="list-unstyled">
+                                                                    <li>${data.username} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.username}</b></li>
+                                                                    <li>${data.lastname + ", " + data.firstname} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.lastname + ", " + data.userEdit.firstname}</b></li>
+                                                                    <li>${data.email} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.email}</b></li>
+                                                                    <li>${data.mobileNumber} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.mobileNumber}</b></li>                                                    
+                                                                    <li>${data.birthdate} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.birthdate}</b></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div> 
+                                                    </div> 
+                                                </div>
+                                            </div>  
+                                        </div> 
+                                        <div id="idComparison${i}">
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <img id="prevValidId${i}" src="uploaded-images/id/${data.id}.jpg" alt="" class="img-thumbnail">
+                                                </div>
+                                            </div>   
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </div>
+                                            </div> 
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <img id="newValidId${i}" src="uploaded-images/id-edit/${data.id}.jpg" alt="" class="img-thumbnail">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -288,8 +335,16 @@ class HomeAdmin {
                     });
                 });
 
-                $('#profilePic' + i).on("error", function () {
-                    $("#profilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
+                $('#accountModificationRequestProfilePic' + i).on("error", function () {
+                    $("#accountModificationRequestProfilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
+                });
+
+                $('#prevValidId' + i).on("error", function () {
+                    $("#prevValidId" + i).attr("src", "uploaded-images/id/blank-id.png");
+                });
+
+                $('#newValidId' + i).on("error", function () {
+                    $("#idComparison" + i).html("");
                 });
             });
         });
@@ -304,7 +359,7 @@ class HomeAdmin {
                             <div class="row">
                                 <div class="col-3 col-sm-2 col-md-1">
                                     <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
-                                        <img id="profilePic${i + "-" + j}" alt="" src="uploaded-images/profile/${gameUser.userId}.jpg">
+                                        <img id="verifyPaymentProfilePic${i + "-" + j}" alt="" src="uploaded-images/profile/${gameUser.userId}.jpg">
                                     </div>
                                 </div>
                                 <div class="col-9 col-sm-10 col-md-11 mt-1">
@@ -367,8 +422,8 @@ class HomeAdmin {
                         $("#paymentProof" + i + "-" + j).attr("src", "uploaded-images/payment/blank-proof.png");
                     });
 
-                    $('#profilePic' + i + "-" + j).on("error", function () {
-                        $("#profilePic" + i + "-" + j).attr("src", "uploaded-images/profile/blank-profile.png");
+                    $('#verifyPaymentProfilePic' + i + "-" + j).on("error", function () {
+                        $("#verifyPaymentProfilePic" + i + "-" + j).attr("src", "uploaded-images/profile/blank-profile.png");
                     });
                 });
             });

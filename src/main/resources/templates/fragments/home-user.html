@@ -115,8 +115,10 @@
                                 <div class="row mb-2">
                                     <div class="text-center">
                                         <p class="text-warning fst-italic">Ensure all requested modification of information
-                                            below are accurate. You may need to coordinate with an ADMIN and present a valid ID
-                                            to confirm. Your accepted waiver, gamesite security entry, and app notifications depend on the below information.</p>
+                                            below are accurate. You may need to upload a replacement valid ID as a reference if
+                                            you are requesting to modify your firstname, lastname, or birthdate. Your accepted
+                                            waiver, gamesite security entry, and app notifications depend on the below
+                                            information.</p>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -162,6 +164,29 @@
                                                name="birthdate">
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row mb-3">
+                                                    <label for="editInputValidId" class="col-sm-4 form-label text-small">Replacement
+                                                        Valid ID</label>
+                                                    <div class="col-sm-12">
+                                                        <input class="form-control form-control-sm" id="editInputValidId"
+                                                               type="file"
+                                                               accept="image/*"
+                                                               oninput="validId.src=window.URL.createObjectURL(this.files[0])">
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-auto">
+                                                        <img id="validId" alt="" class="img-thumbnail">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -188,20 +213,29 @@
                                         <p>I have read and understood the rules and regulations of CoGZ GAMESITE - MJC in
                                             participating in airsoft activities at the said private property and I am willing to
                                             obey and comply. I also understand the nature and risks in participating in airsoft
-                                            activities such as, but are not limited to: bodily injuries caused by playing without
+                                            activities such as, but are not limited to: bodily injuries caused by playing
+                                            without
                                             protective equipment, bodily injuries and/or death caused by accidents or health
                                             conditions, committing acts of disobedience to the laws of the Republic of the
-                                            Philippines such as, but not limited to, wearing military-style uniform in public and
+                                            Philippines such as, but not limited to, wearing military-style uniform in public
+                                            and
                                             brandishing firearm replicas in public.</p>
-                                        <p>Therefore, I voluntarily agree to release, waive, discharge CONTRACTORS OF GROUND ZERO
-                                            (CoGZ), MANILA JOCKEY CLUB INC., its officers, members, and affiliated personnel from
-                                            any and all liabilities, claims, actions or losses for bodily injury, property damage,
+                                        <p>Therefore, I voluntarily agree to release, waive, discharge CONTRACTORS OF GROUND
+                                            ZERO
+                                            (CoGZ), MANILA JOCKEY CLUB INC., its officers, members, and affiliated personnel
+                                            from
+                                            any and all liabilities, claims, actions or losses for bodily injury, property
+                                            damage,
                                             death, loss of services or otherwise which may cause the above mentioned during my
-                                            participation in airsoft activities and my presence at the said private property.</p>
-                                        <p>By clicking "I Agree" below, you agree that you have read and agree with the terms of the
-                                            waiver and that the information you provided shown in the "My Profile" web page card is
+                                            participation in airsoft activities and my presence at the said private
+                                            property.</p>
+                                        <p>By clicking "I Agree" below, you agree that you have read and agree with the terms of
+                                            the
+                                            waiver and that the information you provided shown in the "My Profile" web page card
+                                            is
                                             accurate. You furthermore agree that your submission of this form, via the "I Agree"
-                                            button, shall constitute the execution of this document in exactly the same manner as if
+                                            button, shall constitute the execution of this document in exactly the same manner
+                                            as if
                                             you had signed, by hand, a paper version of this agreement.</p>
                                     </div>
                                 </div>

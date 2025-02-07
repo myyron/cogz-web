@@ -10,7 +10,7 @@
         <link href="css/application.css" rel="stylesheet">
         <style>
             body{
-                height: 100vh;
+                height: 100dvh;
             }
             .container{
                 height: 100%;
@@ -105,13 +105,13 @@
                                     <input type="text" class="form-control form-control-sm" id="inputMobileNumber" name="mobileNumber" required>
                                 </div>
                             </div>                
-                            <div class="row mb-4">
+                            <div class="row mb-3">
                                 <label for="inputBirthdate" class="col-sm-2 col-form-label text-small">Birthdate</label>
                                 <div class="col-sm-10">
                                     <input type="date" class="form-control form-control-sm" id="inputBirthdate" name="birthdate" required>
                                 </div>
                             </div>                            
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col">
                                     <div class="card">
                                         <div class="card-body">
@@ -125,6 +125,26 @@
                                                 <label for="signupPassword2" class="col-12 col-form-label text-small">Re-Enter Password</label>
                                                 <div class="col-12">
                                                     <input type="password" class="form-control form-control-sm" id="signupPassword2" name="password2" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                   
+                            <div class="row mb-2">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">               
+                                            <div class="row mb-3">
+                                                <label for="inputValidId" class="col-sm-4 form-label text-small">Valid ID</label>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control form-control-sm" id="inputValidId" type="file"
+                                                           accept="image/*" oninput="validId.src=window.URL.createObjectURL(this.files[0])" required>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <img id="validId" src="images/blank-id.png" alt="" class="img-thumbnail">
                                                 </div>
                                             </div>
                                         </div>

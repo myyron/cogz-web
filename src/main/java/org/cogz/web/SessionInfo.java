@@ -16,10 +16,12 @@
 package org.cogz.web;
 
 import org.cogz.web.model.User;
-import org.cogz.web.service.IUserService;
+import org.cogz.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,13 +32,14 @@ import org.springframework.stereotype.Component;
 public class SessionInfo {
 
     @Autowired
-    private IUserService userService;
+    private UserRepository userRepository;
 
     private User user;
 
     public User getCurrentUser() {
         if (user == null) {
-            user = userService.getCurrentUser();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            return userRepository.findByUsernameAndEnabled(authentication.getName(), 1).get();
         }
         return user;
     }

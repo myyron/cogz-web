@@ -18,7 +18,6 @@ package org.cogz.web.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.cogz.web.enums.EUserEditStatus;
 
@@ -30,7 +29,6 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "USERS_EDIT")
 public class UserEdit extends BaseEntity {

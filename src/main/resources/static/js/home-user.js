@@ -51,16 +51,30 @@ class HomeUser {
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
 
+            $("#validId").attr("src", "uploaded-images/id/" + userId + ".jpg");
+
             $("#resetPasswordUserId").val(data.id);
         });
 
-        $("#editProfileForm").on("submit", function (event) {
+        $("#editProfileForm").on("submit", function () {
+
+            let fd = new FormData();
+            fd.append('userId', $('#editInputId').val());
+            fd.append('username', $('#editInputUsername').val());
+            fd.append('firstname', $('#editInputFirstname').val());
+            fd.append('lastname', $('#editInputLastname').val());
+            fd.append('email', $('#editInputEmail').val());
+            fd.append('mobileNumber', $('#editInputMobileNumber').val());
+            fd.append('birthdate', $('#editInputBirthdate').val());
+            fd.append('validId', $('#editInputValidId')[0].files[0]);
+
             $.ajax({
                 url: "/user/create-useredit",
-                contentType: "application/json",
+                contentType: false,
+                processData: false,
                 type: "post",
-                dataType: "json",
-                data: createDtoFromForm(document.querySelectorAll('#editProfileForm input'))
+                async: false,
+                data: fd
             }).always(function () {
                 $("#editProfileModal").modal("hide");
             });
@@ -129,6 +143,10 @@ class HomeUser {
                     $("#waiverModal").modal("hide");
                 });
             });
+        });
+
+        $('#validId').on("error", function () {
+            $("#validId").attr("src", "uploaded-images/id/blank-id.png");
         });
 
         function changeToWaiverAccepted(accepted) {
