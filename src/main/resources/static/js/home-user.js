@@ -188,8 +188,8 @@ class HomeUser {
                         }
 
                         $("#gamelist").append(`<li class="list-group-item">
-                    <div class="row mb-2">
-                       <div class="col">
+                    <div class="row mb-2 justify-content-center">
+                       <div class="col-auto">
                            <img id="gameBanner${i}" alt="" class="img-thumbnail"
                                 src="uploaded-images/banner/${data[i].id}.jpg">
                        </div>
@@ -311,6 +311,8 @@ class HomeUser {
                             let fd = new FormData();
                             fd.append('paymentProof', $('#inputPaymentProof' + [i])[0].files[0]);
                             fd.append('gameId', data[i].id);
+                            fd.append('gameSchedule', data[i].schedule);
+                            fd.append('gameType', data[i].type);
                             $.ajax({
                                 url: "/user/reg-game",
                                 contentType: false,

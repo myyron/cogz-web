@@ -18,6 +18,7 @@ package org.cogz.web.service;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.enums.ETaskType;
 import org.cogz.web.enums.EUserEditStatus;
@@ -39,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -72,7 +74,13 @@ public class UserServiceImpl extends BaseService implements IUserService {
     private GameUserRepository gameUserRepository;
 
     @Autowired
+    private GameRepository gameRepository;
+
+    @Autowired
     private IFileService fileService;
+
+    @Autowired
+    private IMailService mailService;
 
     @Override
     @Transactional
@@ -93,6 +101,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
         User user = new ModelMapper().map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User savedUser = userRepository.save(user);
+        mailService.accountRegistration(savedUser);
         fileService.writeImage(validId, "data/images/id/", savedUser.getId(), null, 400, false);
     }
 
@@ -183,10 +192,9 @@ public class UserServiceImpl extends BaseService implements IUserService {
     public void changeUserEditStatus(Integer userId, EUserEditStatus status) throws IOException {
 
         UserEdit userEdit = userEditRepository.findByUserIdAndEnabled(userId, 1);
+        User user = userRepository.findByIdAndEnabled(userId, 1);
 
         if (status == EUserEditStatus.APPROVED) {
-
-            User user = userRepository.findByIdAndEnabled(userId, 1);
 
             if (!user.getUsername().equals(userEdit.getUsername())) {
                 expireUserSession(user.getUsername());
@@ -201,8 +209,10 @@ public class UserServiceImpl extends BaseService implements IUserService {
             user.setUpdBy(sessionInfo.getCurrentUser().getId());
             user.setUpdDate(LocalDateTime.now());
 
+            mailService.accountModificationApproved(user);
             fileService.moveImage("data/images/id-edit/", "data/images/id/", userId);
         } else {
+            mailService.accountModificationRejected(user);
             fileService.deleteImage("data/images/id-edit/", userId);
         }
 
@@ -231,6 +241,12 @@ public class UserServiceImpl extends BaseService implements IUserService {
         user.setStatus(status);
         user.setUpdBy(sessionInfo.getCurrentUser().getId());
         user.setUpdDate(LocalDateTime.now());
+
+        if (status == EUserStatus.GOOD) {
+            mailService.accountRegistrationGood(user);
+        } else if (status == EUserStatus.BANNED) {
+            mailService.accountRegistrationBanned(user);
+        }
     }
 
     @Override
@@ -244,25 +260,26 @@ public class UserServiceImpl extends BaseService implements IUserService {
     }
 
     @Override
-    public void registerGame(MultipartFile paymentProof, Integer gameId) throws IOException {
+    public void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType) throws IOException {
 
-        Integer userId = sessionInfo.getCurrentUser().getId();
+        User user = sessionInfo.getCurrentUser();
 
         UserPayment userPayment = new UserPayment();
-        userPayment.setUserId(userId);
+        userPayment.setUserId(user.getId());
         userPayment.setGameId(gameId);
-        userPayment.setFilepath("data/images/payment/" + gameId + "/" + userId + ".jpg");
-        userPayment.setInsBy(userId);
+        userPayment.setFilepath("data/images/payment/" + gameId + "/" + user.getId() + ".jpg");
+        userPayment.setInsBy(user.getId());
         userPaymentRepository.save(userPayment);
 
         GameUser gameUser = new GameUser();
         gameUser.setGameId(gameId);
-        gameUser.setUserId(userId);
+        gameUser.setUserId(user.getId());
         gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
-        gameUser.setInsBy(userId);
+        gameUser.setInsBy(user.getId());
         gameUserRepository.save(gameUser);
 
-        fileService.writeImage(paymentProof, "data/images/payment/", userId, gameId, 400, false);
+        mailService.paymentVerification(user, gameSchedule, gameType);
+        fileService.writeImage(paymentProof, "data/images/payment/", user.getId(), gameId, 400, false);
 
         logger.info("user payment - {}", sessionInfo.getCurrentUser().getUsername());
     }

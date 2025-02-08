@@ -380,18 +380,26 @@ class HomeAdmin {
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
 
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    <ul class="list-unstyled">
-                                                        <li>Game Schedule: <b>${data.schedule}</b></li>
-                                                        <li>Game Type: <b>${data.type}</b></li>
-                                                        <li>User: <b>${gameUser.user.lastname + ", " + gameUser.user.firstname}</b></li>
-                                                    </ul>
+                                        <div class="modal-body">                                                                                                                      
+                                            <div class="row mb-3 justify-content-center">
+                                                <div class="col">
+                                                    <div class="card">
+                                                        <div class="card-body"> 
+                                                            <div class="row">
+                                                                <div class="col-auto">
+                                                                    <ul class="list-unstyled">
+                                                                        <li>Game Schedule: <b>${data.schedule}</b></li>
+                                                                        <li>Game Type: <b>${data.type}</b></li>
+                                                                        <li>User: <b>${gameUser.user.lastname + ", " + gameUser.user.firstname}</b></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center">
-                                                <div class="col">
+                                                <div class="col-auto">
                                                     <img id="paymentProof${i + "-" + j}" src="uploaded-images/payment/${data.id}/${gameUser.userId}.jpg" alt="" class="img-thumbnail">
                                                 </div>
                                             </div>

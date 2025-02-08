@@ -15,11 +15,13 @@
  */
 package org.cogz.web.repository;
 
+import org.cogz.web.enums.ERole;
 import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +35,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findAllByEnabled(Integer enabled);
 
     List<User> findAllByStatusAndEnabled(EUserStatus status, Integer enabled);
+
+    List<User> findAllByRoleInAndEnabled(Collection<ERole> roleList, Integer enabled);
 
     User findByIdAndEnabled(Integer id, Integer enabled);
 

@@ -1,57 +1,64 @@
 cogz-web:
-  app:
-    version: '@project.version@'
-
+    app:
+        version: '@project.version@'
+        
 server:
-  servlet:
-    session:
-      timeout: 15m
-
+    port: 443
+    ssl:
+        key-store-type: PKCS12
+        key-store: 'classpath:keystore/cogz-web.p12'
+        key-store-password: adminadmin
+        key-alias: cogz-web
+        enabled: true
+    servlet:
+        session:
+            timeout: 1m
+            
 spring:
-  servlet:
-    multipart:
-      max-file-size: 3MB
-      max-request-size: 3MB
-      enabled: true
-  devtools:
-    livereload:
-      enabled: true
-  thymeleaf: # Thymeleaf
-    cache: false
-    mode: HTML
-    encoding: UTF-8
-    prefix: classpath:/templates/
-  resources: # Static resources
-    static-locations: classpath:/static/
-    cache:
-      period: 0
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:./data/cogz-web
-    username: sa
-    password:
-  jpa:
-    open-in-view: false
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: false
-    hibernate.ddl-auto: update # for production use validate, otherwise update
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        web-allow-others: true
-  sql:
-    init:
-      mode: always
-      continue-on-error: true
-
+    servlet:
+        multipart:
+            max-file-size: 3MB
+            max-request-size: 3MB
+            enabled: true
+    devtools:
+        livereload:
+            enabled: false
+    thymeleaf:
+        cache: true 
+        mode: HTML
+        encoding: UTF-8
+        prefix: 'classpath:/templates/'
+    resources:
+        static-locations: 'classpath:/static/'
+        cache:
+            period: 0
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: 'jdbc:h2:file:./data/cogz-web'
+        username: sa
+        password: 
+    jpa:
+        open-in-view: false
+        show-sql: false
+        properties:
+            hibernate:
+                format_sql: false
+        hibernate.ddl-auto: validate
+    h2:
+        console:
+            enabled: false
+            path: /h2-console
+            settings:
+                web-allow-others: true
+    sql:
+        init:
+            mode: never
+            continue-on-error: false
+            
 logging:
-  file:
-    name: logs/cogz-web.log
-  level:
-    org:
-      springframework:
-        security: INFO
+    file:
+        name: logs/cogz-web.log
+    level:
+        org:
+            springframework:
+                security: INFO

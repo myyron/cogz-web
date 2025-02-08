@@ -21,6 +21,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.EUserEditStatus;
 import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
@@ -147,8 +148,8 @@ public class UserController {
     }
 
     @PostMapping("/reg-game")
-    public ResponseEntity<?> registerGame(@RequestParam MultipartFile paymentProof, Integer gameId) throws IOException {
-        userService.registerGame(paymentProof, gameId);
+    public ResponseEntity<?> registerGame(@RequestParam MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType) throws IOException {
+        userService.registerGame(paymentProof, gameId, gameSchedule, gameType);
         return ResponseEntity.ok("User registered to game successfully.");
     }
 

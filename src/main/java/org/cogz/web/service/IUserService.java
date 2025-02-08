@@ -18,6 +18,7 @@ package org.cogz.web.service;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
 import org.cogz.web.dto.UserWithPasswordDto;
+import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.EUserEditStatus;
 import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
@@ -25,6 +26,7 @@ import org.cogz.web.model.UserEdit;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -59,7 +61,7 @@ public interface IUserService {
 
     void changePicture(MultipartFile profilePic) throws IOException;
 
-    void registerGame(MultipartFile paymentProof, Integer gameId) throws IOException;
+    void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType) throws IOException;
 
     List<User> getUsersForVerification();
 

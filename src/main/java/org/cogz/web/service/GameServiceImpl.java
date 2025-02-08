@@ -23,6 +23,7 @@ import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.ERegistrationStatus;
 import org.cogz.web.model.Game;
 import org.cogz.web.model.GameUser;
+import org.cogz.web.model.User;
 import org.cogz.web.repository.GameRepository;
 import org.cogz.web.repository.GameUserRepository;
 import org.cogz.web.repository.UserRepository;
@@ -54,6 +55,9 @@ public class GameServiceImpl extends BaseService implements IGameService {
 
     @Autowired
     private IFileService fileService;
+
+    @Autowired
+    private IMailService mailService;
 
     @Override
     public List<Game> getGames() {
@@ -175,6 +179,10 @@ public class GameServiceImpl extends BaseService implements IGameService {
         gameUser.setRegStatus(ERegistrationStatus.PAID);
         gameUser.setUpdBy(sessionInfo.getCurrentUser().getId());
         gameUser.setUpdDate(LocalDateTime.now());
+
+        User user = userRepository.findByIdAndEnabled(gameUser.getUserId(), 1);
+        Game game = gameRepository.findByIdAndEnabled(gameUser.getGameId(), 1);
+        mailService.paymentVerified(user, game.getSchedule());
     }
 
     @Override

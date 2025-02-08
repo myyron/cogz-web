@@ -14,12 +14,12 @@ var el = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "fl
         _classCallCheck(this, FlipDown);
         if (typeof uts !== "number") {
 throw new Error("FlipDown: Constructor expected unix timestamp, got ".concat(_typeof(uts), " instead."));
-        }
+}
 
 if (_typeof(el) === "object") {
 opt = el;
         el = "flipdown";
-        }
+}
 
 this.version = "0.3.2";
         this.initialised = false;
@@ -42,7 +42,7 @@ this.version = "0.3.2";
         this.opts = this._parseOptions(opt);
         this._setOptions();
         console.log("FlipDown ".concat(this.version, " (Theme: ").concat(this.opts.theme, ")"));
-        }
+}
 
 _createClass(FlipDown, [{
 key: "start",
@@ -240,7 +240,7 @@ key: "_updateClockValues",
         }
 }]);
         return FlipDown;
-}();
+        }();
         function pad(n, len) {
         n = n.toString();
                 return n.length < len ? pad("0" + n, len) : n;
@@ -249,5 +249,5 @@ key: "_updateClockValues",
 function appendChildren(parent, children) {
 children.forEach(function (el) {
 parent.appendChild(el);
-        });
-}
+});
+        }

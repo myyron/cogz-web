@@ -57,6 +57,7 @@ class Login {
                     $("#loginUsername").val($("#inputUsername").val());
                     $("#signupModal").modal("hide");
                     $("#signupForm")[0].reset();
+                    $("#validId").attr("src", "images/blank-id.png");
                 });
             }
         });
