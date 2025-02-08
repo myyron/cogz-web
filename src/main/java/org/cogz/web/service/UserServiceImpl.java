@@ -180,7 +180,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
-    public void changeUserEditStatus(Integer userId, EUserEditStatus status) {
+    public void changeUserEditStatus(Integer userId, EUserEditStatus status) throws IOException {
 
         UserEdit userEdit = userEditRepository.findByUserIdAndEnabled(userId, 1);
 
@@ -200,14 +200,16 @@ public class UserServiceImpl extends BaseService implements IUserService {
             user.setBirthdate(userEdit.getBirthdate());
             user.setUpdBy(sessionInfo.getCurrentUser().getId());
             user.setUpdDate(LocalDateTime.now());
+
+            fileService.moveImage("data/images/id-edit/", "data/images/id/", userId);
+        } else {
+            fileService.deleteImage("data/images/id-edit/", userId);
         }
 
         userEdit.setStatus(status);
         userEdit.setEnabled(0);
         userEdit.setUpdBy(sessionInfo.getCurrentUser().getId());
         userEdit.setUpdDate(LocalDateTime.now());
-
-        fileService.deleteImage("data/images/id-edit/", userId);
     }
 
     @Override

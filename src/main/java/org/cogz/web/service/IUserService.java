@@ -51,7 +51,7 @@ public interface IUserService {
 
     void createUserEdit(MultipartFile validId, UserEditDto userEditDto) throws IOException;
 
-    void changeUserEditStatus(Integer userId, EUserEditStatus status);
+    void changeUserEditStatus(Integer userId, EUserEditStatus status) throws IOException;
 
     void acceptWaiver();
 

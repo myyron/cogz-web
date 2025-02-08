@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -93,11 +94,19 @@ public class FileServiceImpl implements IFileService {
     }
 
     @Override
-    public void deleteImage(String path, Integer id) {
+    public void deleteImage(String path, Integer id) throws IOException {
         Path fileToDeletePath = Paths.get(path + id + ".jpg");
-        try {
+        if (Files.exists(fileToDeletePath)) {
             Files.delete(fileToDeletePath);
-        } catch (IOException e) {
+        }
+    }
+
+    @Override
+    public void moveImage(String sourcePath, String destinationPath, Integer id) throws IOException {
+        Path fileToSourcePath = Paths.get(sourcePath + id + ".jpg");
+        Path fileToDestinationPath = Paths.get(destinationPath + id + ".jpg");
+        if (Files.exists(fileToSourcePath)) {
+            Files.move(fileToSourcePath, fileToDestinationPath, StandardCopyOption.REPLACE_EXISTING);
         }
     }
 

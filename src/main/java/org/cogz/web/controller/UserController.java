@@ -165,13 +165,13 @@ public class UserController {
     }
 
     @PostMapping("/modification-approve")
-    public ResponseEntity<?> approveUserEdit(Integer userId) {
+    public ResponseEntity<?> approveUserEdit(Integer userId) throws IOException {
         userService.changeUserEditStatus(userId, EUserEditStatus.APPROVED);
         return ResponseEntity.ok("User edit approved successfully.");
     }
 
     @PostMapping("/modification-reject")
-    public ResponseEntity<?> rejectUserEdit(Integer userId) {
+    public ResponseEntity<?> rejectUserEdit(Integer userId) throws IOException {
         userService.changeUserEditStatus(userId, EUserEditStatus.REJECTED);
         return ResponseEntity.ok("User edit rejected successfully.");
     }

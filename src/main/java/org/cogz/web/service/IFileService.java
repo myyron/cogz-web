@@ -29,7 +29,9 @@ public interface IFileService {
 
     void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, Integer size, boolean crop) throws IOException;
 
-    void deleteImage(String path, Integer id);
+    void deleteImage(String path, Integer id) throws IOException;
+
+    void moveImage(String sourcePath, String destinationPath, Integer id) throws IOException;
 
     void generateGameUserListPdf(LocalDate gameSchedule, List<GameUserDto> gameUserDtoList) throws Exception;
 }
