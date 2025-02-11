@@ -31,6 +31,7 @@ import org.cogz.web.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -51,11 +52,14 @@ public class MailServiceImpl implements IMailService {
     private ApiClient apiClient;
     private List<SendSmtpEmailTo> staffEmails;
 
+    @Value("${brevo.smtp.api-key}")
+    private String apiKey;
+
     @PostConstruct
     private void postConstruct() {
         apiClient = Configuration.getDefaultApiClient();
-        ApiKeyAuth apiKey = (ApiKeyAuth) apiClient.getAuthentication("api-key");
-        apiKey.setApiKey("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");
+        ApiKeyAuth apiKeyAuth = (ApiKeyAuth) apiClient.getAuthentication("api-key");
+        apiKeyAuth.setApiKey(apiKey);
         staffEmails = getStaffEmails();
     }
 

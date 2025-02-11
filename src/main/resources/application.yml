@@ -12,7 +12,7 @@ server:
         enabled: true
     servlet:
         session:
-            timeout: 1m
+            timeout: 15m
             
 spring:
     servlet:

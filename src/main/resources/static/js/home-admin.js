@@ -68,7 +68,9 @@ class HomeAdmin {
                 {date: '2025-01-05', count: 44},
                 {date: '2025-01-12', count: 64},
                 {date: '2025-01-19', count: 52},
-                {date: '2025-01-26', count: 55}
+                {date: '2025-01-26', count: 55},
+                {date: '2025-02-02', count: 31},
+                {date: '2025-02-09', count: 78}
             ];
 
             let earliestData;
