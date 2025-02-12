@@ -102,7 +102,7 @@
             <div class="modal fade" id="editProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
-                        <form id="editProfileForm">
+                        <form>
 
                             <input type="hidden" id="editInputId" name="userId"/>
 
@@ -190,7 +190,10 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-outline-primary">Save</button>
+                                <button id="editProfileButton" type="button" class="btn btn-outline-primary">
+                                    <span id="editProfileSpinner" class="spinner-border spinner-border-sm"></span>
+                                    <span class="visually-hidden" role="status">Loading...</span>Save
+                                </button>
                             </div>
                         </form>
                     </div>

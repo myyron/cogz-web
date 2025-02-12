@@ -267,7 +267,7 @@ class HomeAdmin {
                     url: '/user/list-modification'
                 }).done(function (data) {
             $.each(data, function (i, data) {
-                $('#taskList').append(`<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#accountModificationRequestModal${i}">
+                $('#taskList').append(`<a id="accountModificationRequestTask${i}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#accountModificationRequestModal${i}">
                         <div class="row">
                             <div class="col-3 col-sm-2 col-md-1">
                                 <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -286,7 +286,7 @@ class HomeAdmin {
                     <div class="modal fade" id="accountModificationRequestModal${i}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content rounded-4 shadow">
-                                <form id="accountModificationRequestForm${i}">
+                                <form">
                                     <div class="modal-header">
                                         <h1 class="modal-title h5">Approve Account Modification</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -312,17 +312,7 @@ class HomeAdmin {
                                                 </div>
                                             </div>  
                                         </div> 
-                                        <div id="idComparison${i}">
-                                            <div class="row justify-content-center">
-                                                <div class="col-auto">
-                                                    <img id="prevValidId${i}" src="uploaded-images/id/${data.id}.jpg" alt="" class="img-thumbnail">
-                                                </div>
-                                            </div>   
-                                            <div class="row justify-content-center">
-                                                <div class="col-auto">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </div>
-                                            </div> 
+                                        <div id="idComparison${i}"> 
                                             <div class="row justify-content-center">
                                                 <div class="col-auto">
                                                     <img id="newValidId${i}" src="uploaded-images/id-edit/${data.id}.jpg" alt="" class="img-thumbnail">
@@ -332,38 +322,59 @@ class HomeAdmin {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-outline-danger">Reject</button>
-                                        <button type="submit" class="btn btn-outline-primary" value="APPROVE">Approve</button>
+                                        <button id="rejectButton${i}" type="button" class="btn btn-outline-danger">
+                                            <span id="rejectSpinner${i}" class="spinner-border spinner-border-sm"></span>
+                                            <span class="visually-hidden" role="status">Loading...</span>Reject
+                                        </button>
+                                        <button id="approveButton${i}" type="button" class="btn btn-outline-primary">
+                                            <span id="approveSpinner${i}" class="spinner-border spinner-border-sm"></span>
+                                            <span class="visually-hidden" role="status">Loading...</span>Approve
+                                        </button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>`);
 
-                $("#accountModificationRequestForm" + i).on("submit", function (e) {
-                    let buttonVal = e.originalEvent.submitter.value;
-                    let url = '/user/modification-approve';
-                    if (buttonVal !== 'APPROVE') {
-                        url = '/user/modification-reject';
-                    }
+                $("#accountModificationRequestModal" + i).on('show.bs.modal', function () {
+                    $("#approveSpinner" + i).attr('hidden', true);
+                    $("#rejectSpinner" + i).attr('hidden', true);
+                });
+
+                $("#approveButton" + i).on("click", function () {
+                    $("#approveSpinner" + i).attr('hidden', false);
                     $.ajax({
-                        url: url,
+                        url: '/user/modification-approve',
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         type: "post",
-                        async: false,
                         dataType: "json",
                         data: "userId=" + data.id
                     }).always(function () {
+                        $("#accountModificationRequestTask" + i).remove();
                         $("#accountModificationRequestModal" + i).modal("hide");
+                        $("#accountModificationRequestModal" + i).remove();
+                        setTaskList();
+                    });
+                });
+
+                $("#rejectButton" + i).on("click", function () {
+                    $("#rejectSpinner" + i).attr('hidden', false);
+                    $.ajax({
+                        url: '/user/modification-reject',
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        type: "post",
+                        dataType: "json",
+                        data: "userId=" + data.id
+                    }).always(function () {
+                        $("#accountModificationRequestTask" + i).remove();
+                        $("#accountModificationRequestModal" + i).modal("hide");
+                        $("#accountModificationRequestModal" + i).remove();
+                        setTaskList();
                     });
                 });
 
                 $('#accountModificationRequestProfilePic' + i).on("error", function () {
                     $("#accountModificationRequestProfilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
-                });
-
-                $('#prevValidId' + i).on("error", function () {
-                    $("#prevValidId" + i).attr("src", "uploaded-images/id/blank-id.png");
                 });
 
                 $('#newValidId' + i).on("error", function () {

@@ -210,11 +210,11 @@ public class UserServiceImpl extends BaseService implements IUserService {
             user.setUpdDate(LocalDateTime.now());
 
             mailService.accountModificationApproved(user);
-            fileService.moveImage("data/images/id-edit/", "data/images/id/", userId);
         } else {
             mailService.accountModificationRejected(user);
-            fileService.deleteImage("data/images/id-edit/", userId);
         }
+
+        fileService.deleteImage("data/images/id-edit/", userId);
 
         userEdit.setStatus(status);
         userEdit.setEnabled(0);

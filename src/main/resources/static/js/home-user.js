@@ -56,7 +56,9 @@ class HomeUser {
             $("#resetPasswordUserId").val(data.id);
         });
 
-        $("#editProfileForm").on("submit", function () {
+        $("#editProfileButton").on("click", function () {
+
+            $("#editProfileSpinner").attr('hidden', false);
 
             let fd = new FormData();
             fd.append('userId', $('#editInputId').val());
@@ -73,10 +75,11 @@ class HomeUser {
                 contentType: false,
                 processData: false,
                 type: "post",
-                async: false,
                 data: fd
             }).always(function () {
                 $("#editProfileModal").modal("hide");
+                $("#editInputValidId").val("");
+                $("#validId").attr("src", "images/blank-id.png");
             });
         });
 
@@ -123,6 +126,10 @@ class HomeUser {
             }).always(function () {
                 $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
             });
+        });
+
+        $("#editProfileModal").on('show.bs.modal', function () {
+            $("#editProfileSpinner").attr('hidden', true);
         });
 
         $('#waiverModal').on('show.bs.modal', function () {
