@@ -17,4 +17,4 @@ data/images/id-edit/*
 !data/images/id/blank-id.png
 
 nb-configuration.xml
-nbactions.xml
+nbactions*

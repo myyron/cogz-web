@@ -236,7 +236,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
-    public void changeStatus(Integer userId, EUserStatus status) {
+    public void changeStatus(Integer userId, EUserStatus status) throws IOException {
         User user = userRepository.findByIdAndEnabled(userId, 1);
         user.setStatus(status);
         user.setUpdBy(sessionInfo.getCurrentUser().getId());
@@ -247,6 +247,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
         } else if (status == EUserStatus.BANNED) {
             mailService.accountRegistrationBanned(user);
         }
+
+        fileService.deleteImage("data/images/id/", userId);
     }
 
     @Override

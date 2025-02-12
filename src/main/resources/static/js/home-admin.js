@@ -125,10 +125,10 @@ class HomeAdmin {
             }
         });
 
-        $.ajax({
-            url: '/game/open-exist',
-            async: false
-        }).done(function (data) {
+        $.when(
+                $.ajax({
+                    url: '/game/open-exist'
+                }).done(function (data) {
             if (!data) {
                 $('#taskList').append(`<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createGameModal">
                     <div class="row">
@@ -145,14 +145,12 @@ class HomeAdmin {
                         </div>
                     </div></a>`);
             }
-        });
-
-        $.ajax({
-            url: '/user/list-registration',
-            async: false
-        }).done(function (data) {
+        }),
+                $.ajax({
+                    url: '/user/list-registration'
+                }).done(function (data) {
             $.each(data, function (i, data) {
-                $('#taskList').append(`<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistrationModal${i}">
+                $('#taskList').append(`<a id="verifyAccountRegistrationTask${i}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistrationModal${i}">
                         <div class="row">
                             <div class="col-3 col-sm-2 col-md-1">
                                 <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -171,7 +169,7 @@ class HomeAdmin {
                     <div class="modal fade" id="verifyAccountRegistrationModal${i}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content rounded-4 shadow">
-                                <form id="verifyAccountRegistrationForm${i}">
+                                <form>
                                     <div class="modal-header">
                                         <h1 class="modal-title h5">Verify New Account Registration</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -205,29 +203,54 @@ class HomeAdmin {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-outline-danger">Banned</button>
-                                        <button type="submit" class="btn btn-outline-primary" value="GOOD">Verified and Good</button>
+                                        <button id="bannedButton${i}" type="button" class="btn btn-outline-danger">
+                                            <span id="bannedSpinner${i}" class="spinner-border spinner-border-sm"></span>
+                                            <span class="visually-hidden" role="status">Loading...</span>Banned
+                                        </button>
+                                        <button id="goodButton${i}" type="button" class="btn btn-outline-primary">
+                                            <span id="goodSpinner${i}" class="spinner-border spinner-border-sm"></span>
+                                            <span class="visually-hidden" role="status">Loading...</span>Verified and Good
+                                        </button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>`);
 
-                $("#verifyAccountRegistrationForm" + i).on("submit", function (e) {
-                    let buttonVal = e.originalEvent.submitter.value;
-                    let url = '/user/verification-good';
-                    if (buttonVal !== 'GOOD') {
-                        url = '/user/verification-banned';
-                    }
+                $("#verifyAccountRegistrationModal" + i).on('show.bs.modal', function () {
+                    $("#goodSpinner" + i).attr('hidden', true);
+                    $("#bannedSpinner" + i).attr('hidden', true);
+                });
+
+                $("#goodButton" + i).on("click", function () {
+                    $("#goodSpinner" + i).attr('hidden', false);
                     $.ajax({
-                        url: url,
+                        url: '/user/verification-good',
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         type: "post",
-                        async: false,
                         dataType: "json",
                         data: "userId=" + data.id
                     }).always(function () {
+                        $("#verifyAccountRegistrationTask" + i).remove();
                         $("#verifyAccountRegistrationModal" + i).modal("hide");
+                        $("#verifyAccountRegistrationModal" + i).remove();
+                        setTaskList();
+                    });
+                });
+
+                $("#bannedButton" + i).on("click", function () {
+                    $("#bannedSpinner" + i).attr('hidden', false);
+                    $.ajax({
+                        url: '/user/verification-banned',
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        type: "post",
+                        dataType: "json",
+                        data: "userId=" + data.id
+                    }).always(function () {
+                        $("#verifyAccountRegistrationTask" + i).remove();
+                        $("#verifyAccountRegistrationModal" + i).modal("hide");
+                        $("#verifyAccountRegistrationModal" + i).remove();
+                        setTaskList();
                     });
                 });
 
@@ -239,12 +262,10 @@ class HomeAdmin {
                     $("#validId" + i).attr("src", "uploaded-images/id/blank-id.png");
                 });
             });
-        });
-
-        $.ajax({
-            url: '/user/list-modification',
-            async: false
-        }).done(function (data) {
+        }),
+                $.ajax({
+                    url: '/user/list-modification'
+                }).done(function (data) {
             $.each(data, function (i, data) {
                 $('#taskList').append(`<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#accountModificationRequestModal${i}">
                         <div class="row">
@@ -349,12 +370,10 @@ class HomeAdmin {
                     $("#idComparison" + i).html("");
                 });
             });
-        });
-
-        $.ajax({
-            url: '/game/list-payment',
-            async: false
-        }).done(function (data) {
+        }),
+                $.ajax({
+                    url: '/game/list-payment'
+                }).done(function (data) {
             $.each(data, function (i, data) {
                 $.each(data.gameUserList, function (j, gameUser) {
                     $('#taskList').append(`<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPaymentModal${i + "-" + j}">
@@ -437,11 +456,9 @@ class HomeAdmin {
                     });
                 });
             });
+        })).done(function () {
+            setTaskList();
         });
-
-        if ($('#taskList').children().length === 0) {
-            $('#taskList').append(`<div class="text-center">Nothing to show</div>`);
-        }
 
         $("#resetPasswordForm").on("submit", function (e) {
             if ($("#resetInputPassword").val() !== $("#resetInputPassword2").val()) {
@@ -535,6 +552,12 @@ class HomeAdmin {
 
                 $("#userStatus").addClass("text-bg-danger");
                 $("#userStatus").html('<i class="bi bi-x-circle"></i> BANNED');
+            }
+        }
+
+        function setTaskList() {
+            if ($('#taskList').children().length === 0) {
+                $('#taskList').append(`<div class="text-center">Nothing to show</div>`);
             }
         }
     }

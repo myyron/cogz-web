@@ -55,6 +55,9 @@ public class MailServiceImpl implements IMailService {
     @Value("${brevo.smtp.api-key}")
     private String apiKey;
 
+    @Value("${cogz-web.link}")
+    private String appLink;
+
     @PostConstruct
     private void postConstruct() {
         apiClient = Configuration.getDefaultApiClient();
@@ -81,7 +84,7 @@ public class MailServiceImpl implements IMailService {
         email.setHtmlContent("<h2>Account Verified - GOOD</h2>\n" +
                 "<br>\n" +
                 "<p>Hi " + user.getFirstname().substring(0, 1).toUpperCase() + user.getFirstname().substring(1).toLowerCase() + ",</p>\n" +
-                "<p>Congratulations! Your account has been verified as 'GOOD' by our team. You are now allowed to join and register to our games. Please visit <a href=\"https://ec2-3-139-67-54.us-east-2.compute.amazonaws.com\">CoGZ Online Portal</a> for our available game schedules.</p>\n" +
+                "<p>Congratulations! Your account has been verified as 'GOOD' by our team. You are now allowed to join and register to our games. Please visit <a href=\"" + appLink + "\">CoGZ Online Portal</a> for our available game schedules.</p>\n" +
                 "<p>Best Regards,<br>The CoGZ team</p>\n" +
                 "<br>\n" +
                 "<p>This is a system generated email, please do not reply to this message. For inquiries, contact a CoGZ Admin thru our <a href=\\\"http://www.facebook.com/TeamCoGZAirsoftPH\\\">Facebook page</a>.</p>\n" +
@@ -135,7 +138,7 @@ public class MailServiceImpl implements IMailService {
                 "    <li>Mobile Number: <b>" + user.getMobileNumber() + "</b></li>\n" +
                 "    <li>Birthdate: <b>" + user.getBirthdate() + "</b></li>\n" +
                 "</ul>\n" +
-                "<p>You need to verify this new account using <a href=\"https://ec2-3-139-67-54.us-east-2.compute.amazonaws.com\">CoGZ Online Portal</a></p>\n" +
+                "<p>You need to verify this new account using <a href=\"" + appLink + "\">CoGZ Online Portal</a></p>\n" +
                 "<br>\n" +
                 "<p>This is a system generated email, please do not reply to this message.</p>\n" +
                 "<hr>");
@@ -215,7 +218,7 @@ public class MailServiceImpl implements IMailService {
                 "    <li>Mobile Number: <b>" + user.getMobileNumber() + "</b></li>\n" +
                 "    <li>Birthdate: <b>" + user.getBirthdate() + "</b></li>\n" +
                 "</ul>\n" +
-                "<p>You need to verify this payment using <a href=\"https://ec2-3-139-67-54.us-east-2.compute.amazonaws.com\">CoGZ Online Portal</a></p>\n" +
+                "<p>You need to verify this payment using <a href=\"" + appLink + "\">CoGZ Online Portal</a></p>\n" +
                 "<br>\n" +
                 "<p>This is a system generated email, please do not reply to this message.</p>\n" +
                 "<hr>");

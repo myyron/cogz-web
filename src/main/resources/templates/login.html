@@ -21,7 +21,7 @@
         <div class="container d-flex align-items-center justify-content-center">
             <div class="row justify-content-center">
                 <div class="col-9 col-md-6 col-lg-4">                               
-                    <span style="font-size: .6rem;">v25.0.0</span>
+                    <span style="font-size: .6rem;">v25.1.0</span>
                     <img src="images/logo-login.png" class="img-fluid"/>
                 </div>
                 <div class="col-9 col-md-6 col-lg-3 mt-md-5">
@@ -154,7 +154,10 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" id="signupButton" class="btn btn-outline-primary">Signup</button>
+                            <button type="button" id="signupButton" class="btn btn-outline-primary">
+                                <span id="spinner" class="spinner-border spinner-border-sm"></span>
+                                <span class="visually-hidden" role="status">Loading...</span>Signup
+                            </button>
                         </div>
                     </form>
                 </div>

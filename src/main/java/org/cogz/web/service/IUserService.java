@@ -67,5 +67,5 @@ public interface IUserService {
 
     List<UserEdit> getUsersEdit();
 
-    void changeStatus(Integer userId, EUserStatus status);
+    void changeStatus(Integer userId, EUserStatus status) throws IOException;
 }

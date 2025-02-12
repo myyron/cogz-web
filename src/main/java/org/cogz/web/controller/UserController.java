@@ -154,13 +154,13 @@ public class UserController {
     }
 
     @PostMapping("/verification-good")
-    public ResponseEntity<?> verificationGood(Integer userId) {
+    public ResponseEntity<?> verificationGood(Integer userId) throws IOException {
         userService.changeStatus(userId, EUserStatus.GOOD);
         return ResponseEntity.ok("User verified to good successfully.");
     }
 
     @PostMapping("/verification-banned")
-    public ResponseEntity<?> verificationBanned(Integer userId) {
+    public ResponseEntity<?> verificationBanned(Integer userId) throws IOException {
         userService.changeStatus(userId, EUserStatus.BANNED);
         return ResponseEntity.ok("User verified to banned successfully.");
     }

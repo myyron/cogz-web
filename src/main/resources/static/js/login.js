@@ -18,7 +18,13 @@ class Login {
 
     constructor() {
 
+        $("#signupModal").on('show.bs.modal', function () {
+            $("#spinner").attr('hidden', true);
+        });
+
         $("#signupButton").on("click", function () {
+            
+            $("#spinner").attr('hidden', false);
 
             if (!$('#signupForm')[0].checkValidity()) {
                 $('#signupForm')[0].reportValidity();
@@ -51,7 +57,6 @@ class Login {
                     contentType: false,
                     processData: false,
                     type: "post",
-                    async: false,
                     data: fd
                 }).always(function () {
                     $("#loginUsername").val($("#inputUsername").val());
