@@ -52,14 +52,22 @@ public class MailServiceImpl implements IMailService {
     private ApiClient apiClient;
     private List<SendSmtpEmailTo> staffEmails;
 
-    @Value("${brevo.smtp.api-key}")
+    @Value("${mail.api-key}")
     private String apiKey;
+
+    @Value("${mail.enabled}")
+    private boolean isMailEnabled;
 
     @Value("${cogz-web.link}")
     private String appLink;
 
     @PostConstruct
     private void postConstruct() {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         apiClient = Configuration.getDefaultApiClient();
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) apiClient.getAuthentication("api-key");
         apiKeyAuth.setApiKey(apiKey);
@@ -76,6 +84,11 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void accountRegistrationGood(User user) {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));
@@ -99,6 +112,11 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void accountRegistrationBanned(User user) {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));
@@ -122,6 +140,11 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void accountRegistration(User user) {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));
@@ -152,6 +175,11 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void accountModificationApproved(User user) {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));
@@ -176,6 +204,11 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void accountModificationRejected(User user) {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));
@@ -199,6 +232,11 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void paymentVerification(User user, LocalDate gameSchedule, EGameType gameType) {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));
@@ -232,6 +270,11 @@ public class MailServiceImpl implements IMailService {
 
     @Override
     public void paymentVerified(User user, LocalDate gameSchedule) {
+
+        if (!isMailEnabled) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));

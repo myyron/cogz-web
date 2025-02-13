@@ -262,6 +262,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType) throws IOException {
 
         User user = sessionInfo.getCurrentUser();

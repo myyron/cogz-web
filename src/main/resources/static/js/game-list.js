@@ -110,6 +110,7 @@ class GameList {
                 $("#showEditUserModal").addClass("disabled");
                 $("#removeUserButton").addClass("disabled");
                 $('#editInputGameUserId').val('');
+                $('#editInputUserId').val('');
             } else {
                 classList.add('selected');
                 $("#showEditUserModal").removeClass("disabled");
@@ -117,6 +118,7 @@ class GameList {
 
                 let data = regUserListTable.row(e.currentTarget).data();
                 $('#editInputGameUserId').val(data.id);
+                $('#editInputUserId').val(data.userId);
             }
         });
 
@@ -307,8 +309,8 @@ class GameList {
 
         $('#editUserModal').on('show.bs.modal', function () {
             let gameId = $('#editInputId').val();
-            let gameUserId = $('#editInputGameUserId').val();
-            $("#paymentProof").attr("src", "uploaded-images/payment/" + gameId + "/" + gameUserId + ".jpg");
+            let userId = $('#editInputUserId').val();
+            $("#paymentProof").attr("src", "uploaded-images/payment/" + gameId + "/" + userId + ".jpg");
 
             let data = regUserListTable.row('.selected').data();
             $('#editInputRegStatus').val(data.regStatus);

@@ -1,7 +1,12 @@
 cogz-web:
+    link: https://cogzofficial.org
     app:
         version: '@project.version@'
         
+mail:
+    enabled: false
+    api-key: 
+                
 server:
     port: 443
     ssl:
