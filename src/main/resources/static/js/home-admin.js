@@ -130,7 +130,7 @@ class HomeAdmin {
                     url: '/game/open-exist'
                 }).done(function (data) {
             if (!data) {
-                $('#taskList').append(`<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createGameModal">
+                $('#taskList').append(`<a id="createGameTask" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createGameModal">
                     <div class="row">
                         <div class="col-3 col-sm-2 col-md-1">
                             <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -387,7 +387,7 @@ class HomeAdmin {
                 }).done(function (data) {
             $.each(data, function (i, data) {
                 $.each(data.gameUserList, function (j, gameUser) {
-                    $('#taskList').append(`<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPaymentModal${i + "-" + j}">
+                    $('#taskList').append(`<a id="verifyPaymentTask${i + "-" + j}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPaymentModal${i + "-" + j}">
                             <div class="row">
                                 <div class="col-3 col-sm-2 col-md-1">
                                     <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -438,23 +438,33 @@ class HomeAdmin {
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="submit" class="btn btn-outline-primary">Verified and Paid</button>
+                                            <button id="paidButton${i + "-" + j}" type="button" class="btn btn-outline-primary">
+                                                <span id="paidSpinner${i + "-" + j}" class="spinner-border spinner-border-sm"></span>
+                                                <span class="visually-hidden" role="status">Loading...</span>Verified and Paid
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>`);
 
-                    $("#verifyPaymentForm" + i + "-" + j).on("submit", function () {
+                    $("#verifyPaymentModal" + i + "-" + j).on('show.bs.modal', function () {
+                        $("#paidSpinner" + i + "-" + j).attr('hidden', true);
+                    });
+
+                    $("#paidButton" + i + "-" + j).on("click", function () {
+                        $("#paidSpinner" + i + "-" + j).attr('hidden', false);
                         $.ajax({
                             url: '/game/verification-paid',
                             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                             type: "post",
-                            async: false,
                             dataType: "json",
                             data: "gameUserId=" + gameUser.id
                         }).always(function () {
+                            $("#verifyPaymentTask" + i + "-" + j).remove();
                             $("#verifyPaymentModal" + i + "-" + j).modal("hide");
+                            $("#verifyPaymentModal" + i + "-" + j).remove();
+                            setTaskList();
                         });
                     });
 
@@ -495,7 +505,9 @@ class HomeAdmin {
             });
         });
 
-        $("#createGameForm").on("submit", function () {
+        $("#createGameButton").on("click", function () {
+                        
+            $("#createGameSpinner").attr('hidden', false);
 
             let fd = new FormData();
             fd.append('banner', $('#inputBanner')[0].files[0]);
@@ -509,10 +521,11 @@ class HomeAdmin {
                 contentType: false,
                 processData: false,
                 type: "post",
-                async: false,
                 data: fd
             }).always(function () {
+                $("#createGameTask").remove();
                 $("#createGameModal").modal("hide");
+                setTaskList();
             });
         });
 
@@ -526,6 +539,10 @@ class HomeAdmin {
 
         $("#showResetPasswordModal").on("click", function () {
             $("#resetPasswordForm")[0].reset();
+        });
+
+        $("#createGameModal").on('show.bs.modal', function () {
+            $("#createGameSpinner").attr('hidden', true);
         });
 
         $("#inputProfilePic").on("change", function () {

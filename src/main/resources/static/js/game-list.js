@@ -122,7 +122,9 @@ class GameList {
             }
         });
 
-        $("#createGameForm").on("submit", function () {
+        $("#createGameButton").on("click", function () {
+            
+            $("#createGameSpinner").attr('hidden', false);
 
             let fd = new FormData();
             fd.append('banner', $('#inputBanner')[0].files[0]);
@@ -136,7 +138,6 @@ class GameList {
                 contentType: false,
                 processData: false,
                 type: "post",
-                async: false,
                 data: fd
             }).always(function () {
                 $("#createGameModal").modal("hide");
@@ -161,7 +162,7 @@ class GameList {
                 async: false,
                 data: fd
             }).always(function () {
-                $("#createGameModal").modal("hide");
+                $("#editGameModal").modal("hide");
             });
         });
 
@@ -281,6 +282,10 @@ class GameList {
                     }
                 }
             });
+        });
+        
+        $("#createGameModal").on('show.bs.modal', function () {
+            $("#createGameSpinner").attr('hidden', true);
         });
 
         $('#editGameModal').on('show.bs.modal', function () {
