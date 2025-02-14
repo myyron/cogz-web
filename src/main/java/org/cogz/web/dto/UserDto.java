@@ -15,13 +15,13 @@
  */
 package org.cogz.web.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.cogz.web.enums.ERole;
 import org.cogz.web.enums.EUserStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -43,6 +43,7 @@ public class UserDto {
     private EUserStatus status;
 
     private Boolean waiverAccepted;
+    private LocalDateTime waiverAcceptedDate;
 
     private UserEditDto userEdit;
 }

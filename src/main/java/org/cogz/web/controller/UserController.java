@@ -26,6 +26,7 @@ import org.cogz.web.enums.EUserEditStatus;
 import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
 import org.cogz.web.model.UserEdit;
+import org.cogz.web.model.UserTask;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +69,11 @@ public class UserController {
     public UserDto getCurrentUser() {
         User user = userService.getCurrentUser();
         UserDto userDto = new ModelMapper().map(user, UserDto.class);
-        userDto.setWaiverAccepted(userService.isWaiverAccepted());
+        UserTask userTask = userService.getWaiver();
+        if (userTask != null) {
+            userDto.setWaiverAccepted(true);
+            userDto.setWaiverAcceptedDate(userTask.getInsDate());
+        }
         return userDto;
     }
 
@@ -136,9 +142,8 @@ public class UserController {
     }
 
     @PostMapping("/accept-waiver")
-    public ResponseEntity<?> acceptWaiver() throws JsonProcessingException {
-        userService.acceptWaiver();
-        return ResponseEntity.ok("Waiver accepted successfully.");
+    public LocalDateTime acceptWaiver() {
+        return userService.acceptWaiver().getInsDate();
     }
 
     @PostMapping("/change-pic")

@@ -21,6 +21,7 @@ class HomeUser {
         let userId;
         let userStatus;
         let waiverAccepted;
+        let waiverAcceptedDate;
 
         $("#navHome").addClass("active");
         $("#navTools").removeClass("active");
@@ -31,6 +32,7 @@ class HomeUser {
 
             userId = data.id;
             waiverAccepted = data.waiverAccepted;
+            waiverAcceptedDate = new Date(data.waiverAcceptedDate);
             userStatus = data.status;
 
             $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
@@ -134,19 +136,28 @@ class HomeUser {
 
         $('#waiverModal').on('show.bs.modal', function () {
             if (waiverAccepted) {
-                $('#waiverModalFooter').html(`<span class="text-disabled fst-italic" style="font-size: .7rem">You already agreed on the terms of the waiver</span>
+                $('#waiverModalFooter').html(`<span class="text-disabled fst-italic" style="font-size: .7rem">You already agreed on the terms of the waiver<br>
+                    <b>Agreed on:</b> ${waiverAcceptedDate.toLocaleString()}</span>
                     <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>`);
             } else {
                 $('#waiverModalFooter').html(`<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Skip</button>
-                    <button type="submit" class="btn btn-outline-primary">I Agree</button>`);
+                    <button id="waiverAgreeButton" type="button" class="btn btn-outline-primary">
+                        <span id="waiverAgreeSpinner" class="spinner-border spinner-border-sm"></span>
+                        <span class="visually-hidden" role="status">Loading...</span>I Agree
+                    </button>`);
+                $("#waiverAgreeSpinner").attr('hidden', true);
             }
 
-            $("#waiverForm").on("submit", function () {
+            $("#waiverAgreeButton").on("click", function () {
+                $("#waiverAgreeSpinner").attr('hidden', false);
                 $.ajax({
                     url: "/user/accept-waiver",
-                    type: "post",
-                    async: false
+                    type: "post"
+                }).done(function (data) {
+                    waiverAcceptedDate = new Date(data);
                 }).always(function () {
+                    waiverAccepted = true;
+                    changeToWaiverAccepted(true);
                     $("#waiverModal").modal("hide");
                 });
             });
@@ -261,13 +272,16 @@ class HomeUser {
                                         </div>                                        
                                         <div class="row mb-3 justify-content-center">
                                             <div class="col-6">
-                                                <img id="paymentProof" alt="" class="img-thumbnail">
+                                                <img id="paymentProof${i}" alt="" class="img-thumbnail">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-outline-primary">Send For Verification</button>
+                                        <button id="sendForVerificationButton${i}" type="button" class="btn btn-outline-primary">
+                                            <span id="sendForVerificationSpinner${i}" class="spinner-border spinner-border-sm"></span>
+                                            <span class="visually-hidden" role="status">Loading...</span>Send For Verification
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -312,9 +326,14 @@ class HomeUser {
                                 });
                                 return e.preventDefault();
                             }
+
+                            $("#sendForVerificationSpinner" + i).attr('hidden', true);
                         });
 
-                        $("#registerGameForm" + [i]).on("submit", function () {
+                        $("#sendForVerificationButton" + [i]).on("click", function () {
+
+                            $("#sendForVerificationSpinner" + i).attr('hidden', false);
+
                             let fd = new FormData();
                             fd.append('paymentProof', $('#inputPaymentProof' + [i])[0].files[0]);
                             fd.append('gameId', data[i].id);
@@ -325,7 +344,6 @@ class HomeUser {
                                 contentType: false,
                                 processData: false,
                                 type: "post",
-                                async: false,
                                 data: fd
                             }).always(function () {
                                 $("#registerGameModal" + [i]).modal("hide");

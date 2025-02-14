@@ -224,7 +224,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
-    public void acceptWaiver() {
+    public UserTask acceptWaiver() {
         UserTask userTask = new UserTask();
         userTask.setUserId(sessionInfo.getCurrentUser().getId());
         userTask.setType(ETaskType.WAIVER);
@@ -232,6 +232,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
         userTask.setInsBy(sessionInfo.getCurrentUser().getId());
         userTaskRepository.save(userTask);
         logger.info("waiver accepted - {}", sessionInfo.getCurrentUser().getUsername());
+        return userTask;
     }
 
     @Override
@@ -252,8 +253,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
     }
 
     @Override
-    public Boolean isWaiverAccepted() {
-        return userTaskRepository.existsByUserIdAndTypeAndEnabled(sessionInfo.getCurrentUser().getId(), ETaskType.WAIVER, 1);
+    public UserTask getWaiver() {
+        return userTaskRepository.findByUserIdAndTypeAndEnabled(sessionInfo.getCurrentUser().getId(), ETaskType.WAIVER, 1);
     }
 
     @Override

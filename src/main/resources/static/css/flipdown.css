@@ -210,7 +210,7 @@
     border-radius: 0px 0px 4px 4px;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 991px) {
 
     .flipdown {
         width: 130px;

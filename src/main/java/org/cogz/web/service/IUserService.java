@@ -23,6 +23,7 @@ import org.cogz.web.enums.EUserEditStatus;
 import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
 import org.cogz.web.model.UserEdit;
+import org.cogz.web.model.UserTask;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -55,9 +56,9 @@ public interface IUserService {
 
     void changeUserEditStatus(Integer userId, EUserEditStatus status) throws IOException;
 
-    void acceptWaiver();
+    UserTask acceptWaiver();
 
-    Boolean isWaiverAccepted();
+    UserTask getWaiver();
 
     void changePicture(MultipartFile profilePic) throws IOException;
 

@@ -27,5 +27,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserTaskRepository extends JpaRepository<UserTask, Integer> {
 
-    Boolean existsByUserIdAndTypeAndEnabled(Integer userId, ETaskType type, Integer enabled);
+    UserTask findByUserIdAndTypeAndEnabled(Integer userId, ETaskType type, Integer enabled);
 }
