@@ -151,7 +151,7 @@ public class GameServiceImpl extends BaseService implements IGameService {
     public void editUser(MultipartFile paymentProof, GameUserDto gameUserDto) throws IOException {
 
         if (paymentProof != null) {
-            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getId(), gameUserDto.getGameId(), 400, false);
+            fileService.writeImage(paymentProof, "data/images/payment/", gameUserDto.getUserId(), gameUserDto.getGameId(), 400, false);
         }
 
         GameUser gameUser = gameUserRepository.findByIdAndEnabled(gameUserDto.getId(), 1);

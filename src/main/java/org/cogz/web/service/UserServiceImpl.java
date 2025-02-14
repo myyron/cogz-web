@@ -267,6 +267,10 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
         User user = sessionInfo.getCurrentUser();
 
+        if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, user.getId(), 1)) {
+            return;
+        }
+
         UserPayment userPayment = new UserPayment();
         userPayment.setUserId(user.getId());
         userPayment.setGameId(gameId);

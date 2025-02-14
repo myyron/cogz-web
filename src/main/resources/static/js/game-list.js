@@ -185,6 +185,7 @@ class GameList {
             fd.append('paymentProof', $('#editInputPaymentProof')[0].files[0]);
             fd.append('gameId', $('#editInputId').val());
             fd.append('gameUserId', $('#editInputGameUserId').val());
+            fd.append('userId', $('#editInputUserId').val());
 
             fd.append('regStatus', $('#editInputRegStatus').val());
             fd.append('fps', $('#editInputFps').val());
