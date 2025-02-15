@@ -109,9 +109,27 @@ public class UserController {
 
     @PostMapping("/edit")
     public ResponseEntity<?> editUser(@RequestBody UserDto userDto) throws JsonProcessingException {
-        logger.info("edit user - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(userDto));
+        logger.info("user-edit - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(userDto));
         userService.editUser(userDto);
         return ResponseEntity.ok("User edited successfully.");
+    }
+
+    @PostMapping("/profile-edit")
+    public ResponseEntity<?> profileEdit(Integer id, String username, String firstname, String lastname, String email,
+            String mobileNumber, LocalDate birthdate) throws IOException {
+        UserDto userDto = new UserDto();
+        userDto.setId(id);
+        userDto.setUsername(username);
+        userDto.setFirstname(firstname);
+        userDto.setLastname(lastname);
+        userDto.setEmail(email);
+        userDto.setMobileNumber(mobileNumber);
+        userDto.setBirthdate(birthdate);
+
+        logger.info("user-profile-edit - {}", new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(userDto));
+
+        userService.editUserFromProfile(userDto);
+        return ResponseEntity.ok("Profile edited successfully.");
     }
 
     @PostMapping("/deactivate")
@@ -127,10 +145,9 @@ public class UserController {
     }
 
     @PostMapping("/create-useredit")
-    public ResponseEntity<?> createUserEdit(MultipartFile validId, Integer userId, String username, String firstname,
-                                            String lastname, String email, String mobileNumber, LocalDate birthdate) throws IOException {
+    public ResponseEntity<?> createUserEdit(MultipartFile validId, String username, String firstname, String lastname,
+            String email, String mobileNumber, LocalDate birthdate) throws IOException {
         UserEditDto userDto = new UserEditDto();
-        userDto.setUserId(userId);
         userDto.setUsername(username);
         userDto.setFirstname(firstname);
         userDto.setLastname(lastname);
@@ -153,8 +170,10 @@ public class UserController {
     }
 
     @PostMapping("/reg-game")
-    public ResponseEntity<?> registerGame(@RequestParam MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType) throws IOException {
-        userService.registerGame(paymentProof, gameId, gameSchedule, gameType);
+    public ResponseEntity<?> registerGame(@RequestParam MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule,
+            EGameType gameType, Integer[] additionalPaxArray, String[] firstnameArray,
+            String[] lastnameArray) throws IOException {
+        userService.registerGame(paymentProof, gameId, gameSchedule, gameType, additionalPaxArray, firstnameArray, lastnameArray);
         return ResponseEntity.ok("User registered to game successfully.");
     }
 

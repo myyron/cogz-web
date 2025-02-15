@@ -45,7 +45,7 @@ public interface IGameService {
 
     void deactivateGame(Integer id);
 
-    void addUsers(Integer gameId, String usernames);
+    void addUsers(Integer gameId, Integer[] userIdArray);
 
     void removeUser(Integer id);
 

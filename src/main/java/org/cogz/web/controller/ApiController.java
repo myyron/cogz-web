@@ -53,7 +53,7 @@ public class ApiController {
 
     @PostMapping("/signup-valid-id")
     public ResponseEntity<?> signupValidId(MultipartFile validId, String username, String firstname, String lastname,
-                                           String email, String mobileNumber, LocalDate birthdate, String password) throws IOException {
+            String email, String mobileNumber, LocalDate birthdate, String password) throws IOException {
 
         UserWithPasswordDto userDto = new UserWithPasswordDto();
         userDto.setUsername(username);

@@ -63,7 +63,6 @@ class HomeUser {
             $("#editProfileSpinner").attr('hidden', false);
 
             let fd = new FormData();
-            fd.append('userId', $('#editInputId').val());
             fd.append('username', $('#editInputUsername').val());
             fd.append('firstname', $('#editInputFirstname').val());
             fd.append('lastname', $('#editInputLastname').val());
@@ -198,6 +197,7 @@ class HomeUser {
                 $.ajax({
                     url: "/game/list-active"
                 }).done(function (data) {
+
                     for (let i = 0; i < data.length; i++) {
 
                         let badgeColor = '<span class="badge text-bg-primary">';
@@ -207,34 +207,33 @@ class HomeUser {
 
                         $("#gamelist").append(`<li class="list-group-item">
                     <div class="row mb-2 justify-content-center">
-                       <div class="col-auto">
-                           <img id="gameBanner${i}" alt="" class="img-thumbnail"
-                                src="uploaded-images/banner/${data[i].id}.jpg">
-                       </div>
+                        <div class="col-auto">
+                            <img id="gameBanner${i}" alt="" class="img-thumbnail"
+                                 src="uploaded-images/banner/${data[i].id}.jpg">
+                        </div>
                     </div>
                     <div class="row mb-2 justify-content-center">
-                       <div class="col">
-                           <div id="timeLeft${i}" class="flipdown"></div>
-                       </div>
-                       <div class="col">
-                           <div class="text-end">
-                               <ul class="list-unstyled">
-                                   <li class="fw-bolder"><i class="bi bi-calendar-event-fill"></i> ${data[i].schedule}
-                                   </li>
-                                   <li class="mb-1" style="font-size: .8rem;">${data[i].type} Game</li>
-                                   <li id="gamestatus${i}">
-                                               ${badgeColor}
-                                                   <i class="bi bi-activity"></i> ${data[i].status}</span>
-                                   </li>
-                                   <li id="regStatus${i}" class="mt-2">
-                                       <button id="registerGameButton${i}" type="button" class="btn btn-outline-primary"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#registerGameModal${i}">Register
-                                       </button>
-                                   </li>
-                               </ul>
-                           </div>
-                       </div>
+                        <div class="col">
+                            <div id="timeLeft${i}" class="flipdown"></div>
+                        </div>
+                        <div class="col">
+                            <div class="text-end">
+                                <ul class="list-unstyled">
+                                    <li class="fw-bolder"><i class="bi bi-calendar-event-fill"></i> ${data[i].schedule}
+                                    </li>
+                                    <li class="mb-1" style="font-size: .8rem;">${data[i].type} Game</li>
+                                    <li id="gamestatus${i}">${badgeColor}
+                                        <i class="bi bi-activity"></i> ${data[i].status}</span>
+                                    </li>
+                                    <li id="regStatus${i}" class="mt-2">
+                                        <button id="registerGameButton${i}" type="button" class="btn btn-outline-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#registerGameModal${i}">Register
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <!-- registerGameModal -->
                     <div class="modal fade" id="registerGameModal${i}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -258,22 +257,76 @@ class HomeUser {
                                                     <li>Account: Ralph Paolo Panaligan</li>
                                                     <li>Mobile Number: <input id="gcashNumber" type="hidden" value="09288691098"/>09288691098 <a href="javascript:void(0);" id="copyGcashNumber" data-clipboard-target="#gcashNumber"><i class="bi bi-clipboard-fill"></i></a></li>
                                                     <li>QR Download: <a href="images/cogz-gcash-qr.jpg" id="downloadQR" download="cogz-gcash-qr.jpg"><i class="bi bi-qr-code"></i></a></li>
-                                                    <li class="text-primary">Game Fee: 250 PHP</li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <label for="inputPaymentProof${i}" class="col-sm-12 form-label text-small">Proof of
-                                                Payment</label>
-                                            <div class="col-sm-12">
-                                                <input class="form-control form-control-sm" id="inputPaymentProof${i}" type="file"
-                                                       accept="image/*" oninput="paymentProof.src=window.URL.createObjectURL(this.files[0])" required>
-                                            </div>
-                                        </div>                                        
                                         <div class="row mb-3 justify-content-center">
-                                            <div class="col-6">
-                                                <img id="paymentProof${i}" alt="" class="img-thumbnail">
-                                            </div>
+                                            <div class="col">
+                                                <div class="card">
+                                                    <div class="card-body"> 
+                                                        <div class="row justify-content-center">
+                                                            <div class="col">
+                                                                <h6>Additional Registration</h6> 
+                                                                <p class="text-xs fst-italic">Name of additional PLAYERS to be registered. Each entry is additional 250 PHP. You can only select verified accounts and not yet registered.</p>
+                                                                <div class="col-12">
+                                                                    <select id="inputAddUsers${i}" name="user[]" multiple placeholder="Select users..."
+                                                                            autocomplete="off">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div class="row mb-3 justify-content-center">
+                                            <div class="col">
+                                                <div class="card">
+                                                    <div class="card-body"> 
+                                                        <div class="row justify-content-center">
+                                                            <div class="col">
+                                                                <h6>Companion List</h6> 
+                                                                <p class="text-xs fst-italic">Name of companions (eg. wife, son, etc.) that WILL ONLY accompany you or your group and will NOT play. This is to secure their gate pass entry to our gamesite.</p>
+                                                                <button type="button" id="addCompanionButton${i}" class="btn btn-outline-primary">
+                                                                    <i class="bi bi-plus-lg"></i>
+                                                                </button>
+                                                                <ul id="companionList${i}" class="list-unstyled mt-2" style="font-size: .8rem;">
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col">
+                                                <div class="card">
+                                                    <div class="card-body"> 
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                                <h6>Game Fee Summary</h6>
+                                                                <ul class="list-unstyled text-bg-primary p-3" style="font-size: .8rem;">
+                                                                    <li>Total Pax: <span id="totalPax${i}" class="badge text-bg-warning">1</span></li>
+                                                                    <li>Total Game Fee: <span id="totalGameFee${i}" class="badge text-bg-warning">250 PHP</span></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="row mb-3">
+                                                            <label for="inputPaymentProof${i}" class="col-sm-12 form-label text-small">Proof of
+                                                                Payment</label>
+                                                            <div class="col-sm-12">
+                                                                <input class="form-control form-control-sm" id="inputPaymentProof${i}" type="file"
+                                                                       accept="image/*" oninput="paymentProof${i}.src=window.URL.createObjectURL(this.files[0])" required>
+                                                            </div>
+                                                        </div>                                        
+                                                        <div class="row mb-3 justify-content-center">
+                                                            <div class="col-6">
+                                                                <img id="paymentProof${i}" alt="" class="img-thumbnail">
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>  
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -287,16 +340,31 @@ class HomeUser {
                             </div>
                         </div>
                     </div>
-                    </li>`);
+                </li>`);
+
+                        let addUsersSelect = new TomSelect("#inputAddUsers" + i, {
+                            onItemAdd: function () {
+                                this.setTextboxValue('');
+                                this.refreshOptions();
+                            },
+                            maxItems: null,
+                            valueField: 'id',
+                            labelField: 'title',
+                            searchField: 'title'
+                        });
 
                         new ClipboardJS('#copyGcashNumber', {
-                            container: document.getElementById('registerGameModal' + [i])
+                            container: document.getElementById('registerGameModal' + i)
                         });
+
+                        if (data[i].status === 'LOCKED') {
+                            $("#registerGameButton" + i).addClass("disabled");
+                        }
 
                         let gameDate = new Date(data[i].schedule);
                         gameDate.setHours(0, 0, 0, 0);
                         let advanceDeadline = gameDate.getTime() - (1000 * 60 * 60 * data[i].advanceDeadline);
-                        new FlipDown(Math.floor(advanceDeadline / 1000), "timeLeft" + [i]).start()
+                        new FlipDown(Math.floor(advanceDeadline / 1000), "timeLeft" + i).start()
                                 .ifEnded(() => {
                                     $("#gamestatus" + i).html('<span class="badge text-bg-warning"><i class="bi bi-activity"></i> LOCKED</span>');
                                     $("#registerGameButton" + i).addClass("disabled");
@@ -307,14 +375,14 @@ class HomeUser {
                             if (userId === data[i].gameUserList[j].userId) {
                                 let regStatus = data[i].gameUserList[j].regStatus;
                                 if (regStatus === "PAYMENT_VERIFICATION") {
-                                    $('#regStatus' + [i]).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Payment Verification</span>`);
+                                    $('#regStatus' + i).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Payment Verification</span>`);
                                 } else {
-                                    $('#regStatus' + [i]).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Paid and Registered</span>`);
+                                    $('#regStatus' + i).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Paid and Registered</span>`);
                                 }
                             }
                         }
 
-                        $("#registerGameModal" + [i]).on('show.bs.modal', function (e) {
+                        $("#registerGameModal" + i).on('show.bs.modal', function (e) {
                             if (!waiverAccepted) {
                                 bootbox.alert({
                                     message: '<div class="text-center text-danger">You need to accept the terms of the Gamesite Waiver first.</div>',
@@ -328,17 +396,88 @@ class HomeUser {
                             }
 
                             $("#sendForVerificationSpinner" + i).attr('hidden', true);
+
+                            $.ajax({
+                                url: '/game/list-user-candidate-strict',
+                                dataType: "json",
+                                data: "gameId=" + data[i].id
+                            }).done(function (data) {
+                                $.each(data, function (i, data) {
+                                    let fullname = data.lastname + ", " + data.firstname;
+                                    addUsersSelect.addOption({id: data.id, title: fullname});
+                                });
+                            });
                         });
 
-                        $("#sendForVerificationButton" + [i]).on("click", function () {
+                        $("#inputAddUsers" + i).on("change", function () {
+                            let totalPax = $("#inputAddUsers" + i).val().length + 1;
+                            $("#totalPax" + i).text(totalPax);
+                            $("#totalGameFee" + i).text((totalPax * 250) + " PHP");
+                        });
+
+                        let j = 0;
+                        $("#addCompanionButton" + i).on("click", function () {
+
+                            if ($("#companionList" + i).children().length === 0) {
+                                $("#companionList" + i).append(`<li id="companionListHeader${i}">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <span class="text-small">Firstname</span>
+                                        </div>
+                                        <div class="col-5">
+                                            <span class="text-small">Lastname</span>
+                                        </div>
+                                    </div>
+                                </li>`);
+                            }
+
+                            $("#companionList" + i).append(`<li id="companionListItem${i + "-" + j}">
+                                    <div class="row mb-1">
+                                        <div class="col-5">
+                                            <input type="text" class="form-control form-control-sm" name="firstname${i}[]" required>
+                                        </div>
+                                        <div class="col-5">
+                                            <input type="text" class="form-control form-control-sm" name="lastname${i}[]" required>
+                                        </div>                                        
+                                        <div class="col-2">
+                                            <button type="button" onclick="\$('#companionListItem${i + "-" + j}').remove(); (\$('#companionList${i}').children().length === 1) && \$('#companionListHeader${i}').remove();" class="btn btn-outline-primary btn-sm">
+                                                <i class="bi bi-dash-lg"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>`);
+
+                            j++;
+                        });
+
+                        $("#sendForVerificationButton" + i).on("click", function () {
+
+                            if (!$('#registerGameForm' + i)[0].checkValidity()) {
+                                $('#registerGameForm' + i)[0].reportValidity();
+                                return;
+                            }
 
                             $("#sendForVerificationSpinner" + i).attr('hidden', false);
 
+                            let additionalPaxArray = $("#inputAddUsers" + i).val();
+
+                            let firstnameArray = $('input[name="firstname' + i + '[]"]').map(function () {
+                                return $(this).val();
+                            }).get();
+
+                            let lastnameArray = $('input[name="lastname' + i + '[]"]').map(function () {
+                                return $(this).val();
+                            }).get();
+
                             let fd = new FormData();
-                            fd.append('paymentProof', $('#inputPaymentProof' + [i])[0].files[0]);
+                            fd.append('paymentProof', $('#inputPaymentProof' + i)[0].files[0]);
                             fd.append('gameId', data[i].id);
                             fd.append('gameSchedule', data[i].schedule);
                             fd.append('gameType', data[i].type);
+                            fd.append('additionalPaxArray', additionalPaxArray);
+                            fd.append('firstnameArray', firstnameArray);
+                            fd.append('lastnameArray', lastnameArray);
+
                             $.ajax({
                                 url: "/user/reg-game",
                                 contentType: false,
@@ -346,12 +485,13 @@ class HomeUser {
                                 type: "post",
                                 data: fd
                             }).always(function () {
-                                $("#registerGameModal" + [i]).modal("hide");
+                                $('#regStatus' + i).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Payment Verification</span>`);
+                                $("#registerGameModal" + i).modal("hide");
                             });
                         });
 
-                        $('#gameBanner' + [i]).on("error", function () {
-                            $('#gameBanner' + [i]).attr("src", "uploaded-images/banner/default-banner.png");
+                        $('#gameBanner' + i).on("error", function () {
+                            $('#gameBanner' + i).attr("src", "uploaded-images/banner/default-banner.png");
                         });
                     }
                 });

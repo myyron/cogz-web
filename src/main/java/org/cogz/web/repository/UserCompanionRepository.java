@@ -15,8 +15,7 @@
  */
 package org.cogz.web.repository;
 
-import org.cogz.web.enums.ETaskType;
-import org.cogz.web.model.UserTask;
+import org.cogz.web.model.UserCompanion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -25,9 +24,5 @@ import org.springframework.stereotype.Repository;
  * @author altrax
  */
 @Repository
-public interface UserTaskRepository extends JpaRepository<UserTask, Integer> {
-
-    UserTask findByUserIdAndTypeAndEnabled(Integer userId, ETaskType type, Integer enabled);
-
-    Boolean existsByUserIdAndTypeAndEnabled(Integer userId, ETaskType type, Integer enabled);
+public interface UserCompanionRepository extends JpaRepository<UserCompanion, Integer> {
 }

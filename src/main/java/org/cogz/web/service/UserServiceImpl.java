@@ -42,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,6 +70,9 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Autowired
     private UserPaymentRepository userPaymentRepository;
+
+    @Autowired
+    private UserCompanionRepository userCompanionRepository;
 
     @Autowired
     private GameUserRepository gameUserRepository;
@@ -129,6 +133,33 @@ public class UserServiceImpl extends BaseService implements IUserService {
         user.setUpdDate(LocalDateTime.now());
     }
 
+    @Transactional
+    @Override
+    public void editUserFromProfile(UserDto userDto) {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.addMappings(new PropertyMap<UserDto, User>() {
+            @Override
+            protected void configure() {
+                skip(destination.getRole());
+                skip(destination.getStatus());
+                skip(destination.getInsBy());
+                skip(destination.getPassword());
+            }
+        });
+
+        User user = userRepository.findByIdAndEnabled(userDto.getId(), 1);
+
+        if (!user.getUsername().equals(userDto.getUsername())) {
+            expireUserSession(user.getUsername());
+            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        }
+
+        modelMapper.map(userDto, user);
+
+        user.setUpdBy(userDto.getId());
+        user.setUpdDate(LocalDateTime.now());
+    }
+
     @Override
     @Transactional
     public void deactivateUser(Integer userId) {
@@ -150,6 +181,11 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     public List<User> getUsers() {
         return userRepository.findAllByEnabled(1);
+    }
+
+    @Override
+    public List<User> getUsersStrict() {
+        return userRepository.findAllByStatusAndEnabled(EUserStatus.GOOD, 1);
     }
 
     @Override
@@ -184,7 +220,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
             userEdit.setUpdBy(sessionInfo.getCurrentUser().getId());
             userEdit.setUpdDate(LocalDateTime.now());
         }
-        fileService.writeImage(validId, "data/images/id-edit/", userEditDto.getUserId(), null, 400, false);
+        fileService.writeImage(validId, "data/images/id-edit/", sessionInfo.getCurrentUser().getId(), null, 400, false);
     }
 
     @Override
@@ -258,38 +294,65 @@ public class UserServiceImpl extends BaseService implements IUserService {
     }
 
     @Override
+    public Boolean isWaiverAccepted(Integer userId) {
+        return userTaskRepository.existsByUserIdAndTypeAndEnabled(userId, ETaskType.WAIVER, 1);
+    }
+
+    @Override
     public void changePicture(MultipartFile profilePic) throws IOException {
         fileService.writeImage(profilePic, "data/images/profile/", sessionInfo.getCurrentUser().getId(), null, 400, true);
     }
 
     @Override
     @Transactional
-    public void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType) throws IOException {
+    public void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType,
+            Integer[] additionalPaxArray, String[] firstnameArray,
+            String[] lastnameArray) throws IOException {
 
-        User user = sessionInfo.getCurrentUser();
+        Integer gameUserId = 0;
 
-        if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, user.getId(), 1)) {
+        if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, sessionInfo.getCurrentUser().getId(), 1)) {
             return;
         }
 
-        UserPayment userPayment = new UserPayment();
-        userPayment.setUserId(user.getId());
-        userPayment.setGameId(gameId);
-        userPayment.setFilepath("data/images/payment/" + gameId + "/" + user.getId() + ".jpg");
-        userPayment.setInsBy(user.getId());
-        userPaymentRepository.save(userPayment);
+        List<User> userList = new ArrayList<>();
+        userList.add(sessionInfo.getCurrentUser());
 
-        GameUser gameUser = new GameUser();
-        gameUser.setGameId(gameId);
-        gameUser.setUserId(user.getId());
-        gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
-        gameUser.setInsBy(user.getId());
-        gameUserRepository.save(gameUser);
+        for (Integer userId : additionalPaxArray) {
+            userList.add(userRepository.findByIdAndEnabled(userId, 1));
+        }
 
-        mailService.paymentVerification(user, gameSchedule, gameType);
-        fileService.writeImage(paymentProof, "data/images/payment/", user.getId(), gameId, 400, false);
+        for (User user : userList) {
+            UserPayment userPayment = new UserPayment();
+            userPayment.setUserId(user.getId());
+            userPayment.setGameId(gameId);
+            userPayment.setFilepath("data/images/payment/" + gameId + "/" + user.getId() + ".jpg");
+            userPayment.setInsBy(sessionInfo.getCurrentUser().getId());
+            userPaymentRepository.save(userPayment);
 
-        logger.info("user payment - {}", sessionInfo.getCurrentUser().getUsername());
+            GameUser gameUser = new GameUser();
+            gameUser.setGameId(gameId);
+            gameUser.setUserId(user.getId());
+            gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
+            gameUser.setInsBy(sessionInfo.getCurrentUser().getId());
+            gameUserRepository.save(gameUser);
+
+            gameUserId = gameUser.getId();
+
+            mailService.paymentVerification(user, gameSchedule, gameType);
+            fileService.writeImage(paymentProof, "data/images/payment/", user.getId(), gameId, 400, false);
+
+            logger.info("user payment - {}", user.getUsername());
+        }
+
+        for (int i = 0; i < firstnameArray.length; i++) {
+            UserCompanion userCompanion = new UserCompanion();
+            userCompanion.setGameUserId(gameUserId);
+            userCompanion.setFirstname(firstnameArray[i]);
+            userCompanion.setLastname(lastnameArray[i]);
+            userCompanion.setInsBy(sessionInfo.getCurrentUser().getId());
+            userCompanionRepository.save(userCompanion);
+        }
     }
 
     @Override

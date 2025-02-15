@@ -481,6 +481,34 @@ class HomeAdmin {
             setTaskList();
         });
 
+        $("#editProfileButton").on("click", function () {
+
+            $("#editProfileSpinner").attr('hidden', false);
+
+            let fd = new FormData();
+            fd.append('id', userId);
+            fd.append('username', $('#editInputUsername').val());
+            fd.append('firstname', $('#editInputFirstname').val());
+            fd.append('lastname', $('#editInputLastname').val());
+            fd.append('email', $('#editInputEmail').val());
+            fd.append('mobileNumber', $('#editInputMobileNumber').val());
+            fd.append('birthdate', $('#editInputBirthdate').val());
+
+            $.ajax({
+                url: "/user/profile-edit",
+                contentType: false,
+                processData: false,
+                type: "post",
+                data: fd
+            }).always(function () {
+                $("#username").text($('#editInputUsername').val());
+                $("#fullname").text($('#editInputFirstname').val() + " " + $('#editInputLastname').val());
+                $("#email").text($('#editInputEmail').val());
+                $("#mobileNumber").text($('#editInputMobileNumber').val());
+                $("#editProfileModal").modal("hide");
+            });
+        });
+
         $("#resetPasswordForm").on("submit", function (e) {
             if ($("#resetInputPassword").val() !== $("#resetInputPassword2").val()) {
                 bootbox.alert({
@@ -506,7 +534,7 @@ class HomeAdmin {
         });
 
         $("#createGameButton").on("click", function () {
-                        
+
             $("#createGameSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -543,6 +571,10 @@ class HomeAdmin {
 
         $("#createGameModal").on('show.bs.modal', function () {
             $("#createGameSpinner").attr('hidden', true);
+        });
+
+        $("#editProfileModal").on('show.bs.modal', function () {
+            $("#editProfileSpinner").attr('hidden', true);
         });
 
         $("#inputProfilePic").on("change", function () {

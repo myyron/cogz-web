@@ -24,6 +24,7 @@ import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
 import org.cogz.web.model.UserEdit;
 import org.cogz.web.model.UserTask;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -40,6 +41,8 @@ public interface IUserService {
 
     User getUser(Integer userId);
 
+    List<User> getUsersStrict();
+
     User getCurrentUser();
 
     void createUser(UserWithPasswordDto userDto);
@@ -47,6 +50,8 @@ public interface IUserService {
     void createUser(MultipartFile validId, UserWithPasswordDto userDto) throws IOException;
 
     void editUser(UserDto userDto);
+
+    void editUserFromProfile(UserDto userDto);
 
     void deactivateUser(Integer userId);
 
@@ -60,9 +65,12 @@ public interface IUserService {
 
     UserTask getWaiver();
 
+    Boolean isWaiverAccepted(Integer userId);
+
     void changePicture(MultipartFile profilePic) throws IOException;
 
-    void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType) throws IOException;
+    void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType,
+            Integer[] additionalPaxArray, String[] firstnameArray, String[] lastnameArray) throws IOException;
 
     List<User> getUsersForVerification();
 

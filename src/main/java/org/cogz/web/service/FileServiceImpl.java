@@ -239,7 +239,7 @@ public class FileServiceImpl implements IFileService {
                 table.addCell(colIdx2);
 
                 PdfPCell colFullName2 = new PdfPCell();
-                colFullName2.setPhrase(new Phrase(fullnameList.get(i), font));
+                colFullName2.setPhrase(new Phrase(fullnameList.get(j), font));
                 table.addCell(colFullName2);
 
                 table.addCell("");

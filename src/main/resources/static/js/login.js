@@ -23,13 +23,13 @@ class Login {
         });
 
         $("#signupButton").on("click", function () {
-            
-            $("#spinner").attr('hidden', false);
 
             if (!$('#signupForm')[0].checkValidity()) {
                 $('#signupForm')[0].reportValidity();
                 return;
             }
+
+            $("#spinner").attr('hidden', false);
 
             if ($("#signupPassword").val() !== $("#signupPassword2").val()) {
                 bootbox.alert({

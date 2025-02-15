@@ -49,24 +49,24 @@ public class WebSecurityConfig {
                 // remove this block if not using h2
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions
-                                .sameOrigin()
-                        ))
+                .frameOptions(frameOptions -> frameOptions
+                .sameOrigin()
+                ))
                 //
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/images/**", "/js/**", "/css/**", "/h2-console/**", "/api/**").permitAll() // remove h2-console if not using h2
-                        .anyRequest().authenticated()
+                .requestMatchers("/images/**", "/js/**", "/css/**", "/h2-console/**", "/api/**").permitAll() // remove h2-console if not using h2
+                .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
+                .permitAll()
                 )
                 .logout((logout) -> logout.permitAll())
                 .sessionManagement((customizer) -> customizer
-                        .maximumSessions(1)
-                        .sessionRegistry(sessionRegistry())
-                        .expiredUrl("/login?logout"));
+                .maximumSessions(1)
+                .sessionRegistry(sessionRegistry())
+                .expiredUrl("/login?logout"));
 
         return http.build();
     }

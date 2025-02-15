@@ -6,6 +6,10 @@ table {
     font-size: .6rem;
 }
 
+.text-xs {
+    font-size: .7rem;
+}
+
 .text-small {
     font-size: .85rem;
 }

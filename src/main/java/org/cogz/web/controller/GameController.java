@@ -121,6 +121,18 @@ public class GameController {
         return result;
     }
 
+    @GetMapping("/list-user-candidate-strict")
+    public List<UserDto> getCandidateUsersStrict(Integer gameId) {
+        ModelMapper mapper = new ModelMapper();
+        List<UserDto> result = new ArrayList<>();
+        for (User user : userService.getUsersStrict()) {
+            if (!gameService.isUserRegistered(gameId, user.getId()) && userService.isWaiverAccepted(user.getId())) {
+                result.add(mapper.map(user, UserDto.class));
+            }
+        }
+        return result;
+    }
+
     @GetMapping("/open-exist")
     public Boolean isOpenGameExisting() {
         return gameService.isOpenGameExisting();
@@ -140,14 +152,14 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createGame(@RequestParam(required = false) MultipartFile banner, LocalDate schedule, 
+    public ResponseEntity<?> createGame(@RequestParam(required = false) MultipartFile banner, LocalDate schedule,
             Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
         gameService.createGame(banner, schedule, advanceDeadline, type, status);
         return ResponseEntity.ok("Game created successfully.");
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editGame(@RequestParam(required = false) MultipartFile banner, Integer id, LocalDate schedule, 
+    public ResponseEntity<?> editGame(@RequestParam(required = false) MultipartFile banner, Integer id, LocalDate schedule,
             Integer advanceDeadline, EGameType type, EGameStatus status) throws IOException {
         gameService.editGame(banner, id, schedule, advanceDeadline, type, status);
         return ResponseEntity.ok("Game edited successfully.");
@@ -161,8 +173,8 @@ public class GameController {
     }
 
     @PostMapping("/add-users")
-    public ResponseEntity<?> addUsers(Integer gameId, String userIds) {
-        gameService.addUsers(gameId, userIds);
+    public ResponseEntity<?> addUsers(Integer gameId, Integer[] userIdArray) {
+        gameService.addUsers(gameId, userIdArray);
         return ResponseEntity.ok("Users added to game successfully.");
     }
 
@@ -174,7 +186,7 @@ public class GameController {
 
     @PostMapping("/edit-user")
     public ResponseEntity<?> editUser(@RequestParam(required = false) MultipartFile paymentProof, Integer gameId, Integer gameUserId,
-                                      Integer userId, ERegistrationStatus regStatus, Integer fps, Boolean absent, Boolean refunded) throws IOException {
+            Integer userId, ERegistrationStatus regStatus, Integer fps, Boolean absent, Boolean refunded) throws IOException {
         GameUserDto gameUserDto = new GameUserDto();
         gameUserDto.setGameId(gameId);
         gameUserDto.setId(gameUserId);

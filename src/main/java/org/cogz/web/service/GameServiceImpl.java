@@ -115,11 +115,11 @@ public class GameServiceImpl extends BaseService implements IGameService {
 
     @Override
     @Transactional
-    public void addUsers(Integer gameId, String userIds) {
-        for (String userId : userIds.split(",")) {
+    public void addUsers(Integer gameId, Integer[] userIdArray) {
+        for (Integer userId : userIdArray) {
             GameUser gameUser = new GameUser();
             gameUser.setGameId(gameId);
-            gameUser.setUserId(Integer.valueOf(userId));
+            gameUser.setUserId(userId);
             gameUser.setRegStatus(ERegistrationStatus.PAYMENT_VERIFICATION);
             gameUser.setInsBy(sessionInfo.getCurrentUser().getId());
 
