@@ -16,15 +16,95 @@
 
         <main>
             <div class="container">
-                <div class="row mb-3">
-                    <div class="col px-4">
+
+                <!-- Joule Creep Calculator -->
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8 px-4">
                         <div class="card mb-2 rounded-3 shadow-sm">
                             <div class="card-header py-3 text-center">
-                                <h5 class="my-0 h6">Joule Creep Calculator <span class="badge text-bg-info"> Soon!!</span></h5>
+                                <h5 class="my-0 h6">Joule Creep Calculator</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row justify-content-center">
+
+                                <div class="row mb-3">
+                                    <label for="airsoftType" class="col-12 col-form-label text-small">Airsoft Type</label>
+                                    <div class="col-12 col-md-6">
+                                        <select id="airsoftType" class="form-select form-select-sm">
+                                            <option hidden selected></option>
+                                            <option value="1">AEG, GBBR, HPA / AEP, GBBP</option>
+                                            <option value="2">BASR (Springer, GBBR, HPA)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col">
+                                        <span class="text-xs fw-bold">Standard BB</span>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="col col-form-label text-small">BB Weight</label>
+                                                <div class="col mb-3">
+                                                    <input type="number" class="form-control form-control-sm" id="baselineBbWeight" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label class="col col-form-label text-small">FPS</label>
+                                                <div class="col mb-3">
+                                                    <input type="number" class="form-control form-control-sm" id="baselineFps" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label class="col col-form-label text-small">Joule</label>
+                                                <div class="col mb-3">
+                                                    <input type="number" class="form-control form-control-sm" id="baselineJoule" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <span class="text-xs fw-bold">Player BB</span>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="col col-form-label text-small">BB Weight</label>
+                                                <div class="col">
+                                                    <input type="number" class="form-control form-control-sm" id="endlineBbWeight" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label class="col col-form-label text-small">FPS</label>
+                                                <div class="col">
+                                                    <input type="number" class="form-control form-control-sm" id="endlineFps" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label class="col col-form-label text-small">Joule</label>
+                                                <div class="col">
+                                                    <input type="number" class="form-control form-control-sm" id="endlineJoule" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col">                                        
+                                        <div class="card">
+                                            <div class="card-body">                                                    
+                                                <span class="text-xs fw-bold">Joule Creep</span>
+                                                <div class="row mt-1">
+                                                    <div class="col-auto">
+                                                        <ul class="list-unstyled px-2">
+                                                            <li class="text-small">Difference: <span id="difference" class="fw-bold fs-4"></span></li>
+                                                            <li class="text-small">Increase %: <span id="increase" class="fw-bold fs-4"></span></li>
+                                                            <li class="text-small">Your new FPS: <span id="newFps" class="fw-bold fs-4"></span></li>
+                                                        </ul>
+                                                    </div>                                                        
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
