@@ -21,7 +21,7 @@
                                         <i class="bi bi-house-door-fill"></i>
                                     </a>
                                 </li>
-                                <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                <th:block sec:authorize="hasAnyRole('ROLE_PSEUDO_STAFF', 'ROLE_STAFF', 'ROLE_ADMIN')">
                                     <li class="col">
                                         <a id="navGameList" th:href="@{/game-list}" class="nav-link">
                                             <i class="bi bi-calendar-week-fill"></i>

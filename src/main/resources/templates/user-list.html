@@ -29,13 +29,15 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <div class="btn-group" role="group">
-                                            <button type="button" id="showCreateUserModal" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
-                                                <i class="bi bi-plus-lg"></i>
-                                            </button>
-                                            <button type="button" id="showEditUserModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#editUserModal">
-                                                <i class="bi bi-pen-fill"></i>
-                                            </button>                                                
+                                        <div class="btn-group" role="group">                                                
+                                            <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                                <button type="button" id="showCreateUserModal" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </button>
+                                                <button type="button" id="showEditUserModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                                    <i class="bi bi-pen-fill"></i>
+                                                </button>
+                                            </th:block>                                                
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <button type="button" id="deleteUserButton" class="btn btn-outline-primary disabled">
                                                     <i class="bi bi-trash-fill"></i>
@@ -116,6 +118,9 @@
                                         <select id="inputRoleType" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
                                             <option value="USER">USER</option>
+                                            <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                                <option value="PSEUDO_STAFF">PSEUDO_STAFF</option>
+                                            </th:block>
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <option value="STAFF">STAFF</option>
                                                 <option value="ADMIN">ADMIN</option>
@@ -220,6 +225,9 @@
                                         <select id="editInputRoleType" class="form-select form-select-sm" required>
                                             <option hidden selected></option>
                                             <option value="USER">USER</option>
+                                            <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                                <option value="PSEUDO_STAFF">PSEUDO_STAFF</option>
+                                            </th:block>
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <option value="STAFF">STAFF</option>
                                                 <option value="ADMIN">ADMIN</option>

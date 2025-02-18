@@ -32,15 +32,17 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="btn-group" role="group">
-                                            <button type="button" id="showCreateGameModal" class="btn btn-outline-primary"
-                                                    data-bs-toggle="modal" data-bs-target="#createGameModal">
-                                                <i class="bi bi-plus-lg"></i>
-                                            </button>
-                                            <button type="button" id="showEditGameModal"
-                                                    class="btn btn-outline-primary disabled" data-bs-toggle="modal"
-                                                    data-bs-target="#editGameModal">
-                                                <i class="bi bi-pen-fill"></i>
-                                            </button>
+                                            <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                                <button type="button" id="showCreateGameModal" class="btn btn-outline-primary"
+                                                        data-bs-toggle="modal" data-bs-target="#createGameModal">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </button>
+                                                <button type="button" id="showEditGameModal"
+                                                        class="btn btn-outline-primary disabled" data-bs-toggle="modal"
+                                                        data-bs-target="#editGameModal">
+                                                    <i class="bi bi-pen-fill"></i>
+                                                </button>
+                                            </th:block>
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <button type="button" id="deleteGameButton"
                                                         class="btn btn-outline-primary disabled">
@@ -87,20 +89,22 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="btn-group" role="group">
-                                            <button type="button" id="showAddUsersModal"
-                                                    class="btn btn-outline-primary disabled" data-bs-toggle="modal"
-                                                    data-bs-target="#addUsersModal">
-                                                <i class="bi bi-plus-lg"></i>
-                                            </button>
-                                            <button type="button" id="showEditUserModal"
-                                                    class="btn btn-outline-primary disabled" data-bs-toggle="modal"
-                                                    data-bs-target="#editUserModal">
-                                                <i class="bi bi-pen-fill"></i>
-                                            </button>
-                                            <button type="button" id="removeUserButton"
-                                                    class="btn btn-outline-primary disabled">
-                                                <i class="bi bi-dash-lg"></i>
-                                            </button>
+                                            <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                                <button type="button" id="showAddUsersModal"
+                                                        class="btn btn-outline-primary disabled" data-bs-toggle="modal"
+                                                        data-bs-target="#addUsersModal">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </button>
+                                                <button type="button" id="showEditUserModal"
+                                                        class="btn btn-outline-primary disabled" data-bs-toggle="modal"
+                                                        data-bs-target="#editUserModal">
+                                                    <i class="bi bi-pen-fill"></i>
+                                                </button>
+                                                <button type="button" id="removeUserButton"
+                                                        class="btn btn-outline-primary disabled">
+                                                    <i class="bi bi-dash-lg"></i>
+                                                </button>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>

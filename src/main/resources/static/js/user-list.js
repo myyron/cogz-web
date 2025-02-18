@@ -36,7 +36,7 @@ class UserList {
                 },
                 {data: null,
                     render: function (data) {
-                        return data.role.split("_")[1];
+                        return data.role.substring(data.role.indexOf('_') + 1);
                     }
                 },
                 {data: null,
@@ -193,7 +193,7 @@ class UserList {
             $('#editInputEmail').val(data.email);
             $('#editInputMobileNumber').val(data.mobileNumber);
             $('#editInputBirthdate').val(data.birthdate);
-            $('#editInputRoleType').val(data.role.split("_")[1]);
+            $('#editInputRoleType').val(data.role.substring(data.role.indexOf('_') + 1));
             $('#editInputUserStatus').val(data.status);
         });
 

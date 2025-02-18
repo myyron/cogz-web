@@ -19,7 +19,7 @@
             <div sec:authorize="hasRole('ROLE_USER')">
                 <div th:replace="~{fragments/home-user :: content}"></div>
             </div>
-            <div sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+            <div sec:authorize="hasAnyRole('ROLE_PSEUDO_STAFF', 'ROLE_STAFF', 'ROLE_ADMIN')">
                 <div th:replace="~{fragments/home-admin :: content}"></div>
             </div>
         </main>
@@ -44,7 +44,7 @@
         </script> 
     </th:block>
 
-    <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+    <th:block sec:authorize="hasAnyRole('ROLE_PSEUDO_STAFF', 'ROLE_STAFF', 'ROLE_ADMIN')">
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
         <script src="js/home-admin.js"></script>

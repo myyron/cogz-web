@@ -222,7 +222,20 @@ class HomeAdmin {
                     $("#bannedSpinner" + i).attr('hidden', true);
                 });
 
-                $("#goodButton" + i).on("click", function () {
+                $("#goodButton" + i).on("click", function (e) {
+
+                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                        bootbox.alert({
+                            message: '<div class="text-center text-danger">Unauthorized</div>',
+                            size: 'small'
+
+                        }).init(function () {
+                            $('.btn').removeClass('btn-primary');
+                            $('.btn').addClass('btn-outline-primary');
+                        });
+                        return e.preventDefault();
+                    }
+
                     $("#goodSpinner" + i).attr('hidden', false);
                     $.ajax({
                         url: '/user/verification-good',
@@ -238,7 +251,20 @@ class HomeAdmin {
                     });
                 });
 
-                $("#bannedButton" + i).on("click", function () {
+                $("#bannedButton" + i).on("click", function (e) {
+
+                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                        bootbox.alert({
+                            message: '<div class="text-center text-danger">Unauthorized</div>',
+                            size: 'small'
+
+                        }).init(function () {
+                            $('.btn').removeClass('btn-primary');
+                            $('.btn').addClass('btn-outline-primary');
+                        });
+                        return e.preventDefault();
+                    }
+
                     $("#bannedSpinner" + i).attr('hidden', false);
                     $.ajax({
                         url: '/user/verification-banned',
@@ -341,7 +367,20 @@ class HomeAdmin {
                     $("#rejectSpinner" + i).attr('hidden', true);
                 });
 
-                $("#approveButton" + i).on("click", function () {
+                $("#approveButton" + i).on("click", function (e) {
+
+                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                        bootbox.alert({
+                            message: '<div class="text-center text-danger">Unauthorized</div>',
+                            size: 'small'
+
+                        }).init(function () {
+                            $('.btn').removeClass('btn-primary');
+                            $('.btn').addClass('btn-outline-primary');
+                        });
+                        return e.preventDefault();
+                    }
+
                     $("#approveSpinner" + i).attr('hidden', false);
                     $.ajax({
                         url: '/user/modification-approve',
@@ -357,7 +396,20 @@ class HomeAdmin {
                     });
                 });
 
-                $("#rejectButton" + i).on("click", function () {
+                $("#rejectButton" + i).on("click", function (e) {
+
+                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                        bootbox.alert({
+                            message: '<div class="text-center text-danger">Unauthorized</div>',
+                            size: 'small'
+
+                        }).init(function () {
+                            $('.btn').removeClass('btn-primary');
+                            $('.btn').addClass('btn-outline-primary');
+                        });
+                        return e.preventDefault();
+                    }
+
                     $("#rejectSpinner" + i).attr('hidden', false);
                     $.ajax({
                         url: '/user/modification-reject',
@@ -452,7 +504,20 @@ class HomeAdmin {
                         $("#paidSpinner" + i + "-" + j).attr('hidden', true);
                     });
 
-                    $("#paidButton" + i + "-" + j).on("click", function () {
+                    $("#paidButton" + i + "-" + j).on("click", function (e) {
+
+                        if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                            bootbox.alert({
+                                message: '<div class="text-center text-danger">Unauthorized</div>',
+                                size: 'small'
+
+                            }).init(function () {
+                                $('.btn').removeClass('btn-primary');
+                                $('.btn').addClass('btn-outline-primary');
+                            });
+                            return e.preventDefault();
+                        }
+
                         $("#paidSpinner" + i + "-" + j).attr('hidden', false);
                         $.ajax({
                             url: '/game/verification-paid',

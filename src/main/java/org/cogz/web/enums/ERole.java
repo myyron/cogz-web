@@ -21,6 +21,7 @@ package org.cogz.web.enums;
  */
 public enum ERole {
     ROLE_USER,
+    ROLE_PSEUDO_STAFF,
     ROLE_STAFF,
     ROLE_ADMIN;
 }
