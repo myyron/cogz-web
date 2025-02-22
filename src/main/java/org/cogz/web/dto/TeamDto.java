@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.model;
+package org.cogz.web.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.cogz.web.enums.EUserEditStatus;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -29,35 +27,12 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "USERS_EDIT")
-public class UserEdit extends BaseEntity {
+public class TeamDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String name;
+    private Integer teamRepId;
 
-    private Integer userId;
-
-    @Size(max = 20)
-    private String username;
-
-    @Size(max = 120)
-    private String firstname;
-
-    @Size(max = 120)
-    private String lastname;
-
-    @Size(max = 40)
-    private String callsign;
-
-    @Size(max = 120)
-    private String email;
-
-    @Size(max = 20)
-    private String mobileNumber;
-
-    private LocalDate birthdate;
-
-    private EUserEditStatus status;
+    private UserDto teamRep;
+    private List<TeamUserDto> teamUserList = new ArrayList<>();
 }

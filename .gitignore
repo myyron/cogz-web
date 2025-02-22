@@ -9,12 +9,14 @@ data/images/payment/*/
 data/images/profile/*
 data/images/id/*
 data/images/id-edit/*
+data/images/logo/*
 
 !data/pdf/header.png
 !data/images/profile/system.jpg
 !data/images/profile/blank-profile.png
 !data/images/banner/default-banner.png
 !data/images/id/blank-id.png
+!data/images/logo/blank-logo.png
 
 nb-configuration.xml
 nbactions*

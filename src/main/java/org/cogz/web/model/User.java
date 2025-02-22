@@ -60,6 +60,9 @@ public class User extends BaseEntity {
     @Size(max = 120)
     private String lastname;
 
+    @Size(max = 40)
+    private String callsign;
+
     @Size(max = 120)
     private String email;
 

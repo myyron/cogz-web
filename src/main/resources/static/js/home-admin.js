@@ -24,6 +24,7 @@ class HomeAdmin {
         $("#navHome").addClass("active");
         $("#navGameList").removeClass("active");
         $("#navUserList").removeClass("active");
+        $("#navTeamList").removeClass("active");
         $("#navTools").removeClass("active");
 
         $.ajax({

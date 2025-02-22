@@ -21,6 +21,7 @@ class UserList {
         $("#navHome").removeClass("active");
         $("#navGameList").removeClass("active");
         $("#navUserList").addClass("active");
+        $("#navTeamList").removeClass("active");
         $("#navTools").removeClass("active");
 
         const userListTable = new DataTable('#userListTable', {

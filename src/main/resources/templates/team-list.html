@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CoGZ Online Portal</title>
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/select/3.0.0/css/select.bootstrap5.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+        <link href="css/application.css" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <div th:replace="~{fragments/nav :: content}"></div>
+        </header>
+
+        <main>
+            <div class="container">
+
+                <!-- Team List Table -->
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8 px-4">
+                        <div class="card mb-2 rounded-3 shadow-sm">
+                            <div class="card-header py-3 text-center">
+                                <h5 class="my-0 h6">Team List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="btn-group" role="group">                                                
+                                            <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                                <button type="button" id="showCreateTeamModal" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createTeamModal">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </button>
+                                                <button type="button" id="showEditTeamModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#editTeamModal">
+                                                    <i class="bi bi-pen-fill"></i>
+                                                </button>
+                                            </th:block>                                                
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <button type="button" id="deleteTeamButton" class="btn btn-outline-primary disabled">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col">
+                                        <table id="teamListTable" class="table table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Team Rep</th>
+                                                    <th>#Members</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Members List Table -->
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8 px-4">
+                        <div class="card mb-2 rounded-3 shadow-sm">
+                            <div class="card-header py-3 text-center">
+                                <h5 class="my-0 h6">Team Members List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="btn-group" role="group">                                                
+                                            <th:block sec:authorize="hasAnyRole('ROLE_STAFF', 'ROLE_ADMIN')">
+                                                <button type="button" id="showAddTeamMembersModal" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addTeamMembersModal">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </button>
+                                                <button type="button" id="removeTeamMemberButton" class="btn btn-outline-primary disabled">
+                                                    <i class="bi bi-dash-lg"></i>
+                                                </button>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col">
+                                        <table id="teamMemberListTable" class="table table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fullname</th>
+                                                    <th>Callsign</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- createTeamModal -->
+            <div class="modal fade" id="createTeamModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="createTeamForm">
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Create Team</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row mb-2">
+                                    <label for="inputTeamName" class="col-12 col-form-label text-small">Team Name</label>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control form-control-sm" id="inputTeamName" name="teamName" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputTeamRep" class="col-12 col-form-label text-small">Team Representative</label>
+                                    <div class="col-12">
+                                        <select id="inputTeamRep" name="user[]" multiple placeholder="Select user..."
+                                                autocomplete="off" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputLogo" class="col-sm-4 form-label text-small">Logo</label>
+                                    <div class="col-sm-12">
+                                        <input class="form-control form-control-sm" id="inputLogo" type="file"
+                                               accept="image/*" oninput="logo.src=window.URL.createObjectURL(this.files[0])">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <img id="logo" src="uploaded-images/logo/blank-logo.png" alt="" class="img-thumbnail">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button id="createTeamButton" type="button" class="btn btn-outline-primary">
+                                    <span id="createTeamSpinner" class="spinner-border spinner-border-sm"></span>
+                                    <span class="visually-hidden" role="status">Loading...</span>Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- editTeamModal -->
+            <div class="modal fade" id="editTeamModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="editTeamForm">
+
+                            <input type="hidden" id="editInputId" name="id"/>
+
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Edit Team</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row mb-2">
+                                    <label for="editInputTeamName" class="col-12 col-form-label text-small">Team Name</label>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control form-control-sm" id="editInputTeamName" name="teamName" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="editInputTeamRep" class="col-12 col-form-label text-small">Team Representative</label>
+                                    <div class="col-12">
+                                        <select id="editInputTeamRep" name="user[]" multiple placeholder="Select user..."
+                                                autocomplete="off" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="editInputLogo" class="col-sm-4 form-label text-small">Logo</label>
+                                    <div class="col-sm-12">
+                                        <input class="form-control form-control-sm" id="editInputLogo" type="file"
+                                               accept="image/*" oninput="editLogo.src=window.URL.createObjectURL(this.files[0])">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <img id="editLogo" src="uploaded-images/logo/blank-logo.png" alt="" class="img-thumbnail">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button id="editTeamButton" type="button" class="btn btn-outline-primary">
+                                    <span id="editTeamSpinner" class="spinner-border spinner-border-sm"></span>
+                                    <span class="visually-hidden" role="status">Loading...</span>Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- addTeamMembersModal -->
+            <div class="modal fade" id="addTeamMembersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="addTeamMembersForm">
+
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Add Members to Selected Team</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row mb-2">
+                                    <label for="inputAddTeamMembers" class="col-sm-2 col-form-label text-small">Users</label>
+                                    <div class="col-sm-10">
+                                        <select id="inputAddTeamMembers" name="user[]" multiple placeholder="Select users..."
+                                                autocomplete="off" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button id="addTeamMembersButton" type="button" class="btn btn-outline-primary">
+                                    <span id="addTeamMembersSpinner" class="spinner-border spinner-border-sm"></span>
+                                    <span class="visually-hidden" role="status">Loading...</span>Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="~{fragments/create-game-modal :: content}"></div>
+
+        </main>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+                integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+        <script src="https://cdn.datatables.net/select/3.0.0/js/dataTables.select.js"></script>
+        <script src="https://cdn.datatables.net/select/3.0.0/js/select.bootstrap5.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+
+        <script src="js/common-utils.js"></script>
+        <script src="js/team-list.js"></script>
+        <script>
+            new TeamList();
+        </script>
+
+    </body>
+</html>

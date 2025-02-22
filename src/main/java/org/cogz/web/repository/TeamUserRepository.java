@@ -13,38 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.dto;
+package org.cogz.web.repository;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.cogz.web.enums.ERole;
-import org.cogz.web.enums.EUserStatus;
+import org.cogz.web.model.TeamUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- *
  * @author altrax
  */
-@Getter
-@Setter
-public class UserDto {
+@Repository
+public interface TeamUserRepository extends JpaRepository<TeamUser, Integer> {
 
-    private Integer id;
+    List<TeamUser> findAllByTeamIdAndEnabled(Integer teamId, Integer enabled);
 
-    private String username;
-    private String firstname;
-    private String lastname;
-    private String callsign;
-    private String email;
-    private String mobileNumber;
-    private LocalDate birthdate;
-    private ERole role;
-    private EUserStatus status;
+    TeamUser findByIdAndEnabled(Integer id, Integer enabled);
 
-    private Boolean waiverAccepted;
-    private LocalDateTime waiverAcceptedDate;
-
-    private UserEditDto userEdit;
+    Boolean existsByTeamIdAndUserIdAndEnabled(Integer teamId, Integer userId, Integer enabled);
 }

@@ -15,13 +15,16 @@
  */
 package org.cogz.web.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.cogz.web.enums.EUserEditStatus;
-
-import java.time.LocalDate;
 
 /**
  *
@@ -30,34 +33,18 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS_EDIT")
-public class UserEdit extends BaseEntity {
+@Table(name = "TEAM",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = "name")
+        })
+public class Team extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
-
-    @Size(max = 20)
-    private String username;
-
     @Size(max = 120)
-    private String firstname;
+    private String name;
 
-    @Size(max = 120)
-    private String lastname;
-
-    @Size(max = 40)
-    private String callsign;
-
-    @Size(max = 120)
-    private String email;
-
-    @Size(max = 20)
-    private String mobileNumber;
-
-    private LocalDate birthdate;
-
-    private EUserEditStatus status;
+    private Integer teamRepId;
 }

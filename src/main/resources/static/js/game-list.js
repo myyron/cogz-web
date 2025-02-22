@@ -21,9 +21,10 @@ class GameList {
         $("#navHome").removeClass("active");
         $("#navGameList").addClass("active");
         $("#navUserList").removeClass("active");
+        $("#navTeamList").removeClass("active");
         $("#navTools").removeClass("active");
 
-        let addUsersSelect = new TomSelect("#inputAddUsers", {
+        const addUsersSelect = new TomSelect("#inputAddUsers", {
             onItemAdd: function () {
                 this.setTextboxValue('');
                 this.refreshOptions();
@@ -141,10 +142,13 @@ class GameList {
                 data: fd
             }).always(function () {
                 $("#createGameModal").modal("hide");
+                gameListTable.ajax.reload();
             });
         });
 
-        $("#editGameForm").on("submit", function () {
+        $("#editGameButton").on("click", function () {
+
+            $("#editGameSpinner").attr('hidden', false);
 
             let fd = new FormData();
             fd.append('id', $('#editInputId').val());
@@ -159,10 +163,10 @@ class GameList {
                 contentType: false,
                 processData: false,
                 type: "post",
-                async: false,
                 data: fd
             }).always(function () {
                 $("#editGameModal").modal("hide");
+                gameListTable.ajax.reload();
             });
         });
 
@@ -224,7 +228,6 @@ class GameList {
                             url: "/game/deactivate",
                             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                             type: "post",
-                            async: false,
                             dataType: "json",
                             data: "id=" + gameListTable.row('.selected').data().id
                         }).always(function () {
@@ -297,12 +300,13 @@ class GameList {
             $('#editInputGameType').val(data.type);
             $('#editInputGameStatus').val(data.status);
             $("#editBanner").attr("src", "uploaded-images/banner/" + data.id + ".jpg");
+
+            $("#editGameSpinner").attr('hidden', true);
         });
 
         $('#addUsersModal').on('show.bs.modal', function () {
             $.ajax({
                 url: '/game/list-user-candidate',
-                async: false,
                 dataType: "json",
                 data: "gameId=" + gameListTable.row('.selected').data().id
             }).done(function (data) {

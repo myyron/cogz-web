@@ -24,6 +24,7 @@ class HomeUser {
         let waiverAcceptedDate;
 
         $("#navHome").addClass("active");
+        $("#navTeamList").removeClass("active");
         $("#navTools").removeClass("active");
 
         $.ajax({
@@ -342,7 +343,7 @@ class HomeUser {
                     </div>
                 </li>`);
 
-                        let addUsersSelect = new TomSelect("#inputAddUsers" + i, {
+                        const addUsersSelect = new TomSelect("#inputAddUsers" + i, {
                             onItemAdd: function () {
                                 this.setTextboxValue('');
                                 this.refreshOptions();

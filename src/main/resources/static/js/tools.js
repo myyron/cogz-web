@@ -24,6 +24,7 @@ class Tools {
         $("#navHome").removeClass("active");
         $("#navGameList").removeClass("active");
         $("#navUserList").removeClass("active");
+        $("#navTeamList").removeClass("active");
         $("#navTools").addClass("active");
 
         $("#airsoftType").on("change", function () {
