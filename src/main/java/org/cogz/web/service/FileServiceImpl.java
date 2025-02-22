@@ -175,17 +175,19 @@ public class FileServiceImpl implements IFileService {
         addRowsPlayerListTable(playerListTable, fullnameList, pdfPageDto.getFontNormal());
         pdfPageDto.getDocument().add(playerListTable);
 
-        Paragraph paragraphCompanionListTitle = new Paragraph("COMPANION LIST", pdfPageDto.getFontBold());
-        paragraphCompanionListTitle.setAlignment(Element.ALIGN_CENTER);
-        paragraphCompanionListTitle.setSpacingBefore(20f);
-        pdfPageDto.getDocument().add(paragraphCompanionListTitle);
+        if (!companionList.isEmpty()) {
+            Paragraph paragraphCompanionListTitle = new Paragraph("COMPANION LIST", pdfPageDto.getFontBold());
+            paragraphCompanionListTitle.setAlignment(Element.ALIGN_CENTER);
+            paragraphCompanionListTitle.setSpacingBefore(20f);
+            pdfPageDto.getDocument().add(paragraphCompanionListTitle);
 
-        PdfPTable companionListTable = new PdfPTable(9);
-        companionListTable.setWidthPercentage(playerListTableColumnsWidth, PageSize.LEGAL);
-        companionListTable.setSpacingBefore(10f);
-        addTableHeaderGuestListTable(companionListTable, pdfPageDto.getFontBold());
-        addRowsPlayerListTable(companionListTable, companionList, pdfPageDto.getFontNormal());
-        pdfPageDto.getDocument().add(companionListTable);
+            PdfPTable companionListTable = new PdfPTable(9);
+            companionListTable.setWidthPercentage(playerListTableColumnsWidth, PageSize.LEGAL);
+            companionListTable.setSpacingBefore(10f);
+            addTableHeaderGuestListTable(companionListTable, pdfPageDto.getFontBold());
+            addRowsPlayerListTable(companionListTable, companionList, pdfPageDto.getFontNormal());
+            pdfPageDto.getDocument().add(companionListTable);
+        }
 
         Paragraph paragraphNotice = new Paragraph("# # # # #     SYSTEM GENERATED LIST     # # # # # ", pdfPageDto.getFontBold());
         paragraphNotice.setAlignment(Element.ALIGN_CENTER);
@@ -210,8 +212,8 @@ public class FileServiceImpl implements IFileService {
         addRowsPlayerListTable(playerListTable, fullnameList, pdfPageDto.getFontNormal());
         pdfPageDto.getDocument().add(playerListTable);
 
-        PdfPTable summaryTable = new PdfPTable(4);
-        float[] summaryTableColumnsWidth = {140f, 140f, 140f, 140f};
+        PdfPTable summaryTable = new PdfPTable(6);
+        float[] summaryTableColumnsWidth = {70f, 70f, 70f, 70f, 140f, 140f};
         summaryTable.setWidthPercentage(summaryTableColumnsWidth, PageSize.LEGAL);
         summaryTable.setSpacingBefore(30f);
         addTableHeaderSummaryTable(summaryTable, pdfPageDto.getFontBold());
@@ -291,7 +293,7 @@ public class FileServiceImpl implements IFileService {
     }
 
     private void addTableHeaderSummaryTable(PdfPTable table, Font font) {
-        Stream.of("Total Players", "Amount", "Prepared by CoGZ\n(Name and Signature)", "MJC Office on Duty\n(Name and Signature)")
+        Stream.of("Absent", "CoGZ", "Total Players", "Amount", "Prepared by CoGZ\n(Name and Signature)", "MJC Office on Duty\n(Name and Signature)")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setHorizontalAlignment(1);
@@ -303,7 +305,7 @@ public class FileServiceImpl implements IFileService {
     }
 
     private void addRowsSummaryTable(PdfPTable table) {
-        Stream.of("", "", "", "")
+        Stream.of("", "", "", "", "", "")
                 .forEach(columnTitle -> {
                     PdfPCell blankCell = new PdfPCell();
                     blankCell.setPaddingBottom(50f);
