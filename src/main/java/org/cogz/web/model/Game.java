@@ -32,7 +32,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "GAME",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = "schedule")
+            @UniqueConstraint(columnNames = {"schedule", "enabled"})
         })
 public class Game extends BaseEntity {
 

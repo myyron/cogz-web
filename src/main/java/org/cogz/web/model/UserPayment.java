@@ -20,13 +20,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
  * @author altrax
  */
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS_PAYMENT")
+@Table(name = "USERS_PAYMENT",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"gameId", "userId", "enabled"})
+        })
 public class UserPayment extends BaseEntity {
 
     @Id

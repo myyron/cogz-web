@@ -36,7 +36,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "USERS",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = "username")
+            @UniqueConstraint(columnNames = {"username", "enabled"})
         })
 public class User extends BaseEntity {
 

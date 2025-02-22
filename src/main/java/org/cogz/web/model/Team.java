@@ -35,7 +35,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "TEAM",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = "name")
+            @UniqueConstraint(columnNames = {"name", "enabled"})
         })
 public class Team extends BaseEntity {
 
