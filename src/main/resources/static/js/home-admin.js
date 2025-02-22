@@ -49,6 +49,7 @@ class HomeAdmin {
             $("#editInputUsername").val(data.username);
             $("#editInputFirstname").val(data.firstname);
             $("#editInputLastname").val(data.lastname);
+            $("#editInputCallsign").val(data.callsign);
             $("#editInputEmail").val(data.email);
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
@@ -186,6 +187,7 @@ class HomeAdmin {
                                                                 <ul class="list-unstyled">
                                                                     <li>Username: <b>${data.username}</b></li>
                                                                     <li>Fullname: <b>${data.lastname + ", " + data.firstname}</b></li>
+                                                                    <li>Callsign: <b>${data.callsign}</b></li>
                                                                     <li>Email: <b>${data.email}</b></li>
                                                                     <li>Mobile Number: <b>${data.mobileNumber}</b></li>                                                    
                                                                     <li>Birthdate: <b>${data.birthdate}</b></li>
@@ -329,6 +331,7 @@ class HomeAdmin {
                                                                 <ul class="list-unstyled">
                                                                     <li>${data.username} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.username}</b></li>
                                                                     <li>${data.lastname + ", " + data.firstname} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.lastname + ", " + data.userEdit.firstname}</b></li>
+                                                                    <li>${data.callsign} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.callsign}</b></li>
                                                                     <li>${data.email} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.email}</b></li>
                                                                     <li>${data.mobileNumber} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.mobileNumber}</b></li>                                                    
                                                                     <li>${data.birthdate} <i class="bi bi-arrow-right"></i> <b>${data.userEdit.birthdate}</b></li>
@@ -556,6 +559,7 @@ class HomeAdmin {
             fd.append('username', $('#editInputUsername').val());
             fd.append('firstname', $('#editInputFirstname').val());
             fd.append('lastname', $('#editInputLastname').val());
+            fd.append('callsign', $('#editInputCallsign').val());
             fd.append('email', $('#editInputEmail').val());
             fd.append('mobileNumber', $('#editInputMobileNumber').val());
             fd.append('birthdate', $('#editInputBirthdate').val());

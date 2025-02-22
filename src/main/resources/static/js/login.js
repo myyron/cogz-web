@@ -46,6 +46,7 @@ class Login {
                 fd.append('username', $('#inputUsername').val());
                 fd.append('firstname', $('#inputFirstname').val());
                 fd.append('lastname', $('#inputLastname').val());
+                fd.append('callsign', $('#inputCallsign').val());
                 fd.append('email', $('#inputEmail').val());
                 fd.append('mobileNumber', $('#inputMobileNumber').val());
                 fd.append('birthdate', $('#inputBirthdate').val());

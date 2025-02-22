@@ -50,6 +50,7 @@ class HomeUser {
             $("#editInputUsername").val(data.username);
             $("#editInputFirstname").val(data.firstname);
             $("#editInputLastname").val(data.lastname);
+            $("#editInputCallsign").val(data.callsign);
             $("#editInputEmail").val(data.email);
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
@@ -67,6 +68,7 @@ class HomeUser {
             fd.append('username', $('#editInputUsername').val());
             fd.append('firstname', $('#editInputFirstname').val());
             fd.append('lastname', $('#editInputLastname').val());
+            fd.append('callsign', $('#editInputCallsign').val());
             fd.append('email', $('#editInputEmail').val());
             fd.append('mobileNumber', $('#editInputMobileNumber').val());
             fd.append('birthdate', $('#editInputBirthdate').val());

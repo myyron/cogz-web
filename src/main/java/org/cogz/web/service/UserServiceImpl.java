@@ -239,6 +239,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
             user.setFirstname(userEdit.getFirstname());
             user.setLastname(userEdit.getLastname());
+            user.setCallsign(userEdit.getCallsign());
             user.setEmail(userEdit.getEmail());
             user.setMobileNumber(userEdit.getMobileNumber());
             user.setBirthdate(userEdit.getBirthdate());

@@ -191,6 +191,7 @@ class UserList {
             $('#editInputUsername').val(data.username);
             $('#editInputFirstname').val(data.firstname);
             $('#editInputLastname').val(data.lastname);
+            $('#editInputCallsign').val(data.callsign);
             $('#editInputEmail').val(data.email);
             $('#editInputMobileNumber').val(data.mobileNumber);
             $('#editInputBirthdate').val(data.birthdate);

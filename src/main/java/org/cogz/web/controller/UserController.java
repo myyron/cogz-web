@@ -115,13 +115,14 @@ public class UserController {
     }
 
     @PostMapping("/profile-edit")
-    public ResponseEntity<?> profileEdit(Integer id, String username, String firstname, String lastname, String email,
+    public ResponseEntity<?> profileEdit(Integer id, String username, String firstname, String lastname, String callsign, String email,
             String mobileNumber, LocalDate birthdate) throws IOException {
         UserDto userDto = new UserDto();
         userDto.setId(id);
         userDto.setUsername(username);
         userDto.setFirstname(firstname);
         userDto.setLastname(lastname);
+        userDto.setCallsign(callsign);
         userDto.setEmail(email);
         userDto.setMobileNumber(mobileNumber);
         userDto.setBirthdate(birthdate);
@@ -146,11 +147,12 @@ public class UserController {
 
     @PostMapping("/create-useredit")
     public ResponseEntity<?> createUserEdit(MultipartFile validId, String username, String firstname, String lastname,
-            String email, String mobileNumber, LocalDate birthdate) throws IOException {
+            String callsign, String email, String mobileNumber, LocalDate birthdate) throws IOException {
         UserEditDto userDto = new UserEditDto();
         userDto.setUsername(username);
         userDto.setFirstname(firstname);
         userDto.setLastname(lastname);
+        userDto.setCallsign(callsign);
         userDto.setEmail(email);
         userDto.setMobileNumber(mobileNumber);
         userDto.setBirthdate(birthdate);
