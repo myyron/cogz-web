@@ -19,10 +19,14 @@ import org.cogz.web.model.UserCompanion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  *
  * @author altrax
  */
 @Repository
 public interface UserCompanionRepository extends JpaRepository<UserCompanion, Integer> {
+
+    List<UserCompanion> findAllByGameUserIdAndEnabled(Integer gameUserId, Integer enabled);
 }

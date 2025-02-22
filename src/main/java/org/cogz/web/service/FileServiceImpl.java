@@ -34,8 +34,11 @@ import net.coobird.thumbnailator.geometry.Positions;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.dto.PdfPageDto;
 import org.cogz.web.dto.UserDto;
+import org.cogz.web.model.UserCompanion;
+import org.cogz.web.repository.UserCompanionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,6 +62,9 @@ import java.util.stream.Stream;
 public class FileServiceImpl implements IFileService {
 
     Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+
+    @Autowired
+    private UserCompanionRepository userCompanionRepository;
 
     @Override
     public void writeImage(MultipartFile image, String basedir, Integer id, Integer parentIdAsDir, Integer size, boolean crop) throws IOException {
@@ -114,6 +120,7 @@ public class FileServiceImpl implements IFileService {
     public void generateGameUserListPdf(LocalDate gameSchedule, List<GameUserDto> gameUserDtoList) throws Exception {
 
         final List<String> fullnameList = getFullnameList(gameUserDtoList);
+        final List<String> companionList = getCompanionList(gameUserDtoList);
 
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("data/pdf/cogz-plist-" + gameSchedule.toString() + ".pdf"));
@@ -123,8 +130,8 @@ public class FileServiceImpl implements IFileService {
         Image img = Image.getInstance("data/pdf/header.png");
         img.scalePercent(20f);
 
-        Font fontNormal = FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.NORMAL);
-        Font fontBold = FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD);
+        Font fontNormal = FontFactory.getFont(FontFactory.COURIER, 9, Font.NORMAL);
+        Font fontBold = FontFactory.getFont(FontFactory.COURIER, 9, Font.BOLD);
 
         Paragraph paragraphSchedule = new Paragraph("Game Schedule: ", fontNormal);
         paragraphSchedule.add(new Chunk(gameSchedule.toString(), fontBold));
@@ -139,28 +146,46 @@ public class FileServiceImpl implements IFileService {
         pdfPageDto.setParagraphSchedule(paragraphSchedule);
 
         document.open();
-        createGuardLogPage(pdfPageDto, gameSchedule, fullnameList);
+        createGuardLogPage(pdfPageDto, gameSchedule, fullnameList, companionList);
         document.newPage();
         createPlayerListPage(pdfPageDto, gameSchedule, fullnameList);
         document.close();
     }
 
-    private void createGuardLogPage(PdfPageDto pdfPageDto, LocalDate gameSchedule, List<String> fullnameList) throws DocumentException {
+    private void createGuardLogPage(PdfPageDto pdfPageDto, LocalDate gameSchedule, List<String> fullnameList, List<String> companionList) throws DocumentException {
 
         pdfPageDto.getDocument().add(pdfPageDto.getImageHeader());
         pdfPageDto.getDocument().add(pdfPageDto.getParagraphSchedule());
 
-        Paragraph paragraphTitle = new Paragraph("APPROVED GUEST LIST FOR ENTRY", pdfPageDto.getFontBold());
+        Paragraph paragraphTitle = new Paragraph("APPROVED LIST FOR ENTRY", pdfPageDto.getFontBold());
         paragraphTitle.setAlignment(Element.ALIGN_CENTER);
         pdfPageDto.getDocument().add(paragraphTitle);
 
-        PdfPTable guestListTable = new PdfPTable(9);
+        Paragraph paragraphPlayerListTitle = new Paragraph("PLAYER LIST", pdfPageDto.getFontBold());
+        paragraphPlayerListTitle.setAlignment(Element.ALIGN_CENTER);
+        paragraphPlayerListTitle.setSpacingBefore(20f);
+        pdfPageDto.getDocument().add(paragraphPlayerListTitle);
+
         float[] playerListTableColumnsWidth = {25f, 140f, 55f, 55f, 10f, 25f, 140f, 55f, 55f};
-        guestListTable.setWidthPercentage(playerListTableColumnsWidth, PageSize.LEGAL);
-        guestListTable.setSpacingBefore(10f);
-        addTableHeaderGuestListTable(guestListTable, pdfPageDto.getFontBold());
-        addRowsPlayerListTable(guestListTable, fullnameList, pdfPageDto.getFontNormal());
-        pdfPageDto.getDocument().add(guestListTable);
+
+        PdfPTable playerListTable = new PdfPTable(9);
+        playerListTable.setWidthPercentage(playerListTableColumnsWidth, PageSize.LEGAL);
+        playerListTable.setSpacingBefore(10f);
+        addTableHeaderGuestListTable(playerListTable, pdfPageDto.getFontBold());
+        addRowsPlayerListTable(playerListTable, fullnameList, pdfPageDto.getFontNormal());
+        pdfPageDto.getDocument().add(playerListTable);
+
+        Paragraph paragraphCompanionListTitle = new Paragraph("COMPANION LIST", pdfPageDto.getFontBold());
+        paragraphCompanionListTitle.setAlignment(Element.ALIGN_CENTER);
+        paragraphCompanionListTitle.setSpacingBefore(20f);
+        pdfPageDto.getDocument().add(paragraphCompanionListTitle);
+
+        PdfPTable companionListTable = new PdfPTable(9);
+        companionListTable.setWidthPercentage(playerListTableColumnsWidth, PageSize.LEGAL);
+        companionListTable.setSpacingBefore(10f);
+        addTableHeaderGuestListTable(companionListTable, pdfPageDto.getFontBold());
+        addRowsPlayerListTable(companionListTable, companionList, pdfPageDto.getFontNormal());
+        pdfPageDto.getDocument().add(companionListTable);
 
         Paragraph paragraphNotice = new Paragraph("# # # # #     SYSTEM GENERATED LIST     # # # # # ", pdfPageDto.getFontBold());
         paragraphNotice.setAlignment(Element.ALIGN_CENTER);
@@ -216,13 +241,17 @@ public class FileServiceImpl implements IFileService {
 
     private void addRowsPlayerListTable(PdfPTable table, List<String> fullnameList, Font font) {
 
+        final float colFixedHeight = 30f;
+
         for (int i = 0, j = (fullnameList.size() / 2) + 1; i < (fullnameList.size() / 2) + 1; i++, j++) {
 
             PdfPCell colIdx = new PdfPCell();
+            colIdx.setFixedHeight(colFixedHeight);
             colIdx.setPhrase(new Phrase(Integer.toString(i + 1), font));
             table.addCell(colIdx);
 
             PdfPCell colFullName = new PdfPCell();
+            colFullName.setFixedHeight(colFixedHeight);
             colFullName.setPhrase(new Phrase(fullnameList.get(i), font));
             table.addCell(colFullName);
 
@@ -230,15 +259,18 @@ public class FileServiceImpl implements IFileService {
             table.addCell("");
 
             PdfPCell colDivider = new PdfPCell();
+            colDivider.setFixedHeight(colFixedHeight);
             colDivider.setBackgroundColor(BaseColor.LIGHT_GRAY);
             table.addCell(colDivider);
 
             if (j < fullnameList.size()) {
                 PdfPCell colIdx2 = new PdfPCell();
+                colIdx2.setFixedHeight(colFixedHeight);
                 colIdx2.setPhrase(new Phrase(Integer.toString(j + 1), font));
                 table.addCell(colIdx2);
 
                 PdfPCell colFullName2 = new PdfPCell();
+                colFullName2.setFixedHeight(colFixedHeight);
                 colFullName2.setPhrase(new Phrase(fullnameList.get(j), font));
                 table.addCell(colFullName2);
 
@@ -246,6 +278,8 @@ public class FileServiceImpl implements IFileService {
                 table.addCell("");
             } else {
                 PdfPCell colIdx2 = new PdfPCell();
+                colIdx2.setFixedHeight(colFixedHeight);
+
                 colIdx2.setPhrase(new Phrase(Integer.toString(j + 1), font));
                 table.addCell(colIdx2);
 
@@ -284,6 +318,19 @@ public class FileServiceImpl implements IFileService {
             UserDto userDto = gameUserDto.getUser();
             String fullname = userDto.getLastname() + ", " + userDto.getFirstname();
             result.add(fullname);
+        }
+        Collections.sort(result);
+        return result;
+    }
+
+    private List<String> getCompanionList(List<GameUserDto> gameUserDtoList) {
+        List<String> result = new ArrayList<>();
+        for (GameUserDto gameUserDto : gameUserDtoList) {
+            List<UserCompanion> userCompanionList = userCompanionRepository.findAllByGameUserIdAndEnabled(gameUserDto.getId(), 1);
+            for (UserCompanion userCompanion : userCompanionList) {
+                String fullname = userCompanion.getLastname() + ", " + userCompanion.getFirstname();
+                result.add(fullname);
+            }
         }
         Collections.sort(result);
         return result;
