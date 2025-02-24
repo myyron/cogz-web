@@ -209,17 +209,19 @@ public class UserServiceImpl extends BaseService implements IUserService {
                 skip(destination.getId());
             }
         });
+        
         UserEdit userEdit = userEditRepository.findByUserIdAndEnabled(sessionInfo.getCurrentUser().getId(), 1);
-        if (userEdit == null) {
-            userEdit = mapper.map(userEditDto, UserEdit.class);
-            userEdit.setUserId(sessionInfo.getCurrentUser().getId());
-            userEdit.setInsBy(sessionInfo.getCurrentUser().getId());
-            userEditRepository.save(userEdit);
-        } else {
-            mapper.map(userEditDto, userEdit);
+        if (userEdit != null) {
+            userEdit.setEnabled(0);
             userEdit.setUpdBy(sessionInfo.getCurrentUser().getId());
             userEdit.setUpdDate(LocalDateTime.now());
         }
+
+        UserEdit newUserEdit = mapper.map(userEditDto, UserEdit.class);
+        newUserEdit.setUserId(sessionInfo.getCurrentUser().getId());
+        newUserEdit.setInsBy(sessionInfo.getCurrentUser().getId());
+        userEditRepository.save(newUserEdit);
+
         fileService.writeImage(validId, "data/images/id-edit/", sessionInfo.getCurrentUser().getId(), null, 400, false);
     }
 
@@ -307,8 +309,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     @Transactional
     public void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType,
-            Integer[] additionalPaxArray, String[] firstnameArray,
-            String[] lastnameArray) throws IOException {
+                             Integer[] additionalPaxArray, String[] firstnameArray,
+                             String[] lastnameArray) throws IOException {
 
         Integer gameUserId = 0;
 
