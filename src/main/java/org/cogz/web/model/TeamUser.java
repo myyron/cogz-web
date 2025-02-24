@@ -20,6 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +31,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "TEAM_USERS")
+@Table(name = "TEAM_USERS",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"teamId", "userId", "enabled"})
+        })
 public class TeamUser extends BaseEntity {
 
     @Id

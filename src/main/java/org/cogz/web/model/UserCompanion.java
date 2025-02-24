@@ -20,6 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -32,7 +33,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS_COMPANION")
+@Table(name = "USERS_COMPANION",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"gameUserId", "firstname", "lastname", "enabled"})
+        })
 public class UserCompanion extends BaseEntity {
 
     @Id

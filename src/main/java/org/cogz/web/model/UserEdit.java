@@ -30,7 +30,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS_EDIT")
+@Table(name = "USERS_EDIT",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"userId", "username", "firstname", "lastname", "callsign", "email", "mobileNumber", "birthdate", "enabled"})
+        })
 public class UserEdit extends BaseEntity {
 
     @Id

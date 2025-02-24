@@ -29,7 +29,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "GAME_USERS")
+@Table(name = "GAME_USERS",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"gameId", "userId", "enabled"})
+        })
 public class GameUser extends BaseEntity {
 
     @Id

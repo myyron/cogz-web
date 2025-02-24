@@ -28,7 +28,10 @@ import org.cogz.web.enums.ETaskType;
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS_TASK")
+@Table(name = "USERS_TASK",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"userId", "type", "enabled"})
+        })
 public class UserTask extends BaseEntity {
 
     @Id
