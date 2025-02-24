@@ -24,6 +24,7 @@ import brevoModel.SendSmtpEmail;
 import brevoModel.SendSmtpEmailSender;
 import brevoModel.SendSmtpEmailTo;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
 import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.ERole;
 import org.cogz.web.model.User;
@@ -77,6 +78,9 @@ public class MailServiceImpl implements IMailService {
     private List<SendSmtpEmailTo> getStaffEmails() {
         List<SendSmtpEmailTo> result = new ArrayList<>();
         for (User user : userRepository.findAllByRoleInAndEnabled(List.of(ERole.ROLE_STAFF, ERole.ROLE_ADMIN), 1)) {
+            if (StringUtils.isBlank(user.getEmail())) {
+                continue;
+            }
             result.add(new SendSmtpEmailTo().email(user.getEmail()));
         }
         return result;
@@ -86,6 +90,10 @@ public class MailServiceImpl implements IMailService {
     public void accountRegistrationGood(User user) {
 
         if (!isMailEnabled) {
+            return;
+        }
+
+        if (StringUtils.isBlank(user.getEmail())) {
             return;
         }
 
@@ -115,6 +123,10 @@ public class MailServiceImpl implements IMailService {
     public void accountRegistrationBanned(User user) {
 
         if (!isMailEnabled) {
+            return;
+        }
+
+        if (StringUtils.isBlank(user.getEmail())) {
             return;
         }
 
@@ -183,6 +195,10 @@ public class MailServiceImpl implements IMailService {
             return;
         }
 
+        if (StringUtils.isBlank(user.getEmail())) {
+            return;
+        }
+
         TransactionalEmailsApi emailApi = new TransactionalEmailsApi(apiClient);
         SendSmtpEmail email = new SendSmtpEmail();
         email.setSender(new SendSmtpEmailSender().email("cogz.onlineportal@gmail.com").name("CoGZ Online Portal"));
@@ -209,6 +225,10 @@ public class MailServiceImpl implements IMailService {
     public void accountModificationRejected(User user) {
 
         if (!isMailEnabled) {
+            return;
+        }
+
+        if (StringUtils.isBlank(user.getEmail())) {
             return;
         }
 
@@ -277,6 +297,10 @@ public class MailServiceImpl implements IMailService {
     public void paymentVerified(User user, LocalDate gameSchedule) {
 
         if (!isMailEnabled) {
+            return;
+        }
+
+        if (StringUtils.isBlank(user.getEmail())) {
             return;
         }
 
