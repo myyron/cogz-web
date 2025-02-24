@@ -215,6 +215,7 @@ class TeamList {
 
         $("#addTeamMembersButton").on("click", function () {
 
+            $('#addTeamMembersButton').prop('disabled', true);
             $("#addTeamMembersSpinner").attr('hidden', false);
 
             $.ajax({
@@ -227,6 +228,7 @@ class TeamList {
                 $("#addTeamMembersModal").modal("hide");
 
                 let idArray = addTeamMembersSelect.getValue();
+                let userArray = [];
 
                 for (let i = 0; i < idArray.length; i++) {
                     let userInfo = addTeamMembersSelect.getOption(idArray[i]).textContent;
@@ -240,18 +242,26 @@ class TeamList {
                         callsign = $.trim(userInfoTokens[1]);
                     }
 
-                    teamMemberListTable.row.add(
-                            {"user": {
-                                    "id": idArray[i],
-                                    "firstname": firstname,
-                                    "lastname": lastname,
-                                    "callsign": callsign
-                                }
-                            }).draw();
+                    let user = {"user": {
+                            "id": idArray[i],
+                            "firstname": firstname,
+                            "lastname": lastname,
+                            "callsign": callsign
+                        }
+                    };
+
+                    teamMemberListTable.row.add(user).draw();
+                    userArray.push(user);
                 }
 
                 addTeamMembersSelect.clear();
                 addTeamMembersSelect.clearOptions();
+
+                let data = teamListTable.row('.selected').data();
+                data['teamUserList'].push.apply(data['teamUserList'], userArray);
+                teamListTable.row(teamListTable.row('.selected')).data(data).draw();
+
+                $('#addTeamMembersButton').prop('disabled', false);
             });
         });
 
