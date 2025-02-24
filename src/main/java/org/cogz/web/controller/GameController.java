@@ -15,6 +15,7 @@
  */
 package org.cogz.web.controller;
 
+import org.cogz.web.SessionInfo;
 import org.cogz.web.dto.GameDto;
 import org.cogz.web.dto.GameUserDto;
 import org.cogz.web.dto.UserDto;
@@ -48,6 +49,9 @@ import java.util.List;
 public class GameController {
 
     Logger logger = LoggerFactory.getLogger(GameController.class);
+
+    @Autowired
+    private SessionInfo sessionInfo;
 
     @Autowired
     private IGameService gameService;
@@ -126,6 +130,9 @@ public class GameController {
         ModelMapper mapper = new ModelMapper();
         List<UserDto> result = new ArrayList<>();
         for (User user : userService.getUsersStrict()) {
+            if (user.getId().equals(sessionInfo.getCurrentUser().getId())) {
+                continue;
+            }
             if (!gameService.isUserRegistered(gameId, user.getId()) && userService.isWaiverAccepted(user.getId())) {
                 result.add(mapper.map(user, UserDto.class));
             }

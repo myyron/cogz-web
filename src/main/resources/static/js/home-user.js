@@ -62,6 +62,7 @@ class HomeUser {
 
         $("#editProfileButton").on("click", function () {
 
+            $('#editProfileButton').prop('disabled', true);
             $("#editProfileSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -84,6 +85,7 @@ class HomeUser {
                 $("#editProfileModal").modal("hide");
                 $("#editInputValidId").val("");
                 $("#validId").attr("src", "images/blank-id.png");
+                $('#editProfileButton').prop('disabled', false);
             });
         });
 
@@ -151,6 +153,7 @@ class HomeUser {
             }
 
             $("#waiverAgreeButton").on("click", function () {
+                $('#waiverAgreeButton').prop('disabled', true);
                 $("#waiverAgreeSpinner").attr('hidden', false);
                 $.ajax({
                     url: "/user/accept-waiver",
@@ -161,6 +164,7 @@ class HomeUser {
                     waiverAccepted = true;
                     changeToWaiverAccepted(true);
                     $("#waiverModal").modal("hide");
+                    $('#waiverAgreeButton').prop('disabled', false);
                 });
             });
         });
@@ -455,6 +459,8 @@ class HomeUser {
 
                         $("#sendForVerificationButton" + i).on("click", function () {
 
+                            $('#sendForVerificationButton').prop('disabled', true);
+
                             if (!$('#registerGameForm' + i)[0].checkValidity()) {
                                 $('#registerGameForm' + i)[0].reportValidity();
                                 return;
@@ -490,6 +496,7 @@ class HomeUser {
                             }).always(function () {
                                 $('#regStatus' + i).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Payment Verification</span>`);
                                 $("#registerGameModal" + i).modal("hide");
+                                $('#sendForVerificationButton').prop('disabled', false);
                             });
                         });
 

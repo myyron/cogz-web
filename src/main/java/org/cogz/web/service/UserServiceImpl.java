@@ -209,7 +209,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
                 skip(destination.getId());
             }
         });
-        
+
         UserEdit userEdit = userEditRepository.findByUserIdAndEnabled(sessionInfo.getCurrentUser().getId(), 1);
         if (userEdit != null) {
             userEdit.setEnabled(0);
@@ -313,10 +313,6 @@ public class UserServiceImpl extends BaseService implements IUserService {
                              String[] lastnameArray) throws IOException {
 
         Integer gameUserId = 0;
-
-        if (gameUserRepository.existsByGameIdAndUserIdAndEnabled(gameId, sessionInfo.getCurrentUser().getId(), 1)) {
-            return;
-        }
 
         List<User> userList = new ArrayList<>();
         userList.add(sessionInfo.getCurrentUser());
