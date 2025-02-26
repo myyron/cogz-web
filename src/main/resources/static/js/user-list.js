@@ -69,7 +69,7 @@ class UserList {
             }
         });
 
-        $("#createUserForm").on("submit", function (e) {
+        $("#createUserButton").on("click", function (e) {
             if ($("#inputPassword").val() !== $("#inputPassword2").val()) {
                 bootbox.alert({
                     message: '<div class="text-center text-danger">Password do not match</div>',
@@ -82,17 +82,22 @@ class UserList {
                 return e.preventDefault();
             }
 
+            $("#createUserButton").prop('disabled', true);
+            $("#createUserSpinner").attr('hidden', false);
+
             $.ajax({
                 url: "/user/create",
                 contentType: "application/json",
                 type: "post",
-                async: false,
                 dataType: "json",
                 data: createDtoFromForm(document.querySelectorAll('#createUserForm input'), [{key: 'role', inputId: 'inputRoleType'},
                     {key: 'status', inputId: 'inputUserStatus'}
                 ])
             }).always(function () {
                 $("#createUserModal").modal("hide");
+                $("#createUserForm")[0].reset();
+                userListTable.ajax.reload();
+                $("#createUserButton").prop('disabled', false);
             });
         });
 
@@ -165,6 +170,10 @@ class UserList {
                     }
                 }
             });
+        });
+
+        $("#createUserModal").on('show.bs.modal', function () {
+            $("#createUserSpinner").attr('hidden', true);
         });
 
         $('#editUserModal').on('show.bs.modal', function (e) {

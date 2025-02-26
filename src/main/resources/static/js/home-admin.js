@@ -671,7 +671,6 @@ class HomeAdmin {
                 contentType: false,
                 processData: false,
                 type: "post",
-                async: false,
                 data: fd
             }).always(function () {
                 $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
