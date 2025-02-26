@@ -60,7 +60,9 @@ public class UserController {
         ModelMapper mapper = new ModelMapper();
         List<UserDto> result = new ArrayList<>();
         for (User user : userService.getUsers()) {
-            result.add(mapper.map(user, UserDto.class));
+            UserDto userDto = mapper.map(user, UserDto.class);
+            userDto.setUserNote(userService.getUserNote(user.getId()));
+            result.add(userDto);
         }
         return result;
     }
@@ -201,5 +203,11 @@ public class UserController {
     public ResponseEntity<?> rejectUserEdit(Integer userId) throws IOException {
         userService.changeUserEditStatus(userId, EUserEditStatus.REJECTED);
         return ResponseEntity.ok("User edit rejected successfully.");
+    }
+
+    @PostMapping("/update-notes")
+    public ResponseEntity<?> updateNotes(Integer userId, String notes) {
+        userService.updateNotes(userId, notes);
+        return ResponseEntity.ok("User notes updated successfully.");
     }
 }

@@ -13,29 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.model;
+package org.cogz.web.repository;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import org.cogz.web.model.UserNote;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
+ *
  * @author altrax
  */
-@Getter
-@Setter
-@Entity
-@Table(name = "USERS_PAYMENT",
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"gameId", "userId", "enabled"})
-        })
-public class UserPayment extends BaseEntity {
+@Repository
+public interface UserNoteRepository extends JpaRepository<UserNote, Integer> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private Integer gameId;
-    private Integer userId;
-    private String filepath;
+    UserNote findByUserIdAndEnabled(Integer userId, Integer enabled);
 }

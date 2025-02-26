@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.cogz.web.enums.ERole;
 import org.cogz.web.enums.EUserStatus;
+import org.cogz.web.model.UserNote;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,4 +48,5 @@ public class UserDto {
     private LocalDateTime waiverAcceptedDate;
 
     private UserEditDto userEdit;
+    private UserNote userNote;
 }

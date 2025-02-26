@@ -15,27 +15,32 @@
  */
 package org.cogz.web.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
+ *
  * @author altrax
  */
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS_PAYMENT",
+@Table(name = "USERS_NOTE",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"gameId", "userId", "enabled"})
+            @UniqueConstraint(columnNames = {"userId", "enabled"})
         })
-public class UserPayment extends BaseEntity {
+public class UserNote extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer gameId;
     private Integer userId;
-    private String filepath;
+    private String notes;
 }

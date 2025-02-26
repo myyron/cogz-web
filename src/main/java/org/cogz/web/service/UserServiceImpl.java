@@ -75,6 +75,9 @@ public class UserServiceImpl extends BaseService implements IUserService {
     private UserCompanionRepository userCompanionRepository;
 
     @Autowired
+    private UserNoteRepository userNoteRepository;
+
+    @Autowired
     private GameUserRepository gameUserRepository;
 
     @Autowired
@@ -291,6 +294,32 @@ public class UserServiceImpl extends BaseService implements IUserService {
         fileService.deleteImage("data/images/id/", userId);
     }
 
+    @Transactional
+    @Override
+    public void updateNotes(Integer userId, String notes) {
+
+        UserNote userNote = userNoteRepository.findByUserIdAndEnabled(userId, 1);
+
+        if (userNote == null) {
+            userNote = new UserNote();
+            userNote.setUserId(userId);
+            userNote.setNotes(notes);
+            userNote.setInsBy(sessionInfo.getCurrentUser().getId());
+            userNoteRepository.save(userNote);
+        } else {
+            userNote.setNotes(notes);
+            userNote.setUpdBy(sessionInfo.getCurrentUser().getId());
+            userNote.setUpdDate(LocalDateTime.now());
+        }
+
+        logger.info("user note updated - {}, {}", userId, notes);
+    }
+
+    @Override
+    public UserNote getUserNote(Integer userId) {
+        return userNoteRepository.findByUserIdAndEnabled(userId, 1);
+    }
+
     @Override
     public UserTask getWaiver() {
         return userTaskRepository.findByUserIdAndTypeAndEnabled(sessionInfo.getCurrentUser().getId(), ETaskType.WAIVER, 1);
@@ -309,8 +338,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
     @Override
     @Transactional
     public void registerGame(MultipartFile paymentProof, Integer gameId, LocalDate gameSchedule, EGameType gameType,
-                             Integer[] additionalPaxArray, String[] firstnameArray,
-                             String[] lastnameArray) throws IOException {
+            Integer[] additionalPaxArray, String[] firstnameArray,
+            String[] lastnameArray) throws IOException {
 
         Integer gameUserId = 0;
 

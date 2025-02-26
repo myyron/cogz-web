@@ -45,6 +45,11 @@
                                                 </button>
                                             </th:block>
                                         </div>
+                                        <div class="btn-group" role="group">                                           
+                                            <button type="button" id="showNoteModal" class="btn btn-outline-primary disabled" data-bs-toggle="modal" data-bs-target="#addNoteModal">
+                                                <i class="bi bi-pin-angle-fill"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">
@@ -267,6 +272,35 @@
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <button type="button" id="showResetPasswordModal" class="btn btn-outline-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Reset Password</button>
                                 <button type="submit" class="btn btn-outline-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- addNoteModal -->
+            <div class="modal fade" id="addNoteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-4 shadow">
+                        <form id="addNoteForm">
+                            <div class="modal-header">
+                                <h1 class="modal-title h5">Notes - <span id="noteFullname"></span></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <textarea class="form-control form-control-sm" id="inputNotes" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button id="addNoteButton" type="button" class="btn btn-outline-primary">
+                                    <span id="addNoteSpinner" class="spinner-border spinner-border-sm"></span>
+                                    <span class="visually-hidden" role="status">Loading...</span>Update
+                                </button>
                             </div>
                         </form>
                     </div>

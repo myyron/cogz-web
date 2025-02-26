@@ -32,7 +32,11 @@ class UserList {
             columns: [
                 {data: null,
                     render: function (data) {
-                        return data.lastname + ", " + data.firstname.split(" ")[0];
+                        let noteIndicator = '';
+                        if (data.userNote !== null && data.userNote.notes.trim() !== '') {
+                            noteIndicator = ' <i id="notes' + data.id + '" class="bi bi-pin-angle-fill" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + data.userNote.notes + '"></i>';
+                        }
+                        return data.lastname + ", " + data.firstname + noteIndicator;
                     }
                 },
                 {data: null,
@@ -52,7 +56,11 @@ class UserList {
                     }
                 }
             ],
-            select: true
+            select: true,
+            drawCallback: function () {
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+            }
         });
 
         userListTable.on('click', 'tbody tr', (e) => {
@@ -61,11 +69,13 @@ class UserList {
                 classList.remove('selected');
                 $("#showEditUserModal").addClass("disabled");
                 $("#deleteUserButton").addClass("disabled");
+                $("#showNoteModal").addClass("disabled");
             } else {
                 userListTable.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
                 classList.add('selected');
                 $("#showEditUserModal").removeClass("disabled");
                 $("#deleteUserButton").removeClass("disabled");
+                $("#showNoteModal").removeClass("disabled");
             }
         });
 
@@ -172,6 +182,25 @@ class UserList {
             });
         });
 
+        $("#addNoteButton").on("click", function () {
+
+            $("#addNoteButton").prop('disabled', true);
+            $("#addNoteSpinner").attr('hidden', false);
+
+            $.ajax({
+                url: "/user/update-notes",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                type: "post",
+                dataType: "json",
+                data: "userId=" + userListTable.row('.selected').data().id + "&notes=" + $("#inputNotes").val()
+            }).always(function () {
+                $("#addNoteModal").modal("hide");
+                $("#addNoteForm")[0].reset();
+                userListTable.ajax.reload();
+                $("#addNoteButton").prop('disabled', false);
+            });
+        });
+
         $("#createUserModal").on('show.bs.modal', function () {
             $("#createUserSpinner").attr('hidden', true);
         });
@@ -206,6 +235,16 @@ class UserList {
             $('#editInputBirthdate').val(data.birthdate);
             $('#editInputRoleType').val(data.role.substring(data.role.indexOf('_') + 1));
             $('#editInputUserStatus').val(data.status);
+        });
+
+        $("#addNoteModal").on('show.bs.modal', function () {
+            $("#addNoteSpinner").attr('hidden', true);
+
+            let user = userListTable.row('.selected').data();
+            $("#noteFullname").text(user.lastname + ", " + user.firstname);
+            if (user.userNote !== null) {
+                $("#inputNotes").val(user.userNote.notes);
+            }
         });
 
         $("#showResetPasswordModal").on("click", function () {

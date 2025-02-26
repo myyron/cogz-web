@@ -35,7 +35,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "USERS_COMPANION",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"gameUserId", "firstname", "lastname", "enabled"})
+            @UniqueConstraint(columnNames = {"gameUserId", "firstname", "lastname", "enabled"})
         })
 public class UserCompanion extends BaseEntity {
 

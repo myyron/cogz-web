@@ -32,7 +32,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "USERS_EDIT",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"userId", "username", "firstname", "lastname", "callsign", "email", "mobileNumber", "birthdate", "enabled"})
+            @UniqueConstraint(columnNames = {"userId", "username", "firstname", "lastname", "callsign", "email", "mobileNumber", "birthdate", "enabled"})
         })
 public class UserEdit extends BaseEntity {
 

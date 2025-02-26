@@ -23,7 +23,9 @@ import org.cogz.web.enums.EUserEditStatus;
 import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.model.User;
 import org.cogz.web.model.UserEdit;
+import org.cogz.web.model.UserNote;
 import org.cogz.web.model.UserTask;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -31,7 +33,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- *
  * @author altrax
  */
 public interface IUserService {
@@ -61,6 +62,10 @@ public interface IUserService {
     void changeUserEditStatus(Integer userId, EUserEditStatus status) throws IOException;
 
     UserTask acceptWaiver();
+
+    void updateNotes(Integer userId, String notes);
+
+    UserNote getUserNote(Integer userId);
 
     UserTask getWaiver();
 
