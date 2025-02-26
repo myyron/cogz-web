@@ -135,6 +135,7 @@ class TeamList {
 
         $("#createTeamButton").on("click", function () {
 
+            $("#createTeamButton").prop('disabled', true);
             $("#createTeamSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -153,11 +154,13 @@ class TeamList {
                 $("#createTeamForm")[0].reset();
                 teamRepSelect.clear();
                 teamListTable.ajax.reload();
+                $("#createTeamButton").prop('disabled', false);
             });
         });
 
         $("#editTeamButton").on("click", function () {
 
+            $("#editTeamButton").prop('disabled', true);
             $("#editTeamSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -177,6 +180,7 @@ class TeamList {
                 $("#editTeamForm")[0].reset();
                 editTeamRepSelect.clear();
                 teamListTable.ajax.reload();
+                $("#editTeamButton").prop('disabled', false);
             });
         });
 

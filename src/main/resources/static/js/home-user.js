@@ -153,8 +153,10 @@ class HomeUser {
             }
 
             $("#waiverAgreeButton").on("click", function () {
+
                 $('#waiverAgreeButton').prop('disabled', true);
                 $("#waiverAgreeSpinner").attr('hidden', false);
+
                 $.ajax({
                     url: "/user/accept-waiver",
                     type: "post"
@@ -459,13 +461,12 @@ class HomeUser {
 
                         $("#sendForVerificationButton" + i).on("click", function () {
 
-                            $('#sendForVerificationButton').prop('disabled', true);
-
                             if (!$('#registerGameForm' + i)[0].checkValidity()) {
                                 $('#registerGameForm' + i)[0].reportValidity();
                                 return;
                             }
 
+                            $("#sendForVerificationButton" + i).prop('disabled', true);
                             $("#sendForVerificationSpinner" + i).attr('hidden', false);
 
                             let additionalPaxArray = $("#inputAddUsers" + i).val();
@@ -496,7 +497,7 @@ class HomeUser {
                             }).always(function () {
                                 $('#regStatus' + i).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Payment Verification</span>`);
                                 $("#registerGameModal" + i).modal("hide");
-                                $('#sendForVerificationButton').prop('disabled', false);
+                                $("#sendForVerificationButton" + i).prop('disabled', false);
                             });
                         });
 

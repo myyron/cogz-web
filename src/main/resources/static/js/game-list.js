@@ -125,6 +125,7 @@ class GameList {
 
         $("#createGameButton").on("click", function () {
 
+            $('#createGameButton').prop('disabled', true);
             $("#createGameSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -143,11 +144,13 @@ class GameList {
             }).always(function () {
                 $("#createGameModal").modal("hide");
                 gameListTable.ajax.reload();
+                $('#createGameButton').prop('disabled', false);
             });
         });
 
         $("#editGameButton").on("click", function () {
 
+            $('#editGameButton').prop('disabled', true);
             $("#editGameSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -167,6 +170,7 @@ class GameList {
             }).always(function () {
                 $("#editGameModal").modal("hide");
                 gameListTable.ajax.reload();
+                $('#editGameButton').prop('disabled', false);
             });
         });
 

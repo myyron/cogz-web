@@ -29,6 +29,7 @@ class Login {
                 return;
             }
 
+            $('#signupButton').prop('disabled', true);
             $("#spinner").attr('hidden', false);
 
             if ($("#signupPassword").val() !== $("#signupPassword2").val()) {
@@ -64,6 +65,7 @@ class Login {
                     $("#signupModal").modal("hide");
                     $("#signupForm")[0].reset();
                     $("#validId").attr("src", "images/blank-id.png");
+                    $('#signupButton').prop('disabled', false);
                 });
             }
         });

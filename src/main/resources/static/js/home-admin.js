@@ -239,7 +239,9 @@ class HomeAdmin {
                         return e.preventDefault();
                     }
 
+                    $("#goodButton" + i).prop('disabled', true);
                     $("#goodSpinner" + i).attr('hidden', false);
+
                     $.ajax({
                         url: '/user/verification-good',
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -268,7 +270,9 @@ class HomeAdmin {
                         return e.preventDefault();
                     }
 
+                    $("#bannedButton" + i).prop('disabled', true);
                     $("#bannedSpinner" + i).attr('hidden', false);
+
                     $.ajax({
                         url: '/user/verification-banned',
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -385,7 +389,9 @@ class HomeAdmin {
                         return e.preventDefault();
                     }
 
+                    $("#approveButton" + i).prop('disabled', true);
                     $("#approveSpinner" + i).attr('hidden', false);
+
                     $.ajax({
                         url: '/user/modification-approve',
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -414,7 +420,9 @@ class HomeAdmin {
                         return e.preventDefault();
                     }
 
+                    $("#rejectButton" + i).prop('disabled', true);
                     $("#rejectSpinner" + i).attr('hidden', false);
+
                     $.ajax({
                         url: '/user/modification-reject',
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -522,7 +530,9 @@ class HomeAdmin {
                             return e.preventDefault();
                         }
 
+                        $("#paidButton" + i + "-" + j).prop('disabled', true);
                         $("#paidSpinner" + i + "-" + j).attr('hidden', false);
+
                         $.ajax({
                             url: '/game/verification-paid',
                             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -552,6 +562,7 @@ class HomeAdmin {
 
         $("#editProfileButton").on("click", function () {
 
+            $("#editProfileButton").prop('disabled', true);
             $("#editProfileSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -576,6 +587,7 @@ class HomeAdmin {
                 $("#email").text($('#editInputEmail').val());
                 $("#mobileNumber").text($('#editInputMobileNumber').val());
                 $("#editProfileModal").modal("hide");
+                $("#editProfileButton").prop('disabled', false);
             });
         });
 
@@ -605,6 +617,7 @@ class HomeAdmin {
 
         $("#createGameButton").on("click", function () {
 
+            $("#createGameButton").prop('disabled', true);
             $("#createGameSpinner").attr('hidden', false);
 
             let fd = new FormData();
@@ -623,6 +636,7 @@ class HomeAdmin {
             }).always(function () {
                 $("#createGameTask").remove();
                 $("#createGameModal").modal("hide");
+                $("#createGameButton").prop('disabled', false);
                 setTaskList();
             });
         });
