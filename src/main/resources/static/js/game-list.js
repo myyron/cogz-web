@@ -252,7 +252,6 @@ class GameList {
             $.ajax({
                 url: "/game/generate-pdf",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                async: false,
                 dataType: "json",
                 data: "gameId=" + data.id + "&schedule=" + data.schedule
             }).always(function () {

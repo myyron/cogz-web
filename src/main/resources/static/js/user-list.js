@@ -111,18 +111,23 @@ class UserList {
             });
         });
 
-        $("#editUserForm").on("submit", function (event) {
+        $("#editUserButton").on("click", function () {
+
+            $("#editUserButton").prop('disabled', true);
+            $("#editUserSpinner").attr('hidden', false);
+
             $.ajax({
                 url: "/user/edit",
                 contentType: "application/json",
                 type: "post",
-                async: false,
                 dataType: "json",
                 data: createDtoFromForm(document.querySelectorAll('#editUserForm input'), [{key: 'role', inputId: 'editInputRoleType'},
                     {key: 'status', inputId: 'editInputUserStatus'}
                 ])
             }).always(function () {
                 $("#editUserModal").modal("hide");
+                userListTable.ajax.reload();
+                $("#editUserButton").prop('disabled', false);
             });
         });
 
@@ -170,7 +175,6 @@ class UserList {
                             url: "/user/deactivate",
                             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                             type: "post",
-                            async: false,
                             dataType: "json",
                             data: "userId=" + userListTable.row('.selected').data().id
                         }).always(function () {
@@ -206,6 +210,9 @@ class UserList {
         });
 
         $('#editUserModal').on('show.bs.modal', function (e) {
+
+            $("#editUserSpinner").attr('hidden', true);
+
             let data = userListTable.row('.selected').data();
 
             if (parseInt(localStorage.getItem('userId'), 10) !== data.id) {
