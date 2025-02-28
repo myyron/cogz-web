@@ -29,7 +29,11 @@ public interface ITeamService {
 
     List<Team> getTeams();
 
+    Team getTeam(Integer id);
+
     List<TeamUser> getTeamUsers(Integer teamId);
+
+    TeamUser getTeamUser();
 
     Boolean isUserMember(Integer teamId, Integer userId);
 

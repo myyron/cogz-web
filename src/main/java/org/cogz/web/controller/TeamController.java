@@ -24,6 +24,7 @@ import org.cogz.web.model.User;
 import org.cogz.web.service.ITeamService;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class TeamController {
     @GetMapping("/list")
     public List<TeamDto> getTeams() {
         ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         List<TeamDto> result = new ArrayList<>();
         for (Team team : teamService.getTeams()) {
             UserDto userDto = mapper.map(userService.getUser(team.getTeamRepId()), UserDto.class);

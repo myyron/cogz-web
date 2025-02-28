@@ -56,6 +56,7 @@ class UserList {
                     }
                 }
             ],
+            rowId: 'id',
             select: true,
             drawCallback: function () {
                 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');

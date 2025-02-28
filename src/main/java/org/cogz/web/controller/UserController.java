@@ -20,13 +20,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.cogz.web.dto.UserDto;
 import org.cogz.web.dto.UserEditDto;
+import org.cogz.web.dto.UserNoteDto;
 import org.cogz.web.dto.UserWithPasswordDto;
 import org.cogz.web.enums.EGameType;
 import org.cogz.web.enums.EUserEditStatus;
 import org.cogz.web.enums.EUserStatus;
+import org.cogz.web.model.Team;
+import org.cogz.web.model.TeamUser;
 import org.cogz.web.model.User;
 import org.cogz.web.model.UserEdit;
+import org.cogz.web.model.UserNote;
 import org.cogz.web.model.UserTask;
+import org.cogz.web.service.ITeamService;
 import org.cogz.web.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -43,7 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author altrax
  */
 @RestController
@@ -55,13 +59,19 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private ITeamService teamService;
+
     @GetMapping("/list")
     public List<UserDto> getUsers() {
         ModelMapper mapper = new ModelMapper();
         List<UserDto> result = new ArrayList<>();
         for (User user : userService.getUsers()) {
             UserDto userDto = mapper.map(user, UserDto.class);
-            userDto.setUserNote(userService.getUserNote(user.getId()));
+            UserNote userNote = userService.getUserNote(user.getId());
+            if (userNote != null) {
+                userDto.setUserNote(mapper.map(userNote, UserNoteDto.class));
+            }
             result.add(userDto);
         }
         return result;
@@ -69,13 +79,25 @@ public class UserController {
 
     @GetMapping("/current")
     public UserDto getCurrentUser() {
+
+        ModelMapper mapper = new ModelMapper();
+
         User user = userService.getCurrentUser();
-        UserDto userDto = new ModelMapper().map(user, UserDto.class);
+        UserDto userDto = mapper.map(user, UserDto.class);
+
         UserTask userTask = userService.getWaiver();
         if (userTask != null) {
             userDto.setWaiverAccepted(true);
             userDto.setWaiverAcceptedDate(userTask.getInsDate());
         }
+
+        TeamUser teamUser = teamService.getTeamUser();
+        if (teamUser != null) {
+            Team team = teamService.getTeam(teamUser.getTeamId());
+            userDto.setTeamId(team.getId());
+            userDto.setTeamName(team.getName());
+        }
+
         return userDto;
     }
 

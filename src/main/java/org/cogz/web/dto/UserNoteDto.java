@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.repository;
+package org.cogz.web.dto;
 
-import org.cogz.web.model.TeamUser;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
+ *
  * @author altrax
  */
-@Repository
-public interface TeamUserRepository extends JpaRepository<TeamUser, Integer> {
+@Getter
+@Setter
+public class UserNoteDto {
 
-    List<TeamUser> findAllByTeamIdAndEnabled(Integer teamId, Integer enabled);
-
-    TeamUser findByIdAndEnabled(Integer id, Integer enabled);
-
-    Boolean existsByTeamIdAndUserIdAndEnabled(Integer teamId, Integer userId, Integer enabled);
-
-    TeamUser findByUserIdAndEnabled(Integer userId, Integer enabled);
+    private Integer userId;
+    private String notes;
 }

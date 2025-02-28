@@ -53,8 +53,18 @@ public class TeamServiceImpl extends BaseService implements ITeamService {
     }
 
     @Override
+    public Team getTeam(Integer id) {
+        return teamRepository.findByIdAndEnabled(id, 1);
+    }
+
+    @Override
     public List<TeamUser> getTeamUsers(Integer teamId) {
         return teamUserRepository.findAllByTeamIdAndEnabled(teamId, 1);
+    }
+
+    @Override
+    public TeamUser getTeamUser() {
+        return teamUserRepository.findByUserIdAndEnabled(sessionInfo.getCurrentUser().getId(), 1);
     }
 
     @Override

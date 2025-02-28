@@ -55,6 +55,19 @@ class HomeAdmin {
             $("#editInputBirthdate").val(data.birthdate);
 
             $("#resetPasswordUserId").val(data.id);
+
+            let callsign = data.callsign;
+            if (callsign === null) {
+                callsign = 'NO CALLSIGN';
+            }
+
+            let teamName = data.teamName;
+            if (teamName !== null) {
+                $("#teamLogo").attr("src", "uploaded-images/logo/" + data.teamId + ".jpg");
+                $("#teamName").text(teamName);
+                $("#teamCardCallsign").text(callsign);
+                $("#teamCard").attr('hidden', false);
+            }
         });
 
         $.ajax({
@@ -582,6 +595,7 @@ class HomeAdmin {
                 type: "post",
                 data: fd
             }).always(function () {
+                $("#teamCardCallsign").text($('#editInputCallsign').val());
                 $("#username").text($('#editInputUsername').val());
                 $("#fullname").text($('#editInputFirstname').val() + " " + $('#editInputLastname').val());
                 $("#email").text($('#editInputEmail').val());
@@ -675,6 +689,10 @@ class HomeAdmin {
             }).always(function () {
                 $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
             });
+        });
+
+        $("#teamLogo").on("error", function () {
+            $("#teamLogo").attr("src", "uploaded-images/logo/blank-logo.png");
         });
 
         function setUserStatus() {
