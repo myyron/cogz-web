@@ -24,7 +24,7 @@
         <div class="container d-flex align-items-center justify-content-center">
             <div class="row justify-content-center">
                 <div class="col-9 col-md-6 col-lg-4 mb-3">                               
-                    <span style="font-size: .6rem;">v25.4.1</span>
+                    <span style="font-size: .6rem;">v<th:block th:text="${@environment.getProperty('cogz-web.app.version')}"></th:block></span>
                     <img src="images/logo-login.png" class="img-fluid"/>
                 </div>
                 <div class="col-9 col-md-6 col-lg-3 mt-md-5">
