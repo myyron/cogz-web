@@ -18,10 +18,7 @@ class HomeUser {
 
     constructor() {
 
-        let userId;
-        let userStatus;
-        let waiverAccepted;
-        let waiverAcceptedDate;
+        let userData;
 
         $("#navHome").addClass("active");
         $("#navTeamList").removeClass("active");
@@ -31,12 +28,9 @@ class HomeUser {
             url: "/user/current"
         }).done(function (data) {
 
-            userId = data.id;
-            waiverAccepted = data.waiverAccepted;
-            waiverAcceptedDate = new Date(data.waiverAcceptedDate);
-            userStatus = data.status;
+            userData = data;
 
-            $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
+            $("#profilePic").attr("src", "uploaded-images/profile/" + data.id + ".jpg");
 
             $("#username").text(data.username);
             $("#fullname").text(data.firstname + " " + data.lastname);
@@ -55,7 +49,7 @@ class HomeUser {
             $("#editInputMobileNumber").val(data.mobileNumber);
             $("#editInputBirthdate").val(data.birthdate);
 
-            $("#validId").attr("src", "uploaded-images/id/" + userId + ".jpg");
+            $("#validId").attr("src", "uploaded-images/id/" + data.id + ".jpg");
 
             $("#resetPasswordUserId").val(data.id);
 
@@ -73,7 +67,19 @@ class HomeUser {
             }
         });
 
-        $("#editProfileButton").on("click", function () {
+        $("#editProfileButton").on("click", function (e) {
+
+            if (!hasEditChanges()) {
+                bootbox.alert({
+                    message: '<div class="text-center text-danger">No changes found</div>',
+                    size: 'small'
+
+                }).init(function () {
+                    $('.btn').removeClass('btn-primary');
+                    $('.btn').addClass('btn-outline-primary');
+                });
+                return e.preventDefault();
+            }
 
             $('#editProfileButton').prop('disabled', true);
             $("#editProfileSpinner").attr('hidden', false);
@@ -142,7 +148,7 @@ class HomeUser {
                 type: "post",
                 data: fd
             }).always(function () {
-                $("#profilePic").attr("src", "uploaded-images/profile/" + userId + ".jpg");
+                $("#profilePic").attr("src", "uploaded-images/profile/" + userData.id + ".jpg");
             });
         });
 
@@ -151,9 +157,9 @@ class HomeUser {
         });
 
         $('#waiverModal').on('show.bs.modal', function () {
-            if (waiverAccepted) {
+            if (userData.waiverAccepted) {
                 $('#waiverModalFooter').html(`<span class="text-disabled fst-italic" style="font-size: .7rem">You already agreed on the terms of the waiver<br>
-                    <b>Agreed on:</b> ${waiverAcceptedDate.toLocaleString()}</span>
+                    <b>Agreed on:</b> ${new Date(userData.waiverAcceptedDate).toLocaleString()}</span>
                     <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>`);
             } else {
                 $('#waiverModalFooter').html(`<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Skip</button>
@@ -173,9 +179,9 @@ class HomeUser {
                     url: "/user/accept-waiver",
                     type: "post"
                 }).done(function (data) {
-                    waiverAcceptedDate = new Date(data);
+                    userData.waiverAcceptedDate = new Date(data);
                 }).always(function () {
-                    waiverAccepted = true;
+                    userData.waiverAccepted = true;
                     changeToWaiverAccepted(true);
                     $("#waiverModal").modal("hide");
                     $('#waiverAgreeButton').prop('disabled', false);
@@ -212,11 +218,11 @@ class HomeUser {
         }
 
         function setUserStatus() {
-            if (userStatus === 'ACCOUNT_VERIFICATION') {
+            if (userData.status === 'ACCOUNT_VERIFICATION') {
                 $("#userStatus").addClass("text-bg-warning");
                 $("#userStatus").html('<i class="bi bi-question-circle"></i> Account Verification');
                 $("#gamelist").append(`<div class="text-center">Nothing to show</div>`);
-            } else if (userStatus === 'GOOD') {
+            } else if (userData.status === 'GOOD') {
                 $("#userStatus").addClass("text-bg-success");
                 $("#userStatus").html('<i class="bi bi-check-circle"></i> Verified');
                 $.ajax({
@@ -397,7 +403,7 @@ class HomeUser {
                                 });
 
                         for (let j = 0; j < data[i].gameUserList.length; j++) {
-                            if (userId === data[i].gameUserList[j].userId) {
+                            if (userData.id === data[i].gameUserList[j].userId) {
                                 let regStatus = data[i].gameUserList[j].regStatus;
                                 if (regStatus === "PAYMENT_VERIFICATION") {
                                     $('#regStatus' + i).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Payment Verification</span>`);
@@ -408,7 +414,7 @@ class HomeUser {
                         }
 
                         $("#registerGameModal" + i).on('show.bs.modal', function (e) {
-                            if (!waiverAccepted) {
+                            if (!userData.waiverAccepted) {
                                 bootbox.alert({
                                     message: '<div class="text-center text-danger">You need to accept the terms of the Gamesite Waiver first.</div>',
                                     size: 'small'
@@ -535,6 +541,24 @@ class HomeUser {
                 $("#userStatus").html('<i class="bi bi-x-circle"></i> BANNED');
                 $("#gamelist").append(`<div class="text-center">Nothing to show</div>`);
             }
+        }
+
+        function hasEditChanges() {
+            if (userData.firstname !== $('#editInputFirstname').val())
+                return true;
+            if (userData.lastname !== $('#editInputLastname').val())
+                return true;
+            if (userData.callsign !== $('#editInputCallsign').val())
+                return true;
+            if (userData.email !== $('#editInputEmail').val())
+                return true;
+            if (userData.mobileNumber !== $('#editInputMobileNumber').val())
+                return true;
+            if (userData.birthdate !== $('#editInputBirthdate').val())
+                return true;
+            if ($('#editInputValidId')[0].files[0] !== undefined)
+                return true;
+            return false;
         }
     }
 }
