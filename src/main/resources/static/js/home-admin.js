@@ -225,7 +225,7 @@ class HomeAdmin {
                                         </button>
                                         <button id="goodButton${i}" type="button" class="btn btn-outline-primary">
                                             <span id="goodSpinner${i}" class="spinner-border spinner-border-sm"></span>
-                                            <span class="visually-hidden" role="status">Loading...</span>Verified and Good
+                                            <span class="visually-hidden" role="status">Loading...</span>Good
                                         </button>
                                     </div>
                                 </form>
