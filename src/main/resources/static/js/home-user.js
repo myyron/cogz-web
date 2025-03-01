@@ -58,6 +58,19 @@ class HomeUser {
             $("#validId").attr("src", "uploaded-images/id/" + userId + ".jpg");
 
             $("#resetPasswordUserId").val(data.id);
+
+            let callsign = data.callsign;
+            if (callsign === null) {
+                callsign = 'NO CALLSIGN';
+            }
+
+            let teamName = data.teamName;
+            if (teamName !== null) {
+                $("#teamLogo").attr("src", "uploaded-images/logo/" + data.teamId + ".jpg");
+                $("#teamName").text(teamName);
+                $("#teamCardCallsign").text(callsign);
+                $("#teamCard").attr('hidden', false);
+            }
         });
 
         $("#editProfileButton").on("click", function () {
@@ -172,6 +185,10 @@ class HomeUser {
 
         $('#validId').on("error", function () {
             $("#validId").attr("src", "uploaded-images/id/blank-id.png");
+        });
+
+        $("#teamLogo").on("error", function () {
+            $("#teamLogo").attr("src", "uploaded-images/logo/blank-logo.png");
         });
 
         function changeToWaiverAccepted(accepted) {
