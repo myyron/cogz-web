@@ -66,8 +66,47 @@ class Login {
                     $("#signupForm")[0].reset();
                     $("#validId").attr("src", "images/blank-id.png");
                     $('#signupButton').prop('disabled', false);
+                    
+                    stompConnect();
+                    stompSendName();
+                    stompDisconnect();
                 });
             }
         });
+
+        const stompClient = new StompJs.Client({
+            brokerURL: 'ws://localhost:443/websocket'
+        });
+
+        stompClient.onConnect = (frame) => {
+            setConnected(true);
+            console.log('Connected: ' + frame);
+        };
+
+        stompClient.onWebSocketError = (error) => {
+            console.error('Error with websocket', error);
+        };
+
+        stompClient.onStompError = (frame) => {
+            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Additional details: ' + frame.body);
+        };
+
+        function stompConnect() {
+            stompClient.activate();
+        }
+
+        function stompDisconnect() {
+            stompClient.deactivate();
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+        function stompSendName() {
+            stompClient.publish({
+                destination: "/app/signup",
+                body: JSON.stringify({'name': $("#name").val()})
+            });
+        }
     }
 }
