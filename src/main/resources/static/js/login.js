@@ -18,6 +18,8 @@ class Login {
 
     constructor() {
 
+        stompConnect();
+
         $("#signupModal").on('show.bs.modal', function () {
             $("#spinner").attr('hidden', true);
         });
@@ -28,9 +30,6 @@ class Login {
                 $('#signupForm')[0].reportValidity();
                 return;
             }
-
-            $('#signupButton').prop('disabled', true);
-            $("#spinner").attr('hidden', false);
 
             if ($("#signupPassword").val() !== $("#signupPassword2").val()) {
                 bootbox.alert({
@@ -43,6 +42,9 @@ class Login {
                 });
             } else {
 
+                $('#signupButton').prop('disabled', true);
+                $("#spinner").attr('hidden', false);
+
                 let fd = new FormData();
                 fd.append('username', $('#inputUsername').val());
                 fd.append('firstname', $('#inputFirstname').val());
@@ -54,58 +56,35 @@ class Login {
                 fd.append('password', $('#signupPassword').val());
                 fd.append('validId', $('#inputValidId')[0].files[0]);
 
+                let userId;
+
                 $.ajax({
                     url: "/api/signup-valid-id",
                     contentType: false,
                     processData: false,
                     type: "post",
                     data: fd
+                }).done(function (data) {
+                    userId = data;
                 }).always(function () {
                     $("#loginUsername").val($("#inputUsername").val());
                     $("#signupModal").modal("hide");
                     $("#signupForm")[0].reset();
                     $("#validId").attr("src", "images/blank-id.png");
                     $('#signupButton').prop('disabled', false);
-                    
-                    stompConnect();
-                    stompSendName();
-                    stompDisconnect();
+                    stompSendAction(userId);
                 });
             }
         });
 
-        const stompClient = new StompJs.Client({
-            brokerURL: 'ws://localhost:443/websocket'
-        });
-
         stompClient.onConnect = (frame) => {
-            setConnected(true);
             console.log('Connected: ' + frame);
         };
 
-        stompClient.onWebSocketError = (error) => {
-            console.error('Error with websocket', error);
-        };
-
-        stompClient.onStompError = (frame) => {
-            console.error('Broker reported error: ' + frame.headers['message']);
-            console.error('Additional details: ' + frame.body);
-        };
-
-        function stompConnect() {
-            stompClient.activate();
-        }
-
-        function stompDisconnect() {
-            stompClient.deactivate();
-            setConnected(false);
-            console.log("Disconnected");
-        }
-
-        function stompSendName() {
+        function stompSendAction(userId) {
             stompClient.publish({
-                destination: "/app/signup",
-                body: JSON.stringify({'name': $("#name").val()})
+                destination: "/app/client-action",
+                body: JSON.stringify({userId: userId, action: 'ACCOUNT_VERIFICATION'})
             });
         }
     }

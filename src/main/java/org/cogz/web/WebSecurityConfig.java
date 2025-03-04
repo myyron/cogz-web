@@ -54,7 +54,7 @@ public class WebSecurityConfig {
                 ))
                 //
                 .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/images/**", "/js/**", "/css/**", "/h2-console/**", "/api/**").permitAll() // remove h2-console if not using h2
+                .requestMatchers("/images/**", "/js/**", "/css/**", "/h2-console/**", "/api/**", "/websocket/**").permitAll() // remove h2-console if not using h2
                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

@@ -47,7 +47,7 @@ public interface IUserService {
 
     void createUser(UserWithPasswordDto userDto);
 
-    void createUser(MultipartFile validId, UserWithPasswordDto userDto) throws IOException;
+    Integer createUser(MultipartFile validId, UserWithPasswordDto userDto) throws IOException;
 
     void editUser(UserDto userDto);
 

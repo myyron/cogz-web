@@ -27,6 +27,8 @@ class HomeAdmin {
         $("#navTeamList").removeClass("active");
         $("#navTools").removeClass("active");
 
+        stompConnect();
+
         $.ajax({
             url: "/user/current"
         }).done(function (data) {
@@ -68,6 +70,8 @@ class HomeAdmin {
                 $("#teamCardCallsign").text(callsign);
                 $("#teamCard").attr('hidden', false);
             }
+
+            populateTaskList();
         });
 
         $.ajax({
@@ -140,12 +144,13 @@ class HomeAdmin {
             }
         });
 
-        $.when(
-                $.ajax({
-                    url: '/game/open-exist'
-                }).done(function (data) {
-            if (!data) {
-                $('#taskList').append(`<a id="createGameTask" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createGameModal">
+        let populateTaskList = function () {
+            $.when(
+                    $.ajax({
+                        url: '/game/open-exist'
+                    }).done(function (data) {
+                if (!data) {
+                    $('#taskList').append(`<a id="createGameTask" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createGameModal">
                     <div class="row">
                         <div class="col-3 col-sm-2 col-md-1">
                             <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -159,13 +164,13 @@ class HomeAdmin {
                             </ul>
                         </div>
                     </div></a>`);
-            }
-        }),
-                $.ajax({
-                    url: '/user/list-registration'
-                }).done(function (data) {
-            $.each(data, function (i, data) {
-                $('#taskList').append(`<a id="verifyAccountRegistrationTask${i}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistrationModal${i}">
+                }
+            }),
+                    $.ajax({
+                        url: '/user/list-registration'
+                    }).done(function (data) {
+                $.each(data, function (i, data) {
+                    $('#taskList').append(`<a id="verifyAccountRegistrationTask${i}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyAccountRegistrationModal${i}">
                         <div class="row">
                             <div class="col-3 col-sm-2 col-md-1">
                                 <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -233,87 +238,87 @@ class HomeAdmin {
                         </div>
                     </div>`);
 
-                $("#verifyAccountRegistrationModal" + i).on('show.bs.modal', function () {
-                    $("#goodSpinner" + i).attr('hidden', true);
-                    $("#bannedSpinner" + i).attr('hidden', true);
-                });
+                    $("#verifyAccountRegistrationModal" + i).on('show.bs.modal', function () {
+                        $("#goodSpinner" + i).attr('hidden', true);
+                        $("#bannedSpinner" + i).attr('hidden', true);
+                    });
 
-                $("#goodButton" + i).on("click", function (e) {
+                    $("#goodButton" + i).on("click", function (e) {
 
-                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
-                        bootbox.alert({
-                            message: '<div class="text-center text-danger">Unauthorized</div>',
-                            size: 'small'
+                        if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                            bootbox.alert({
+                                message: '<div class="text-center text-danger">Unauthorized</div>',
+                                size: 'small'
 
-                        }).init(function () {
-                            $('.btn').removeClass('btn-primary');
-                            $('.btn').addClass('btn-outline-primary');
+                            }).init(function () {
+                                $('.btn').removeClass('btn-primary');
+                                $('.btn').addClass('btn-outline-primary');
+                            });
+                            return e.preventDefault();
+                        }
+
+                        $("#goodButton" + i).prop('disabled', true);
+                        $("#goodSpinner" + i).attr('hidden', false);
+
+                        $.ajax({
+                            url: '/user/verification-good',
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            type: "post",
+                            dataType: "json",
+                            data: "userId=" + data.id
+                        }).always(function () {
+                            $("#verifyAccountRegistrationTask" + i).remove();
+                            $("#verifyAccountRegistrationModal" + i).modal("hide");
+                            $("#verifyAccountRegistrationModal" + i).remove();
+                            setTaskList();
                         });
-                        return e.preventDefault();
-                    }
+                    });
 
-                    $("#goodButton" + i).prop('disabled', true);
-                    $("#goodSpinner" + i).attr('hidden', false);
+                    $("#bannedButton" + i).on("click", function (e) {
 
-                    $.ajax({
-                        url: '/user/verification-good',
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        type: "post",
-                        dataType: "json",
-                        data: "userId=" + data.id
-                    }).always(function () {
-                        $("#verifyAccountRegistrationTask" + i).remove();
-                        $("#verifyAccountRegistrationModal" + i).modal("hide");
-                        $("#verifyAccountRegistrationModal" + i).remove();
-                        setTaskList();
+                        if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                            bootbox.alert({
+                                message: '<div class="text-center text-danger">Unauthorized</div>',
+                                size: 'small'
+
+                            }).init(function () {
+                                $('.btn').removeClass('btn-primary');
+                                $('.btn').addClass('btn-outline-primary');
+                            });
+                            return e.preventDefault();
+                        }
+
+                        $("#bannedButton" + i).prop('disabled', true);
+                        $("#bannedSpinner" + i).attr('hidden', false);
+
+                        $.ajax({
+                            url: '/user/verification-banned',
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            type: "post",
+                            dataType: "json",
+                            data: "userId=" + data.id
+                        }).always(function () {
+                            $("#verifyAccountRegistrationTask" + i).remove();
+                            $("#verifyAccountRegistrationModal" + i).modal("hide");
+                            $("#verifyAccountRegistrationModal" + i).remove();
+                            setTaskList();
+                        });
+                    });
+
+                    $('#verifyAccountRegistrationProfilePic' + i).on("error", function () {
+                        $("#verifyAccountRegistrationProfilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
+                    });
+
+                    $('#validId' + i).on("error", function () {
+                        $("#validId" + i).attr("src", "uploaded-images/id/blank-id.png");
                     });
                 });
-
-                $("#bannedButton" + i).on("click", function (e) {
-
-                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
-                        bootbox.alert({
-                            message: '<div class="text-center text-danger">Unauthorized</div>',
-                            size: 'small'
-
-                        }).init(function () {
-                            $('.btn').removeClass('btn-primary');
-                            $('.btn').addClass('btn-outline-primary');
-                        });
-                        return e.preventDefault();
-                    }
-
-                    $("#bannedButton" + i).prop('disabled', true);
-                    $("#bannedSpinner" + i).attr('hidden', false);
-
+            }),
                     $.ajax({
-                        url: '/user/verification-banned',
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        type: "post",
-                        dataType: "json",
-                        data: "userId=" + data.id
-                    }).always(function () {
-                        $("#verifyAccountRegistrationTask" + i).remove();
-                        $("#verifyAccountRegistrationModal" + i).modal("hide");
-                        $("#verifyAccountRegistrationModal" + i).remove();
-                        setTaskList();
-                    });
-                });
-
-                $('#verifyAccountRegistrationProfilePic' + i).on("error", function () {
-                    $("#verifyAccountRegistrationProfilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
-                });
-
-                $('#validId' + i).on("error", function () {
-                    $("#validId" + i).attr("src", "uploaded-images/id/blank-id.png");
-                });
-            });
-        }),
-                $.ajax({
-                    url: '/user/list-modification'
-                }).done(function (data) {
-            $.each(data, function (i, data) {
-                $('#taskList').append(`<a id="accountModificationRequestTask${i}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#accountModificationRequestModal${i}">
+                        url: '/user/list-modification'
+                    }).done(function (data) {
+                $.each(data, function (i, data) {
+                    $('#taskList').append(`<a id="accountModificationRequestTask${i}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#accountModificationRequestModal${i}">
                         <div class="row">
                             <div class="col-3 col-sm-2 col-md-1">
                                 <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -383,88 +388,88 @@ class HomeAdmin {
                         </div>
                     </div>`);
 
-                $("#accountModificationRequestModal" + i).on('show.bs.modal', function () {
-                    $("#approveSpinner" + i).attr('hidden', true);
-                    $("#rejectSpinner" + i).attr('hidden', true);
-                });
+                    $("#accountModificationRequestModal" + i).on('show.bs.modal', function () {
+                        $("#approveSpinner" + i).attr('hidden', true);
+                        $("#rejectSpinner" + i).attr('hidden', true);
+                    });
 
-                $("#approveButton" + i).on("click", function (e) {
+                    $("#approveButton" + i).on("click", function (e) {
 
-                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
-                        bootbox.alert({
-                            message: '<div class="text-center text-danger">Unauthorized</div>',
-                            size: 'small'
+                        if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                            bootbox.alert({
+                                message: '<div class="text-center text-danger">Unauthorized</div>',
+                                size: 'small'
 
-                        }).init(function () {
-                            $('.btn').removeClass('btn-primary');
-                            $('.btn').addClass('btn-outline-primary');
+                            }).init(function () {
+                                $('.btn').removeClass('btn-primary');
+                                $('.btn').addClass('btn-outline-primary');
+                            });
+                            return e.preventDefault();
+                        }
+
+                        $("#approveButton" + i).prop('disabled', true);
+                        $("#approveSpinner" + i).attr('hidden', false);
+
+                        $.ajax({
+                            url: '/user/modification-approve',
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            type: "post",
+                            dataType: "json",
+                            data: "userId=" + data.id
+                        }).always(function () {
+                            $("#accountModificationRequestTask" + i).remove();
+                            $("#accountModificationRequestModal" + i).modal("hide");
+                            $("#accountModificationRequestModal" + i).remove();
+                            setTaskList();
                         });
-                        return e.preventDefault();
-                    }
+                    });
 
-                    $("#approveButton" + i).prop('disabled', true);
-                    $("#approveSpinner" + i).attr('hidden', false);
+                    $("#rejectButton" + i).on("click", function (e) {
 
-                    $.ajax({
-                        url: '/user/modification-approve',
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        type: "post",
-                        dataType: "json",
-                        data: "userId=" + data.id
-                    }).always(function () {
-                        $("#accountModificationRequestTask" + i).remove();
-                        $("#accountModificationRequestModal" + i).modal("hide");
-                        $("#accountModificationRequestModal" + i).remove();
-                        setTaskList();
+                        if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                            bootbox.alert({
+                                message: '<div class="text-center text-danger">Unauthorized</div>',
+                                size: 'small'
+
+                            }).init(function () {
+                                $('.btn').removeClass('btn-primary');
+                                $('.btn').addClass('btn-outline-primary');
+                            });
+                            return e.preventDefault();
+                        }
+
+                        $("#rejectButton" + i).prop('disabled', true);
+                        $("#rejectSpinner" + i).attr('hidden', false);
+
+                        $.ajax({
+                            url: '/user/modification-reject',
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            type: "post",
+                            dataType: "json",
+                            data: "userId=" + data.id
+                        }).always(function () {
+                            $("#accountModificationRequestTask" + i).remove();
+                            $("#accountModificationRequestModal" + i).modal("hide");
+                            $("#accountModificationRequestModal" + i).remove();
+                            setTaskList();
+                        });
+                    });
+
+                    $('#accountModificationRequestProfilePic' + i).on("error", function () {
+                        $("#accountModificationRequestProfilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
+                    });
+
+                    $('#newValidId' + i).on("error", function () {
+                        $("#idComparison" + i).html("");
                     });
                 });
-
-                $("#rejectButton" + i).on("click", function (e) {
-
-                    if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
-                        bootbox.alert({
-                            message: '<div class="text-center text-danger">Unauthorized</div>',
-                            size: 'small'
-
-                        }).init(function () {
-                            $('.btn').removeClass('btn-primary');
-                            $('.btn').addClass('btn-outline-primary');
-                        });
-                        return e.preventDefault();
-                    }
-
-                    $("#rejectButton" + i).prop('disabled', true);
-                    $("#rejectSpinner" + i).attr('hidden', false);
-
+            }),
                     $.ajax({
-                        url: '/user/modification-reject',
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        type: "post",
-                        dataType: "json",
-                        data: "userId=" + data.id
-                    }).always(function () {
-                        $("#accountModificationRequestTask" + i).remove();
-                        $("#accountModificationRequestModal" + i).modal("hide");
-                        $("#accountModificationRequestModal" + i).remove();
-                        setTaskList();
-                    });
-                });
-
-                $('#accountModificationRequestProfilePic' + i).on("error", function () {
-                    $("#accountModificationRequestProfilePic" + i).attr("src", "uploaded-images/profile/blank-profile.png");
-                });
-
-                $('#newValidId' + i).on("error", function () {
-                    $("#idComparison" + i).html("");
-                });
-            });
-        }),
-                $.ajax({
-                    url: '/game/list-payment'
-                }).done(function (data) {
-            $.each(data, function (i, data) {
-                $.each(data.gameUserList, function (j, gameUser) {
-                    $('#taskList').append(`<a id="verifyPaymentTask${i + "-" + j}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPaymentModal${i + "-" + j}">
+                        url: '/game/list-payment'
+                    }).done(function (data) {
+                $.each(data, function (i, data) {
+                    $.each(data.gameUserList, function (j, gameUser) {
+                        $('#taskList').append(`<a id="verifyPaymentTask${i + "-" + j}" href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#verifyPaymentModal${i + "-" + j}">
                             <div class="row">
                                 <div class="col-3 col-sm-2 col-md-1">
                                     <div class=" ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -525,55 +530,58 @@ class HomeAdmin {
                             </div>
                         </div>`);
 
-                    $("#verifyPaymentModal" + i + "-" + j).on('show.bs.modal', function () {
-                        $("#paidSpinner" + i + "-" + j).attr('hidden', true);
-                    });
+                        $("#verifyPaymentModal" + i + "-" + j).on('show.bs.modal', function () {
+                            $("#paidSpinner" + i + "-" + j).attr('hidden', true);
+                        });
 
-                    $("#paidButton" + i + "-" + j).on("click", function (e) {
+                        $("#paidButton" + i + "-" + j).on("click", function (e) {
 
-                        if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
-                            bootbox.alert({
-                                message: '<div class="text-center text-danger">Unauthorized</div>',
-                                size: 'small'
+                            if (localStorage.getItem('role') === 'ROLE_PSEUDO_STAFF') {
+                                bootbox.alert({
+                                    message: '<div class="text-center text-danger">Unauthorized</div>',
+                                    size: 'small'
 
-                            }).init(function () {
-                                $('.btn').removeClass('btn-primary');
-                                $('.btn').addClass('btn-outline-primary');
+                                }).init(function () {
+                                    $('.btn').removeClass('btn-primary');
+                                    $('.btn').addClass('btn-outline-primary');
+                                });
+                                return e.preventDefault();
+                            }
+
+                            $("#paidButton" + i + "-" + j).prop('disabled', true);
+                            $("#paidSpinner" + i + "-" + j).attr('hidden', false);
+
+                            $.ajax({
+                                url: '/game/verification-paid',
+                                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                                type: "post",
+                                dataType: "json",
+                                data: "gameUserId=" + gameUser.id
+                            }).always(function () {
+                                $("#verifyPaymentTask" + i + "-" + j).remove();
+                                $("#verifyPaymentModal" + i + "-" + j).modal("hide");
+                                $("#verifyPaymentModal" + i + "-" + j).remove();
+                                setTaskList();
                             });
-                            return e.preventDefault();
-                        }
+                        });
 
-                        $("#paidButton" + i + "-" + j).prop('disabled', true);
-                        $("#paidSpinner" + i + "-" + j).attr('hidden', false);
+                        $('#paymentProof' + i + "-" + j).on("error", function () {
+                            $("#paymentProof" + i + "-" + j).attr("src", "uploaded-images/payment/blank-proof.png");
+                        });
 
-                        $.ajax({
-                            url: '/game/verification-paid',
-                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                            type: "post",
-                            dataType: "json",
-                            data: "gameUserId=" + gameUser.id
-                        }).always(function () {
-                            $("#verifyPaymentTask" + i + "-" + j).remove();
-                            $("#verifyPaymentModal" + i + "-" + j).modal("hide");
-                            $("#verifyPaymentModal" + i + "-" + j).remove();
-                            setTaskList();
+                        $('#verifyPaymentProfilePic' + i + "-" + j).on("error", function () {
+                            $("#verifyPaymentProfilePic" + i + "-" + j).attr("src", "uploaded-images/profile/blank-profile.png");
                         });
                     });
-
-                    $('#paymentProof' + i + "-" + j).on("error", function () {
-                        $("#paymentProof" + i + "-" + j).attr("src", "uploaded-images/payment/blank-proof.png");
-                    });
-
-                    $('#verifyPaymentProfilePic' + i + "-" + j).on("error", function () {
-                        $("#verifyPaymentProfilePic" + i + "-" + j).attr("src", "uploaded-images/profile/blank-profile.png");
-                    });
                 });
+            })).done(function () {
+                setTaskList();
             });
-        })).done(function () {
-            setTaskList();
-        });
+        };
 
         $("#editProfileButton").on("click", function () {
+
+            stompSendAction();
 
             $("#editProfileButton").prop('disabled', true);
             $("#editProfileSpinner").attr('hidden', false);
@@ -722,53 +730,19 @@ class HomeAdmin {
             }
         }
 
-        const stompClient = new StompJs.Client({
-            brokerURL: 'ws://localhost:8080/gs-guide-websocket'
-        });
-
         stompClient.onConnect = (frame) => {
-            setConnected(true);
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/admin-tasks', (greeting) => {
-                showGreeting(JSON.parse(greeting.body).content);
+            stompClient.subscribe('/topic/admin-update', (message) => {
+                $('#taskList').html('');
+                populateTaskList();
             });
         };
 
-        stompClient.onWebSocketError = (error) => {
-            console.error('Error with websocket', error);
-        };
-
-        stompClient.onStompError = (frame) => {
-            console.error('Broker reported error: ' + frame.headers['message']);
-            console.error('Additional details: ' + frame.body);
-        };
-
-        function connect() {
-            stompClient.activate();
-        }
-
-        function disconnect() {
-            stompClient.deactivate();
-            setConnected(false);
-            console.log("Disconnected");
-        }
-
-        function sendName() {
+        function stompSendAction() {
             stompClient.publish({
-                destination: "/app/hello",
-                body: JSON.stringify({'name': $("#name").val()})
+                destination: "/app/admin-action",
+                body: JSON.stringify({userId: 1, 'action': 'GOOD'})
             });
         }
-
-        function showGreeting(message) {
-            $("#greetings").append("<tr><td>" + message + "</td></tr>");
-        }
-
-        $(function () {
-            $("form").on('submit', (e) => e.preventDefault());
-            $("#connect").click(() => connect());
-            $("#disconnect").click(() => disconnect());
-            $("#send").click(() => sendName());
-        });
     }
 }

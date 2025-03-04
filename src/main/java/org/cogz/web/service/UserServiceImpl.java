@@ -104,12 +104,13 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
     @Override
     @Transactional
-    public void createUser(MultipartFile validId, UserWithPasswordDto userDto) throws IOException {
+    public Integer createUser(MultipartFile validId, UserWithPasswordDto userDto) throws IOException {
         User user = new ModelMapper().map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User savedUser = userRepository.save(user);
         mailService.accountRegistration(savedUser);
         fileService.writeImage(validId, "data/images/id/", savedUser.getId(), null, 400, false);
+        return savedUser.getId();
     }
 
     @Override

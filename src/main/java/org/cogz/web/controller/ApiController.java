@@ -22,8 +22,6 @@ import org.cogz.web.enums.EUserStatus;
 import org.cogz.web.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,9 +39,6 @@ import java.time.LocalDate;
 public class ApiController {
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-
-    @Autowired
     private IUserService userService;
 
     @PostMapping("/signup")
@@ -55,10 +50,9 @@ public class ApiController {
         return ResponseEntity.ok("User signup successfully.");
     }
 
-    @MessageMapping("/signup")
     @PostMapping("/signup-valid-id")
-    public ResponseEntity<?> signupValidId(MultipartFile validId, String username, String firstname, String lastname,
-                                           String callsign, String email, String mobileNumber, LocalDate birthdate, String password) throws IOException {
+    public Integer signupValidId(MultipartFile validId, String username, String firstname, String lastname,
+            String callsign, String email, String mobileNumber, LocalDate birthdate, String password) throws IOException {
 
         UserWithPasswordDto userDto = new UserWithPasswordDto();
         userDto.setUsername(username);
@@ -73,10 +67,6 @@ public class ApiController {
         userDto.setRole(ERole.ROLE_USER);
         userDto.setStatus(EUserStatus.ACCOUNT_VERIFICATION);
         userDto.setInsBy(0);
-        userService.createUser(validId, userDto);
-
-        messagingTemplate.convertAndSend("/topic/admin-tasks", "refresh");
-
-        return ResponseEntity.ok("User signup successfully.");
+        return userService.createUser(validId, userDto);
     }
 }
