@@ -13,18 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cogz.web.enums;
 
-/**
- * @author altrax
- */
-public enum EWebSocketAction {
-    ACCOUNT_VERIFICATION,
-    ACCOUNT_MODIFICATION,
-    PAYMENT_VERIFICATION,
-    ACCOUNT_GOOD,
-    ACCOUNT_BANNED,
-    MODIFICATION_APPROVED,
-    MODIFICATION_REJECTED,
-    PAYMENT_VERIFIED;
+const stompClient = new StompJs.Client({
+    brokerURL: 'wss://192.168.5.178:443/websocket'
+});
+
+stompClient.onWebSocketError = (error) => {
+    console.error('Error with websocket', error);
+};
+
+stompClient.onStompError = (frame) => {
+    console.error('Broker reported error: ' + frame.headers['message']);
+    console.error('Additional details: ' + frame.body);
+};
+
+function stompConnect() {
+    stompClient.activate();
 }
+
+function stompDisconnect() {
+    stompClient.deactivate();
+    console.log("Disconnected");
+}
+
+$("#logoutAnchor").on("click", function () {
+    stompDisconnect();
+});

@@ -24,48 +24,54 @@ class HomeUser {
         $("#navTeamList").removeClass("active");
         $("#navTools").removeClass("active");
 
-        $.ajax({
-            url: "/user/current"
-        }).done(function (data) {
+        stompConnect();
 
-            userData = data;
+        let setUserData = function () {
+            $.ajax({
+                url: "/user/current"
+            }).done(function (data) {
 
-            $("#profilePic").attr("src", "uploaded-images/profile/" + data.id + ".jpg");
+                userData = data;
 
-            $("#username").text(data.username);
-            $("#fullname").text(data.firstname + " " + data.lastname);
-            $("#email").text(data.email);
-            $("#mobileNumber").text(data.mobileNumber);
+                $("#profilePic").attr("src", "uploaded-images/profile/" + data.id + ".jpg");
 
-            changeToWaiverAccepted(data.waiverAccepted);
-            setUserStatus();
+                $("#username").text(data.username);
+                $("#fullname").text(data.firstname + " " + data.lastname);
+                $("#email").text(data.email);
+                $("#mobileNumber").text(data.mobileNumber);
 
-            $("#editInputId").val(data.id);
-            $("#editInputUsername").val(data.username);
-            $("#editInputFirstname").val(data.firstname);
-            $("#editInputLastname").val(data.lastname);
-            $("#editInputCallsign").val(data.callsign);
-            $("#editInputEmail").val(data.email);
-            $("#editInputMobileNumber").val(data.mobileNumber);
-            $("#editInputBirthdate").val(data.birthdate);
+                changeToWaiverAccepted(data.waiverAccepted);
+                setUserStatus();
 
-            $("#validId").attr("src", "uploaded-images/id/" + data.id + ".jpg");
+                $("#editInputId").val(data.id);
+                $("#editInputUsername").val(data.username);
+                $("#editInputFirstname").val(data.firstname);
+                $("#editInputLastname").val(data.lastname);
+                $("#editInputCallsign").val(data.callsign);
+                $("#editInputEmail").val(data.email);
+                $("#editInputMobileNumber").val(data.mobileNumber);
+                $("#editInputBirthdate").val(data.birthdate);
 
-            $("#resetPasswordUserId").val(data.id);
+                $("#validId").attr("src", "uploaded-images/id/" + data.id + ".jpg");
 
-            let callsign = data.callsign;
-            if (callsign === null) {
-                callsign = 'NO CALLSIGN';
-            }
+                $("#resetPasswordUserId").val(data.id);
 
-            let teamName = data.teamName;
-            if (teamName !== null) {
-                $("#teamLogo").attr("src", "uploaded-images/logo/" + data.teamId + ".jpg");
-                $("#teamName").text(teamName);
-                $("#teamCardCallsign").text(callsign);
-                $("#teamCard").attr('hidden', false);
-            }
-        });
+                let callsign = data.callsign;
+                if (callsign === null) {
+                    callsign = 'NO CALLSIGN';
+                }
+
+                let teamName = data.teamName;
+                if (teamName !== null) {
+                    $("#teamLogo").attr("src", "uploaded-images/logo/" + data.teamId + ".jpg");
+                    $("#teamName").text(teamName);
+                    $("#teamCardCallsign").text(callsign);
+                    $("#teamCard").attr('hidden', false);
+                }
+            });
+        };
+
+        setUserData();
 
         $("#editProfileButton").on("click", function (e) {
 
@@ -105,6 +111,7 @@ class HomeUser {
                 $("#editInputValidId").val("");
                 $("#validId").attr("src", "images/blank-id.png");
                 $('#editProfileButton').prop('disabled', false);
+                stompSendAction('ACCOUNT_MODIFICATION');
             });
         });
 
@@ -221,13 +228,18 @@ class HomeUser {
             if (userData.status === 'ACCOUNT_VERIFICATION') {
                 $("#userStatus").addClass("text-bg-warning");
                 $("#userStatus").html('<i class="bi bi-question-circle"></i> Account Verification');
-                $("#gamelist").append(`<div class="text-center">Nothing to show</div>`);
+                $("#gamelist").html(`<div class="text-center">Nothing to show</div>`);
             } else if (userData.status === 'GOOD') {
+                $("#userStatus").removeClass("text-bg-warning");
                 $("#userStatus").addClass("text-bg-success");
                 $("#userStatus").html('<i class="bi bi-check-circle"></i> Verified');
                 $.ajax({
                     url: "/game/list-active"
                 }).done(function (data) {
+
+                    if (data.length > 0) {
+                        $("#gamelist").html('');
+                    }
 
                     for (let i = 0; i < data.length; i++) {
 
@@ -520,6 +532,7 @@ class HomeUser {
                                 $('#regStatus' + i).html(`<span class="text-disabled fst-italic" style="font-size: .7rem">Payment Verification</span>`);
                                 $("#registerGameModal" + i).modal("hide");
                                 $("#sendForVerificationButton" + i).prop('disabled', false);
+                                stompSendAction('PAYMENT_VERIFICATION');
                             });
                         });
 
@@ -537,9 +550,10 @@ class HomeUser {
                 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
                 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
+                $("#userStatus").removeClass("text-bg-warning");
                 $("#userStatus").addClass("text-bg-danger");
                 $("#userStatus").html('<i class="bi bi-x-circle"></i> BANNED');
-                $("#gamelist").append(`<div class="text-center">Nothing to show</div>`);
+                $("#gamelist").html(`<div class="text-center">Nothing to show</div>`);
             }
         }
 
@@ -559,6 +573,41 @@ class HomeUser {
             if ($('#editInputValidId')[0].files[0] !== undefined)
                 return true;
             return false;
+        }
+
+        stompClient.onConnect = (frame) => {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/client-update', (msgJson) => {
+                let actionData = JSON.parse(msgJson.body);
+
+                if (actionData.userId !== userData.id) {
+                    return;
+                }
+
+                switch (actionData.action) {
+                    case 'ACCOUNT_GOOD':
+                        userData.status = 'GOOD';
+                        setUserStatus();
+                        break;
+                    case 'ACCOUNT_BANNED':
+                        userData.status = 'BANNED';
+                        setUserStatus();
+                        break;
+                    case 'MODIFICATION_APPROVED':
+                        setUserData();
+                        break;
+                    case 'PAYMENT_VERIFIED':
+                        setUserStatus();
+                        break;
+                }
+            });
+        };
+
+        function stompSendAction(action) {
+            stompClient.publish({
+                destination: "/app/client-action",
+                body: JSON.stringify({userId: userData.id, action: action})
+            });
         }
     }
 }

@@ -64,32 +64,6 @@ function parseFirstname(firstname) {
     return result;
 }
 
-const stompClient = new StompJs.Client({
-    brokerURL: 'wss://192.168.5.178:443/websocket'
-});
-
-stompClient.onWebSocketError = (error) => {
-    console.error('Error with websocket', error);
-};
-
-stompClient.onStompError = (frame) => {
-    console.error('Broker reported error: ' + frame.headers['message']);
-    console.error('Additional details: ' + frame.body);
-};
-
-function stompConnect() {
-    stompClient.activate();
-}
-
-function stompDisconnect() {
-    stompClient.deactivate();
-    console.log("Disconnected");
-}
-
-$("#logoutAnchor").on("click", function () {
-    stompDisconnect();
-});
-
 $("#profilePic").on("click", function () {
     $("#inputProfilePic").click();
 });

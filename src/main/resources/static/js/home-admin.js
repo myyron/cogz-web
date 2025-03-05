@@ -271,6 +271,7 @@ class HomeAdmin {
                             $("#verifyAccountRegistrationModal" + i).modal("hide");
                             $("#verifyAccountRegistrationModal" + i).remove();
                             setTaskList();
+                            stompSendAction(data.id, 'ACCOUNT_GOOD');
                         });
                     });
 
@@ -302,6 +303,7 @@ class HomeAdmin {
                             $("#verifyAccountRegistrationModal" + i).modal("hide");
                             $("#verifyAccountRegistrationModal" + i).remove();
                             setTaskList();
+                            stompSendAction(data.id, 'ACCOUNT_BANNED');
                         });
                     });
 
@@ -421,6 +423,7 @@ class HomeAdmin {
                             $("#accountModificationRequestModal" + i).modal("hide");
                             $("#accountModificationRequestModal" + i).remove();
                             setTaskList();
+                            stompSendAction(data.id, 'MODIFICATION_APPROVED');
                         });
                     });
 
@@ -562,6 +565,7 @@ class HomeAdmin {
                                 $("#verifyPaymentModal" + i + "-" + j).modal("hide");
                                 $("#verifyPaymentModal" + i + "-" + j).remove();
                                 setTaskList();
+                                stompSendAction(gameUser.userId, 'PAYMENT_VERIFIED');
                             });
                         });
 
@@ -732,16 +736,16 @@ class HomeAdmin {
 
         stompClient.onConnect = (frame) => {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/admin-update', (message) => {
+            stompClient.subscribe('/topic/admin-update', (msgJson) => {
                 $('#taskList').html('');
                 populateTaskList();
             });
         };
 
-        function stompSendAction() {
+        function stompSendAction(userId, action) {
             stompClient.publish({
                 destination: "/app/admin-action",
-                body: JSON.stringify({userId: 1, 'action': 'GOOD'})
+                body: JSON.stringify({userId: userId, action: action})
             });
         }
     }
