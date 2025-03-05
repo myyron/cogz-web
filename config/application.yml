@@ -1,3 +1,15 @@
+cogz-web:
+    link: https://cogzofficial.org
+    
+mail:
+    enabled: false
+    api-key: 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
+
+server:    
+    port: 443
+    ssl:
+        enabled: true
+
 spring:
     devtools:
         livereload:
