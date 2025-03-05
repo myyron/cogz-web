@@ -227,7 +227,7 @@ class HomeUser {
         function setUserStatus() {
             if (userData.status === 'ACCOUNT_VERIFICATION') {
                 $("#userStatus").addClass("text-bg-warning");
-                $("#userStatus").html('<i class="bi bi-question-circle"></i> Account Verification');
+                $("#userStatus").html('<i class="bi bi-question-circle"></i> Verifying Account...');
                 $("#gamelist").html(`<div class="text-center">Nothing to show</div>`);
             } else if (userData.status === 'GOOD') {
                 $("#userStatus").removeClass("text-bg-warning");

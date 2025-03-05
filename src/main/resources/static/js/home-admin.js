@@ -710,7 +710,7 @@ class HomeAdmin {
         function setUserStatus() {
             if (userStatus === 'ACCOUNT_VERIFICATION') {
                 $("#userStatus").addClass("text-bg-warning");
-                $("#userStatus").html('<i class="bi bi-question-circle"></i> Account Verification');
+                $("#userStatus").html('<i class="bi bi-question-circle"></i> Verifying Account...');
             } else if (userStatus === 'GOOD') {
                 $("#userStatus").addClass("text-bg-success");
                 $("#userStatus").html('<i class="bi bi-check-circle"></i> Verified');
