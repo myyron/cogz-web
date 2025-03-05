@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
+let urlTokens = $(location).prop('href').split("/");
+
 const stompClient = new StompJs.Client({
-    brokerURL: 'wss://192.168.5.178:443/websocket'
+    brokerURL: 'wss://' + urlTokens[2] + ':443/websocket'
 });
 
 stompClient.onWebSocketError = (error) => {
