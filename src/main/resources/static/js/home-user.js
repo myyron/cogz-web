@@ -57,7 +57,7 @@ class HomeUser {
                 $("#resetPasswordUserId").val(data.id);
 
                 let callsign = data.callsign;
-                if (callsign === null) {
+                if (!callsign) {
                     callsign = 'NO CALLSIGN';
                 }
 

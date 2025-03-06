@@ -59,7 +59,7 @@ class HomeAdmin {
             $("#resetPasswordUserId").val(data.id);
 
             let callsign = data.callsign;
-            if (callsign === null) {
+            if (!callsign) {
                 callsign = 'NO CALLSIGN';
             }
 
@@ -607,7 +607,13 @@ class HomeAdmin {
                 type: "post",
                 data: fd
             }).always(function () {
-                $("#teamCardCallsign").text($('#editInputCallsign').val());
+
+                let callsign = $('#editInputCallsign').val();
+                if (!callsign) {
+                    callsign = 'NO CALLSIGN';
+                }
+
+                $("#teamCardCallsign").text(callsign);
                 $("#username").text($('#editInputUsername').val());
                 $("#fullname").text($('#editInputFirstname').val() + " " + $('#editInputLastname').val());
                 $("#email").text($('#editInputEmail').val());
