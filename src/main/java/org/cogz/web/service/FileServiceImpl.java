@@ -125,7 +125,7 @@ public class FileServiceImpl implements IFileService {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("data/pdf/cogz-plist-" + gameSchedule.toString() + ".pdf"));
         document.setPageSize(PageSize.LEGAL);
-        document.setMargins(20f, 20f, 20f, 60f);
+        document.setMargins(20f, 20f, 60f, 100f);
 
         Image img = Image.getInstance("data/pdf/header.png");
         img.scalePercent(20f);
@@ -176,6 +176,9 @@ public class FileServiceImpl implements IFileService {
         pdfPageDto.getDocument().add(playerListTable);
 
         if (!companionList.isEmpty()) {
+
+            newPage(pdfPageDto);
+
             Paragraph paragraphCompanionListTitle = new Paragraph("COMPANION LIST", pdfPageDto.getFontBold());
             paragraphCompanionListTitle.setAlignment(Element.ALIGN_CENTER);
             paragraphCompanionListTitle.setSpacingBefore(20f);
@@ -200,8 +203,17 @@ public class FileServiceImpl implements IFileService {
         pdfPageDto.getDocument().add(pdfPageDto.getImageHeader());
         pdfPageDto.getDocument().add(pdfPageDto.getParagraphSchedule());
 
+        PdfPTable summaryTable = new PdfPTable(6);
+        float[] summaryTableColumnsWidth = {70f, 70f, 70f, 70f, 140f, 140f};
+        summaryTable.setWidthPercentage(summaryTableColumnsWidth, PageSize.LEGAL);
+        summaryTable.setSpacingBefore(10f);
+        addTableHeaderSummaryTable(summaryTable, pdfPageDto.getFontBold());
+        addRowsSummaryTable(summaryTable);
+        pdfPageDto.getDocument().add(summaryTable);
+
         Paragraph paragraphTitle = new Paragraph("PLAYER LIST", pdfPageDto.getFontBold());
         paragraphTitle.setAlignment(Element.ALIGN_CENTER);
+        paragraphTitle.setSpacingBefore(30f);
         pdfPageDto.getDocument().add(paragraphTitle);
 
         PdfPTable playerListTable = new PdfPTable(9);
@@ -211,14 +223,6 @@ public class FileServiceImpl implements IFileService {
         addTableHeaderPlayerListTable(playerListTable, pdfPageDto.getFontBold());
         addRowsPlayerListTable(playerListTable, fullnameList, pdfPageDto.getFontNormal());
         pdfPageDto.getDocument().add(playerListTable);
-
-        PdfPTable summaryTable = new PdfPTable(6);
-        float[] summaryTableColumnsWidth = {70f, 70f, 70f, 70f, 140f, 140f};
-        summaryTable.setWidthPercentage(summaryTableColumnsWidth, PageSize.LEGAL);
-        summaryTable.setSpacingBefore(30f);
-        addTableHeaderSummaryTable(summaryTable, pdfPageDto.getFontBold());
-        addRowsSummaryTable(summaryTable);
-        pdfPageDto.getDocument().add(summaryTable);
     }
 
     private void addTableHeaderGuestListTable(PdfPTable table, Font font) {
@@ -336,5 +340,11 @@ public class FileServiceImpl implements IFileService {
         }
         Collections.sort(result);
         return result;
+    }
+
+    private void newPage(PdfPageDto pdfPageDto) throws DocumentException {
+        pdfPageDto.getDocument().newPage();
+        pdfPageDto.getDocument().add(pdfPageDto.getImageHeader());
+        pdfPageDto.getDocument().add(pdfPageDto.getParagraphSchedule());
     }
 }
